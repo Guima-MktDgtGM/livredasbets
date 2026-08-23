@@ -1,0 +1,736 @@
+{
+  "So": [
+    {
+      "id": 0,
+      "name": "Introdução",
+      "tag": "Educacional",
+      "duration": "3 min",
+      "subtitle": "Como funciona o Livre das Bets e o que esperar",
+      "members": 12483,
+      "activeUsers": 247,
+      "topics": [
+        "Como o programa funciona na prática"
+      ],
+      "total": 1
+    },
+    {
+      "id": 1,
+      "name": "Entendendo o Vício em Apostas",
+      "tag": "Educacional",
+      "duration": "38 min",
+      "subtitle": "Não é fraqueza — é neurociência",
+      "members": 9821,
+      "topics": [
+        "Como as apostas sequestram o cérebro",
+        "Sinais que você provavelmente ignorou",
+        "Você não está sozinho — os números do Brasil"
+      ],
+      "total": 7
+    },
+    {
+      "id": 2,
+      "name": "Encontrando Motivação",
+      "tag": "Educacional",
+      "duration": "47 min",
+      "subtitle": "Descobrir o seu porquê muda tudo",
+      "members": 2847,
+      "activeUsers": 156,
+      "topics": [
+        "O que realmente te motiva a parar",
+        "Como transformar intenção em decisão de verdade",
+        "Construindo uma razão que aguenta os dias difíceis"
+      ],
+      "total": 7
+    },
+    {
+      "id": 3,
+      "name": "Tomando Ação — Primeiros Passos",
+      "tag": "Prático",
+      "duration": "28 min",
+      "subtitle": "Saindo da intenção para a ação",
+      "members": 2847,
+      "activeUsers": 134,
+      "topics": [
+        "Como quebrar a rotina de apostar",
+        "Criando barreiras que funcionam de verdade",
+        "Montando sua rede de apoio"
+      ],
+      "total": 7
+    },
+    {
+      "id": 4,
+      "name": "Identificando Gatilhos",
+      "tag": "Prático",
+      "duration": "44 min",
+      "subtitle": "Saber o que dispara o impulso é metade da batalha",
+      "members": 1923,
+      "activeUsers": 112,
+      "topics": [
+        "Mapeando os seus gatilhos pessoais",
+        "Criando um plano para cada situação de risco",
+        "Como antecipar as situações perigosas"
+      ],
+      "total": 7
+    },
+    {
+      "id": 5,
+      "name": "Lidando Com Fissuras e Impulsos",
+      "tag": "Prático",
+      "duration": "18 min",
+      "subtitle": "Ferramentas para o momento em que tudo piora",
+      "members": 1923,
+      "activeUsers": 98,
+      "topics": [
+        "A técnica de surfar a fissura sem ceder",
+        "O que fazer nos primeiros 5 minutos de uma crise",
+        "Seu plano de emergência pessoal"
+      ],
+      "total": 6
+    },
+    {
+      "id": 6,
+      "name": "Mudando Sua Forma de Pensar",
+      "tag": "Mentalidade",
+      "duration": "34 min",
+      "subtitle": "Os pensamentos que te prendem e como sair deles",
+      "members": 1456,
+      "activeUsers": 87,
+      "topics": [
+        "Mentiras que o vício te conta",
+        "Como interromper um pensamento antes que ele vire ação",
+        "Reprogramando as crenças que sabotam você"
+      ],
+      "total": 9
+    },
+    {
+      "id": 7,
+      "name": "Curando as Emoções",
+      "tag": "Emocional",
+      "duration": "27 min",
+      "subtitle": "Apostas eram uma fuga — vamos entender do quê",
+      "members": 1456,
+      "activeUsers": 76,
+      "topics": [
+        "Por que emoções difíceis levam de volta à aposta",
+        "Como lidar com o estresse sem fugir",
+        "Reconstruindo a autoestima depois do vício"
+      ],
+      "total": 8
+    },
+    {
+      "id": 8,
+      "name": "Recuperação Financeira",
+      "tag": "Financeiro",
+      "duration": "47 min",
+      "subtitle": "Hora de olhar os números de frente",
+      "members": 987,
+      "activeUsers": 64,
+      "topics": [
+        "Como encarar a situação financeira real sem entrar em pânico",
+        "Montando um plano de quitação de dívidas que funciona",
+        "Reconstruindo a relação com dinheiro"
+      ],
+      "total": 12
+    },
+    {
+      "id": 9,
+      "name": "Reconstruindo Relacionamentos",
+      "tag": "Relacionamentos",
+      "duration": "80 min",
+      "subtitle": "Consertar o que o vício quebrou",
+      "members": 987,
+      "activeUsers": 52,
+      "topics": [
+        "Como ter conversas difíceis com quem você magoou",
+        "Reconstruindo confiança com família e parceiro",
+        "Criando uma rede de apoio verdadeira"
+      ],
+      "total": 11
+    },
+    {
+      "id": 10,
+      "name": "Mantendo o Rumo",
+      "tag": "Prático",
+      "duration": "46 min",
+      "subtitle": "Manter o que você conquistou",
+      "members": 987,
+      "activeUsers": 50,
+      "topics": [
+        "Como evitar uma recaída sem entrar em pânico",
+        "O que fazer se escorregar",
+        "Construindo uma vida que não precisa das apostas"
+      ],
+      "total": 9
+    }
+  ],
+  "Gd": {
+    "0": [
+      {
+        "id": "module-0-section-1",
+        "title": "Livre das Apostas: Visão Geral do Programa",
+        "type": "Conteúdo",
+        "duration": "3 min"
+      }
+    ],
+    "1": [
+      {
+        "id": "module-1-section-1",
+        "title": "Introdução: Sua Jornada Começa",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-1-section-2",
+        "title": "O Que É o Vício em Apostas?",
+        "type": "Conteúdo",
+        "duration": "3 min"
+      },
+      {
+        "id": "module-1-section-3",
+        "title": "Sinais e Consequências do Jogo Problemático",
+        "type": "Conteúdo",
+        "duration": "3 min"
+      },
+      {
+        "id": "module-1-section-4",
+        "title": "Como as Apostas Impactaram Sua Vida?",
+        "type": "Diário",
+        "duration": "13 min"
+      },
+      {
+        "id": "module-1-section-5",
+        "title": "Você Não Está Sozinho",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-1-section-6",
+        "title": "Da Negação à Aceitação",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-1-section-7",
+        "title": "Quiz: Eu Tenho um Problema com Apostas?",
+        "type": "Exercício",
+        "duration": "15 min"
+      }
+    ],
+    "2": [
+      {
+        "id": "module-2-section-1",
+        "title": "Módulo 2: Encontrando Motivação — Por Que Aposto e Por Que Quero Parar?",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-2-section-2",
+        "title": "Entendendo Por Que Você Aposta",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-2-section-3",
+        "title": "O Que Eu Gosto e Odeio nas Apostas",
+        "type": "Exercício",
+        "duration": "14 min"
+      },
+      {
+        "id": "module-2-section-4",
+        "title": "Por Que Você Quer Parar? (Construindo Motivação)",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-2-section-5",
+        "title": "\"Motivos pelos Quais Quero Parar de Apostar\"",
+        "type": "Diário",
+        "duration": "15 min"
+      },
+      {
+        "id": "module-2-section-6",
+        "title": "A Decisão de Mudar",
+        "type": "Exercício",
+        "duration": "14 min"
+      },
+      {
+        "id": "module-2-section-7",
+        "title": "Olhando Para Frente",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      }
+    ],
+    "3": [
+      {
+        "id": "module-3-section-1",
+        "title": "Módulo 3: Tomando Ação — Primeiros Passos Para Parar de Apostar",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-3-section-2",
+        "title": "Quebre a Rotina e Elimine as Tentações",
+        "type": "Conteúdo",
+        "duration": "4 min"
+      },
+      {
+        "id": "module-3-section-3",
+        "title": "Barreiras de Emergência Contra as Apostas",
+        "type": "Exercício",
+        "duration": "15 min"
+      },
+      {
+        "id": "module-3-section-4",
+        "title": "Peça Apoio e Conte Para Alguém",
+        "type": "Conteúdo",
+        "duration": "3 min"
+      },
+      {
+        "id": "module-3-section-5",
+        "title": "Opções de Ajuda Profissional",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-3-section-6",
+        "title": "Uma Nota Sobre os Impulsos no Início da Recuperação",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-3-section-7",
+        "title": "Celebre Suas Primeiras Conquistas",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      }
+    ],
+    "4": [
+      {
+        "id": "module-4-section-1",
+        "title": "Módulo 4: Identificando Gatilhos — Conhecendo o Que Te Desestabiliza",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-4-section-2",
+        "title": "O Que São Gatilhos?",
+        "type": "Conteúdo",
+        "duration": "3 min"
+      },
+      {
+        "id": "module-4-section-3",
+        "title": "Identifique Seus Gatilhos Pessoais",
+        "type": "Diário",
+        "duration": "12 min"
+      },
+      {
+        "id": "module-4-section-4",
+        "title": "Evitando e Gerenciando Gatilhos",
+        "type": "Conteúdo",
+        "duration": "7 min"
+      },
+      {
+        "id": "module-4-section-5",
+        "title": "Crie um Plano Gatilho-Ação",
+        "type": "Exercício",
+        "duration": "17 min"
+      },
+      {
+        "id": "module-4-section-6",
+        "title": "Construindo Consciência e Sinais de Alerta",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-4-section-7",
+        "title": "Os Gatilhos Enfraquecem Com o Tempo",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      }
+    ],
+    "5": [
+      {
+        "id": "module-5-section-1",
+        "title": "Módulo 5: Surfando na Onda — Lidando Com Fissuras e Impulsos",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-5-section-2",
+        "title": "Entendendo as Fissuras",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-5-section-3",
+        "title": "A Técnica de Surfar na Onda",
+        "type": "Conteúdo",
+        "duration": "3 min"
+      },
+      {
+        "id": "module-5-section-4",
+        "title": "Outras Ferramentas Rápidas Para Impulsos",
+        "type": "Conteúdo",
+        "duration": "3 min"
+      },
+      {
+        "id": "module-5-section-5",
+        "title": "Colocando em Prática: Situações do Dia a Dia",
+        "type": "Conteúdo",
+        "duration": "6 min"
+      },
+      {
+        "id": "module-5-section-6",
+        "title": "Construindo Confiança Para Lidar Com os Impulsos",
+        "type": "Conteúdo",
+        "duration": "3 min"
+      }
+    ],
+    "6": [
+      {
+        "id": "module-6-section-1",
+        "title": "Módulo 6: Mudando Sua Forma de Pensar — Superando as Distorções Cognitivas do Jogo",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-6-section-2",
+        "title": "Distorções Cognitivas Comuns no Jogo",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-6-section-3",
+        "title": "Substituindo Mitos por Fatos",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-6-section-4",
+        "title": "Quebrando as Crenças do Jogo",
+        "type": "Conteúdo",
+        "duration": "9 min"
+      },
+      {
+        "id": "module-6-section-5",
+        "title": "Parar o Pensamento e Substituir o Pensamento",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-6-section-6",
+        "title": "Conheça as Probabilidades",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-6-section-7",
+        "title": "Reformulando Seus Pensamentos",
+        "type": "Diário",
+        "duration": "14 min"
+      },
+      {
+        "id": "module-6-section-8",
+        "title": "Aceitando a Realidade e Deixando de Ser Apostador",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-6-section-9",
+        "title": "Resumo das Principais Mudanças de Mentalidade",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      }
+    ],
+    "7": [
+      {
+        "id": "module-7-section-1",
+        "title": "Módulo 7: Curando as Emoções — Gerenciando Estresse, Ansiedade e Humor Sem Apostar",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-7-section-2",
+        "title": "O Ciclo Emocional das Apostas",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-7-section-3",
+        "title": "Gerenciamento Geral do Estresse",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-7-section-4",
+        "title": "Lidando Com Ansiedade e Depressão",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-7-section-5",
+        "title": "Lidando Com Solidão e Tédio",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-7-section-6",
+        "title": "Plano de Autocuidado",
+        "type": "Exercício",
+        "duration": "15 min"
+      },
+      {
+        "id": "module-7-section-7",
+        "title": "Reconstruindo a Autoestima e a Saúde Emocional",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-7-section-8",
+        "title": "Quando Buscar Ajuda Profissional Para as Emoções",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      }
+    ],
+    "8": [
+      {
+        "id": "module-8-section-1",
+        "title": "Módulo 8: Reparando o Dano — Recuperação Financeira e Responsabilidade",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-8-section-2",
+        "title": "Encare os Números",
+        "type": "Conteúdo",
+        "duration": "9 min"
+      },
+      {
+        "id": "module-8-section-3",
+        "title": "Fazendo um Inventário Financeiro",
+        "type": "Conteúdo",
+        "duration": "4 min"
+      },
+      {
+        "id": "module-8-section-4",
+        "title": "Pare o Prejuízo Agora",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-8-section-5",
+        "title": "Crie um Orçamento",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-8-section-6",
+        "title": "A Regra dos 2%: Redirecionando Seu Dinheiro",
+        "type": "Conteúdo",
+        "duration": "5 min"
+      },
+      {
+        "id": "module-8-section-7",
+        "title": "Enfrentando as Dívidas",
+        "type": "Conteúdo",
+        "duration": "3 min"
+      },
+      {
+        "id": "module-8-section-8",
+        "title": "Crie Seu Plano de Retomada Financeira",
+        "type": "Exercício",
+        "duration": "17 min"
+      },
+      {
+        "id": "module-8-section-9",
+        "title": "Responsabilidade e Transparência Financeira",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-8-section-10",
+        "title": "Celebrando o Progresso Financeiro",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-8-section-11",
+        "title": "Evitando Tentações Financeiras Futuras",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-8-section-12",
+        "title": "Nota Sobre Ajuda Financeira de Outras Pessoas",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      }
+    ],
+    "9": [
+      {
+        "id": "module-9-section-1",
+        "title": "Módulo 9: Reconstruindo Relacionamentos — Restaurando a Confiança e a Comunicação",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-9-section-2",
+        "title": "Reconhecendo o Impacto nas Pessoas Queridas",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-9-section-3",
+        "title": "Comunicação Aberta",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-9-section-4",
+        "title": "Envolvendo Pessoas Queridas na Recuperação",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-9-section-5",
+        "title": "Fazendo as Pazes",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-9-section-6",
+        "title": "Restaurar a Confiança Leva Tempo",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-9-section-7",
+        "title": "Estabelecendo Limites",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-9-section-8",
+        "title": "Construindo uma Nova Rede de Apoio",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-9-section-9",
+        "title": "Reaprendendo a Comunicar e a Estar Presente Emocionalmente",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-9-section-10",
+        "title": "Planejando Fazer as Pazes",
+        "type": "Diário",
+        "duration": "15 min"
+      },
+      {
+        "id": "module-9-section-11",
+        "title": "Aprender a Se Perdoar",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      }
+    ],
+    "10": [
+      {
+        "id": "module-10-section-1",
+        "title": "Módulo 10: Mantendo o Rumo — Prevenção de Recaídas e Recuperação de Longo Prazo",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-10-section-2",
+        "title": "Entendendo a Recaída",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-10-section-3",
+        "title": "Sinais de Alerta de Recaída",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-10-section-4",
+        "title": "Criando Seu Sistema de Alerta de Recaída",
+        "type": "Diário",
+        "duration": "14 min"
+      },
+      {
+        "id": "module-10-section-5",
+        "title": "Estratégias de Prevenção de Recaída",
+        "type": "Conteúdo",
+        "duration": "3 min"
+      },
+      {
+        "id": "module-10-section-6",
+        "title": "Se um Escorregão ou Recaída Acontecer",
+        "type": "Conteúdo",
+        "duration": "3 min"
+      },
+      {
+        "id": "module-10-section-7",
+        "title": "Aproveitando uma Vida Livre das Apostas",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-10-section-8",
+        "title": "Gratidão e Visão de Futuro",
+        "type": "Diário",
+        "duration": "15 min"
+      },
+      {
+        "id": "module-10-section-9",
+        "title": "Encorajamento Final",
+        "type": "Conteúdo",
+        "duration": "4 min"
+      }
+    ]
+  },
+  "ae": {
+    "module-1-section-1": [
+      "Você deu um passo corajoso ao estar aqui. Reconhecer que as apostas estão causando problemas na sua vida exige honestidade — e honestidade é a base de tudo que vem a seguir.",
+      "Neste módulo, vamos explorar juntos o que é o vício em apostas, como ele funciona no cérebro e como ele pode ter afetado sua vida. Não para te fazer sentir mal — mas para que você entenda o que está enfrentando.",
+      "Conhecimento é a primeira arma. Quando você entende o mecanismo do vício, ele perde parte do seu poder sobre você. Vamos começar."
+    ],
+    "module-1-section-2": [
+      "O vício em apostas é reconhecido pela Organização Mundial da Saúde como um transtorno de saúde mental — não uma fraqueza de caráter, não uma falha moral, não falta de força de vontade.",
+      "Como qualquer vício, ele altera fisicamente o cérebro. Cada aposta dispara uma liberação de dopamina — o neurotransmissor do prazer e da antecipação. Com o tempo, o cérebro se adapta, exigindo apostas maiores e mais frequentes para sentir o mesmo efeito.",
+      "Isso explica por que simplesmente 'querer parar' raramente funciona. O cérebro foi literalmente reprogramado para buscar essa experiência. A boa notícia: o cérebro também pode ser reprogramado de volta — com as ferramentas certas e tempo suficiente.",
+      "Há algo ainda mais insidioso: pesquisas mostram que o quase-acerto — quando você quase ganha — ativa o cérebro quase tanto quanto uma vitória real. As plataformas de apostas são projetadas para criar esses momentos constantemente, mantendo você no loop.",
+      "Entender isso muda tudo. Você não é fraco. Você está enfrentando um sistema projetado por especialistas para ser irresistível. E agora você conhece o sistema."
+    ],
+    "module-1-section-3": [
+      "Vale a pena refletir sobre como as apostas afetaram a sua vida. Muitas pessoas com problema de jogo vivenciam consequências parecidas — e reconhecê-las é parte importante da recuperação.",
+      "**Problemas financeiros:** Costumam ser a consequência mais imediata e visível. Você pode ter esvaziado poupanças, acumulado dívidas, vendido pertences, ou até cometido atos ilegais para conseguir dinheiro para apostar. Vamos abordar a recuperação financeira em um módulo mais adiante.",
+      "**Desgaste nos relacionamentos:** A confiança vai se desgastando com mentiras e promessas quebradas. Pessoas próximas podem se sentir magoadas, traídas ou com medo por causa das apostas. Você pode ter perdido eventos importantes da família ou estado emocionalmente ausente. Brigas por dinheiro e pelo tempo gasto apostando são muito comuns.",
+      "**Impacto no trabalho ou nos estudos:** A preocupação constante pode ter prejudicado seu desempenho profissional ou acadêmico — falta de foco, atrasos, ausências. Em casos mais graves, pessoas perdem o emprego ou abandonam os estudos por causa do jogo.",
+      "**Saúde mental e emocional:** Quem aposta compulsivamente vive numa montanha-russa emocional. A euforia das vitórias e o desespero das perdas e das dívidas geram um estresse muito intenso. Ansiedade e depressão são comuns. Você pode se sentir culpado, envergonhado ou sem esperança. Em alguns momentos — especialmente após grandes perdas — podem surgir pensamentos de desistir de tudo. Se isso acontecer com você, lembre-se: existe uma saída, e há pessoas que querem te ajudar. Não hesite em buscar apoio.",
+      "**Saúde física:** O estresse constante e as noites sem dormir preocupado com dívidas e apostas cobram um preço alto do seu corpo. É comum negligenciar alimentação, exercício e sono — o que pode levar a gastrite, pressão alta e outras condições relacionadas ao estresse. O uso de álcool ou outras substâncias para tentar lidar com a situação também traz riscos sérios à saúde.",
+      "**Perda de interesse em outras coisas:** À medida que as apostas ocupam mais tempo e espaço na sua cabeça, hobbies e atividades que você antes curtia vão ficando de lado. A vida vai se estreitando até girar quase que só em torno do jogo e das suas consequências.",
+      "**Negação e isolamento:** Muitas pessoas escondem o problema de jogo. Você pode evitar conversar com amigos ou família com medo de ser descoberto, ou por achar que ninguém vai entender. Esse isolamento só piora o peso emocional que você já carrega — e cria um ciclo difícil de quebrar sozinho.",
+      "Ao ler essa lista, talvez você sinta um peso — o peso de tudo que deu errado. É natural sentir isso. Mas lembre-se: o passado não precisa definir o seu futuro.",
+      "Revisamos essas consequências não para te fazer sentir mal, mas para ajudar você a enxergar com clareza por que a mudança é necessária — e para te motivar a reconquistar o que foi perdido. Com a recuperação, as finanças podem ser reorganizadas, os relacionamentos podem ser reconstruídos, e a saúde e a alegria podem voltar.",
+      "Muitas pessoas que viveram situações muito mais difíceis conseguiram reconstruir suas vidas do zero. Nunca é tarde demais para virar essa página."
+    ],
+    "module-1-section-5": [
+      "Ao começar essa jornada, saiba que você está longe de ser o único com esse problema. Milhões de pessoas no mundo inteiro lutam contra o vício em apostas.",
+      "No Brasil, estima-se que cerca de 1% a 2% da população adulta tenha algum grau de dependência do jogo — o que representa milhões de pessoas. Outros 3% a 4% enfrentam problemas moderados com apostas. Ou seja, aproximadamente 1 em cada 20 brasileiros pode estar lidando com algum nível de jogo problemático.",
+      "Pode parecer que você é o único passando por isso — especialmente se não conhece ninguém que fale abertamente sobre o assunto. Mas estatisticamente, há muita gente travando a mesma batalha, em silêncio, assim como você estava.",
+      "A boa notícia é que muitas pessoas se recuperam do vício em apostas. Não é fácil — e geralmente exige mudanças de hábitos e de mentalidade — mas é totalmente possível.",
+      "Pessoas que estavam afundadas em dívidas e desespero conseguiram reconstruir suas vidas e hoje vivem de forma estável e feliz, longe do caos das apostas. Algumas buscaram tratamento profissional ou grupos de apoio. Outras contaram com a família e amigos. Na maioria dos casos, foi uma combinação de tudo isso.",
+      "Não existe uma \"cura\" rápida, nem uma fórmula que funcione igual para todo mundo. Mas com persistência, o vício pode ser controlado. Pense na recuperação não como um evento único, mas como um processo contínuo — onde manter atenção e hábitos saudáveis é o que mantém o problema sob controle.",
+      "Ao longo deste programa, sempre que surgir o pensamento \"isso é difícil demais\" ou \"pessoas como eu nunca mudam\", lembre-se: outras pessoas conseguiram — e você também consegue. Existe um caminho à frente, e você já está dando os primeiros passos agora."
+    ],
+    "module-1-section-6": [
+      "Uma das partes mais difíceis de começar a recuperação é superar a negação. É muito comum minimizar o problema — \"não está tão ruim assim\", \"só preciso de uma grande vitória para recuperar tudo\", \"consigo parar quando quiser\", e por aí vai.",
+      "Talvez você tenha justificado seu comportamento ou se comparado com outros: \"Conheço gente que gasta muito mais do que eu, então estou bem.\" Mas lá no fundo, se você está lendo isso, provavelmente já suspeita da verdade: as apostas se tornaram um problema sério na sua vida.",
+      "É preciso coragem para dizer: \"Eu tenho um problema e preciso enfrentá-lo.\" Se você já disse isso para si mesmo — parabéns pela honestidade. A aceitação é o que abre a porta para a mudança.",
+      "Se você ainda não tem certeza se suas apostas chegaram ao nível de um vício de verdade, o quiz a seguir pode te ajudar a enxergar isso com mais clareza."
+    ]
+  }
+}

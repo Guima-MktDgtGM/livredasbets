@@ -1,0 +1,17 @@
+{
+  "name": "Livre das Bets",
+  "short_name": "Livre das Bets",
+  "description": "Recupere o controle da sua vida e liberte-se do vício em apostas.",
+  "start_url": "/app/index.html",
+  "display": "standalone",
+  "background_color": "#111a14",
+  "theme_color": "#2d6a4f",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "../Imagens/cerebro-recuperacao.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

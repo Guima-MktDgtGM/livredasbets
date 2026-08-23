@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>BetFree — Programa de Recuperação</title>
+  
+  <!-- PWA Metadata -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2d6a4f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="BetFree">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Custom CSS for mobile layout & scroll -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap');
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #111a14;
+      color: #f0f4f1;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .font-serif {
+      font-family: 'Fraunces', serif;
+    }
+    /* Hide scrollbars but keep functionality */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    
+    /* Elegant app cards */
+    .bf-card {
+      background: rgba(45, 106, 79, 0.08);
+      border: 1px solid rgba(82, 183, 136, 0.15);
+      border-radius: 20px;
+      transition: all 0.2s ease;
+    }
+    .bf-card:hover {
+      border-color: rgba(82, 183, 136, 0.3);
+    }
+    
+    /* Locked state styling */
+    .locked-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      opacity: 0.65;
+    }
+    
+    /* Bottom tab bar active state */
+    .tab-active {
+      color: #52b788 !important;
+    }
+    .tab-active i {
+      stroke: #52b788;
+    }
+
+    /* Pulse animation for emergency button */
+    .pulse-danger {
+      box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+      animation: pulse-danger-anim 2s infinite;
+    }
+    @keyframes pulse-danger-anim {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+      }
+      70% {
+        transform: scale(1.03);
+        box-shadow: 0 0 0 12px rgba(239, 68, 68, 0);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+      }
+    }
+    
+    /* Fade animation */
+    .bf-fade {
+      animation: bfFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes bfFadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen max-w-md mx-auto relative shadow-2xl border-x border-[rgba(82,183,136,0.1)]">
+
+  <!-- ==================== LOCK SCREEN / LOGIN ==================== -->
+  <div id="screen-lock" class="absolute inset-0 bg-[#111a14] z-50 flex flex-col justify-between p-6 bf-fade">
+    <div class="flex flex-col items-center mt-20 gap-3">
+      <div class="w-16 h-16 rounded-3xl bg-[rgba(82,183,136,0.15)] flex items-center justify-center border border-[rgba(82,183,136,0.3)] shadow-md">
+        <i data-lucide="shield-check" class="w-8 h-8 text-[#52b788]"></i>
+      </div>
+      <h1 class="text-3xl font-black font-serif text-white mt-4">BetFree</h1>
+      <p class="text-[#8aaa96] text-sm text-center px-4 mt-1">Insira seu código de acesso para entrar no programa de recuperação.</p>
+    </div>
+    
+    <div class="flex flex-col gap-4 mb-24 w-full">
+      <div class="flex flex-col gap-2">
+        <input type="password" id="input-lock-password" placeholder="Código de Acesso" class="w-full bg-[#0d1410] border border-[rgba(82,183,136,0.2)] rounded-xl py-4 px-4 text-center text-lg text-white font-bold tracking-wider placeholder-[#4a6b57] focus:outline-none focus:border-[#52b788] transition-all">
+        <div id="lock-error" class="text-[#f87171] text-xs text-center font-medium hidden">Código inválido. Verifique e tente novamente.</div>
+      </div>
+      <button onclick="unlockApp()" class="w-full bg-[#2d6a4f] text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-[#52b788] transition-all shadow-md">
+        Acessar Programa
+        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+      </button>
+      <div class="text-[11px] text-[#4a6b57] text-center mt-2">
+        Esqueceu o código? Consulte a página de compra da Cakto ou seu e-mail.
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MAIN APP CONTENT ==================== -->
+  <main class="flex-1 flex flex-col pb-20 overflow-y-auto no-scrollbar relative">
+    
+    <!-- Header -->
+    <header class="p-5 flex justify-between items-center bg-[#0d1410] border-b border-[rgba(82,183,136,0.08)] sticky top-0 z-40">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-xl bg-[rgba(82,183,136,0.15)] flex items-center justify-center">
+          <i data-lucide="shield" class="w-4 h-4 text-[#52b788]"></i>
+        </div>
+        <span class="font-serif text-lg font-bold text-white">BetFree</span>
+      </div>
+      
+      <!-- Lock btn -->
+      <button onclick="lockApp()" class="w-8 h-8 rounded-full hover:bg-[rgba(255,255,255,0.05)] flex items-center justify-center text-[#8aaa96]">
+        <i data-lucide="log-out" class="w-4 h-4"></i>
+      </button>
+    </header>
+
+    <!-- TAB 1: DASHBOARD -->
+    <section id="tab-dashboard" class="tab-content p-5 flex flex-col gap-6 bf-fade">
+      <!-- Days Clean Card -->
+      <div class="bf-card p-6 flex flex-col items-center justify-center text-center gap-3 relative overflow-hidden bg-gradient-to-b from-[rgba(82,183,136,0.08)] to-transparent">
+        <div class="text-[11px] font-bold text-[#52b788] uppercase tracking-[0.15em]">Tempo Livre de Apostas</div>
+        
+        <!-- Live Counter numbers -->
+        <div class="flex items-baseline gap-1 mt-1">
+          <span id="counter-days" class="text-5xl font-black text-white leading-none">0</span>
+          <span class="text-lg font-bold text-[#8aaa96] mr-2">d</span>
+          <span id="counter-hours" class="text-3xl font-black text-[#52b788] leading-none">00</span>
+          <span class="text-xs font-bold text-[#4a6b57] mr-1.5">h</span>
+          <span id="counter-minutes" class="text-3xl font-black text-[#52b788] leading-none">00</span>
+          <span class="text-xs font-bold text-[#4a6b57] mr-1.5">m</span>
+          <span id="counter-seconds" class="text-2xl font-black text-[#4a6b57] leading-none">00</span>
+          <span class="text-[10px] font-bold text-[#4a6b57]">s</span>
+        </div>
+        
+        <p class="text-[#8aaa96] text-xs leading-relaxed max-w-[280px] mt-2">
+          "Cada segundo sem apostar é uma nova conexão neural se formando no seu cérebro."
+        </p>
+        
+        <button onclick="resetCounter()" class="text-[10px] text-[#4a6b57] hover:text-[#f87171] uppercase tracking-wider font-bold mt-2 hover:underline cursor-pointer">
+          Recaí / Reiniciar Contador
+        </button>
+      </div>
+
+      <!-- Modules Navigation Grid -->
+      <div class="flex flex-col gap-3">
+        <h3 class="font-serif text-xl font-bold text-white">Seus Módulos de Recuperação</h3>
+        <p class="text-xs text-[#8aaa96] mt-[-6px]">Conclua as aulas para reverter o ciclo do vício em 90 dias.</p>
+        
+        <div id="modules-list" class="flex flex-col gap-3.5 mt-2">
+          <!-- Dynamic Modules rendered here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: DIÁRIO -->
+    <section id="tab-diario" class="tab-content p-5 flex flex-col gap-5 bf-fade hidden">
+      <div class="flex flex-col">
+        <h2 class="font-serif text-2xl font-bold text-white">Diário de Bordo</h2>
+        <p class="text-sm text-[#8aaa96] mt-1">Refletir e escrever acalma o córtex pré-frontal e diminui a impulsividade.</p>
+      </div>
+      
+      <!-- New Entry Prompt Box -->
+      <div class="bf-card p-5 flex flex-col gap-4">
+        <div class="flex items-start gap-2.5">
+          <i data-lucide="book-open" class="w-5 h-5 text-[#52b788] mt-0.5"></i>
+          <div>
+            <h4 class="text-white font-bold text-sm">Prompt do Dia</h4>
+            <p id="diario-prompt-text" class="text-xs text-[#8aaa96] mt-1 leading-relaxed">Carregando prompt reflexivo...</p>
+          </div>
+        </div>
+        
+        <textarea id="diario-input" placeholder="Escreva aqui suas reflexões honestas sobre o dia de hoje..." class="w-full min-h-[140px] bg-[#0d1410] border border-[rgba(82,183,136,0.15)] rounded-xl p-3.5 text-sm text-[#f0f4f1] placeholder-[#4a6b57] focus:outline-none focus:border-[#52b788] transition-all resize-none"></textarea>
+        
+        <div class="flex justify-between items-center">
+          <button onclick="nextDiaryPrompt()" class="text-xs text-[#52b788] font-bold hover:underline cursor-pointer">
+            Mudar Prompt
+          </button>
+          <button onclick="saveDiaryEntry()" class="bg-[#2d6a4f] text-white font-bold text-xs py-2.5 px-5 rounded-lg flex items-center gap-1.5 hover:bg-[#52b788] transition-colors">
+            Salvar no Diário
+            <i data-lucide="check" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- History of diary logs -->
+      <div class="flex flex-col gap-3 mt-3">
+        <h3 class="font-serif text-lg font-bold text-white">Histórico de Notas</h3>
+        <div id="diario-history-list" class="flex flex-col gap-3">
+          <!-- Logs list from LocalStorage -->
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: EMERGÊNCIA -->
+    <section id="tab-emergencia" class="tab-content p-5 flex flex-col gap-5 bf-fade hidden">
+      <div class="flex flex-col items-center text-center gap-2 mt-4">
+        <div class="w-14 h-14 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-500 animate-pulse">
+          <i data-lucide="alert-octagon" class="w-7 h-7"></i>
+        </div>
+        <h2 class="font-serif text-2xl font-black text-white mt-2">Emergência: SOS Fissura</h2>
+        <p class="text-sm text-[#8aaa96] px-4">Uma fissura por aposta dura em média **10 minutos**. Se você passar desses 10 minutos, o impulso perderá a força.</p>
+      </div>
+
+      <!-- Action checklist card -->
+      <div class="bf-card p-5 border-red-500/20 bg-red-950/5 flex flex-col gap-3.5">
+        <h3 class="text-white font-bold text-sm flex items-center gap-2 text-red-400">
+          <i data-lucide="shield-alert" class="w-4 h-4"></i>
+          Seu Plano de Fuga
+        </h3>
+        
+        <div class="flex flex-col gap-3 text-xs leading-relaxed text-[#8aaa96]">
+          <div class="flex gap-3 items-start">
+            <div class="w-5 h-5 rounded-full bg-red-500/10 text-red-400 flex items-center justify-center font-bold text-[10px] flex-shrink-0 mt-0.5">1</div>
+            <p><strong>Saia de onde está:</strong> Mude de cômodo, levante-se e caminhe até o quintal ou rua. Mudar a posição física quebra a rotina do cérebro.</p>
+          </div>
+          <div class="flex gap-3 items-start">
+            <div class="w-5 h-5 rounded-full bg-red-500/10 text-red-400 flex items-center justify-center font-bold text-[10px] flex-shrink-0 mt-0.5">2</div>
+            <p><strong>Ligue para alguém de confiança:</strong> Fale com seu parceiro, amigo ou familiar. O vício cresce e se alimenta no segredo. Contar a alguém dissolve o impulso.</p>
+          </div>
+          <div class="flex gap-3 items-start">
+            <div class="w-5 h-5 rounded-full bg-red-500/10 text-red-400 flex items-center justify-center font-bold text-[10px] flex-shrink-0 mt-0.5">3</div>
+            <p><strong>Beba água e respire fundo:</strong> Inspire por 4 segundos, segure por 4 e expire por 4. Repita por 2 minutos. Isso oxigena o córtex pré-frontal.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Technique block -->
+      <div class="bf-card p-5 flex flex-col gap-3.5">
+        <h4 class="text-white font-bold text-sm flex items-center gap-2">
+          <i data-lucide="waves" class="w-4 h-4 text-[#52b788]"></i>
+          Técnica: Surfando a Fissura
+        </h4>
+        <p class="text-xs text-[#8aaa96] leading-relaxed">
+          Imagine o impulso como uma onda gigante no mar. Não adianta lutar de frente contra ela. O segredo é deitar na prancha e **subir no topo da onda**, observando ela subir, atingir o pico e descer suavemente de volta à praia.
+        </p>
+        <div class="bg-[rgba(82,183,136,0.06)] border border-[rgba(82,183,136,0.15)] rounded-xl p-3.5 text-center text-xs text-[#52b788] font-bold">
+          "Isto é apenas um pensamento. O pensamento vai passar. Eu sou maior do que este impulso."
+        </div>
+      </div>
+      
+      <!-- Helpline -->
+      <a href="tel:188" class="w-full bg-red-500/10 text-red-400 border border-red-500/30 font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-red-500/15 transition-all text-sm mt-2">
+        <i data-lucide="phone-call" class="w-4 h-4"></i>
+        Ligar para CVV (188) — Suporte 24h
+      </a>
+    </section>
+
+    <!-- LESSON DETAIL VIEW SCREEN (Overlay/Sub-screen) -->
+    <div id="screen-lesson" class="absolute inset-0 bg-[#111a14] z-30 flex flex-col hidden bf-fade">
+      <!-- Lesson Header -->
+      <header class="p-5 flex justify-between items-center bg-[#0d1410] border-b border-[rgba(82,183,136,0.08)] sticky top-0 z-40">
+        <button onclick="closeLesson()" class="w-8 h-8 rounded-full hover:bg-[rgba(255,255,255,0.05)] flex items-center justify-center text-[#8aaa96] cursor-pointer">
+          <i data-lucide="arrow-left" class="w-5 h-5"></i>
+        </button>
+        <div class="text-[#52b788] text-[10.5px] font-bold uppercase tracking-[0.15em]" id="lesson-module-tag">CONTEÚDO</div>
+        <div class="w-8 h-8"></div> <!-- Spacer -->
+      </header>
+      
+      <!-- Lesson Scrollable content -->
+      <div class="flex-1 overflow-y-auto p-5 pb-24 no-scrollbar flex flex-col gap-5">
+        <h1 class="text-2xl font-black font-serif text-white leading-tight mt-2" id="lesson-title">Título da Aula</h1>
+        <div class="flex items-center gap-3 text-xs text-[#8aaa96] mt-[-6px]">
+          <span class="inline-flex items-center gap-1.5">
+            <i data-lucide="clock" class="w-3.5 h-3.5 text-[#52b788]"></i>
+            <span id="lesson-reading-time">3 min</span>
+          </span>
+        </div>
+
+        <!-- Custom TTS Audio Player -->
+        <div class="bf-card p-4 flex items-center gap-3.5 mt-2 bg-gradient-to-r from-[rgba(82,183,136,0.08)] to-transparent">
+          <button id="btn-audio-play" onclick="toggleAudio()" class="w-11 h-11 rounded-full bg-[#2d6a4f] text-white flex items-center justify-center hover:bg-[#52b788] transition-all flex-shrink-0 cursor-pointer shadow-md">
+            <i data-lucide="play" class="w-5 h-5 fill-white" id="icon-play-audio"></i>
+          </button>
+          
+          <div class="flex flex-col gap-1.5 flex-1">
+            <span class="text-xs font-bold text-white leading-none">Áudio Narrado (ElevenLabs)</span>
+            
+            <!-- Progress Bar -->
+            <div class="flex items-center gap-2">
+              <div class="relative flex-1 h-1 bg-[rgba(255,255,255,0.08)] rounded-full overflow-hidden">
+                <div id="audio-progress-bar" class="absolute left-0 top-0 bottom-0 bg-[#52b788] w-0 transition-all duration-150"></div>
+              </div>
+              <span class="text-[10px] text-[#4a6b57] font-semibold font-mono" id="audio-timer">00:00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lesson HTML text blocks -->
+        <div class="text-[#c1d1c6] text-[15px] leading-relaxed flex flex-col gap-4.5 mt-4" id="lesson-content-body">
+          <!-- Text paragraphs go here -->
+        </div>
+
+        <!-- Completion Button -->
+        <button id="btn-complete-lesson" onclick="markLessonComplete()" class="w-full bg-[#2d6a4f] text-white font-bold py-4 rounded-xl mt-8 flex items-center justify-center gap-2 hover:bg-[#52b788] transition-all shadow-md cursor-pointer">
+          Concluir Lição
+          <i data-lucide="check" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==================== BOTTOM NAVIGATION BAR ==================== -->
+  <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto h-[68px] bg-[#0d1410] border-t border-[rgba(82,183,136,0.08)] flex justify-around items-center z-40 px-3">
+    <button onclick="switchTab('dashboard')" id="nav-btn-dashboard" class="flex flex-col items-center justify-center gap-1.5 text-[#8aaa96] py-1 flex-1 cursor-pointer">
+      <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+      <span class="text-[10.5px] font-bold tracking-wide">Módulos</span>
+    </button>
+    
+    <button onclick="switchTab('diario')" id="nav-btn-diario" class="flex flex-col items-center justify-center gap-1.5 text-[#8aaa96] py-1 flex-1 cursor-pointer">
+      <i data-lucide="book-marked" class="w-5 h-5"></i>
+      <span class="text-[10.5px] font-bold tracking-wide">Diário</span>
+    </button>
+    
+    <button onclick="switchTab('emergencia')" id="nav-btn-emergencia" class="flex flex-col items-center justify-center gap-1.5 text-[#8aaa96] py-1 flex-1 cursor-pointer">
+      <div class="relative">
+        <i data-lucide="phone-call" class="w-5 h-5 text-red-400"></i>
+        <span class="absolute top-[-3px] right-[-3px] w-2 h-2 bg-red-500 rounded-full animate-ping"></span>
+      </div>
+      <span class="text-[10.5px] font-bold tracking-wide text-red-400">SOS Fissura</span>
+    </button>
+  </nav>
+
+  <!-- Embed extracted course data in a JS script block -->
+  <script>
+    const APP_DATABASE = {
+  "So": [
+    {
+      "id": 0,
+      "name": "Introdução",
+      "tag": "Educacional",
+      "duration": "3 min",
+      "subtitle": "Como funciona o Livre das Bets e o que esperar",
+      "members": 12483,
+      "activeUsers": 247,
+      "topics": [
+        "Como o programa funciona na prática"
+      ],
+      "total": 1
+    },
+    {
+      "id": 1,
+      "name": "Entendendo o Vício em Apostas",
+      "tag": "Educacional",
+      "duration": "38 min",
+      "subtitle": "Não é fraqueza — é neurociência",
+      "members": 9821,
+      "topics": [
+        "Como as apostas sequestram o cérebro",
+        "Sinais que você provavelmente ignorou",
+        "Você não está sozinho — os números do Brasil"
+      ],
+      "total": 7
+    },
+    {
+      "id": 2,
+      "name": "Encontrando Motivação",
+      "tag": "Educacional",
+      "duration": "47 min",
+      "subtitle": "Descobrir o seu porquê muda tudo",
+      "members": 2847,
+      "activeUsers": 156,
+      "topics": [
+        "O que realmente te motiva a parar",
+        "Como transformar intenção em decisão de verdade",
+        "Construindo uma razão que aguenta os dias difíceis"
+      ],
+      "total": 7
+    },
+    {
+      "id": 3,
+      "name": "Tomando Ação — Primeiros Passos",
+      "tag": "Prático",
+      "duration": "28 min",
+      "subtitle": "Saindo da intenção para a ação",
+      "members": 2847,
+      "activeUsers": 134,
+      "topics": [
+        "Como quebrar a rotina de apostar",
+        "Criando barreiras que funcionam de verdade",
+        "Montando sua rede de apoio"
+      ],
+      "total": 7
+    },
+    {
+      "id": 4,
+      "name": "Identificando Gatilhos",
+      "tag": "Prático",
+      "duration": "44 min",
+      "subtitle": "Saber o que dispara o impulso é metade da batalha",
+      "members": 1923,
+      "activeUsers": 112,
+      "topics": [
+        "Mapeando os seus gatilhos pessoais",
+        "Criando um plano para cada situação de risco",
+        "Como antecipar as situações perigosas"
+      ],
+      "total": 7
+    },
+    {
+      "id": 5,
+      "name": "Lidando Com Fissuras e Impulsos",
+      "tag": "Prático",
+      "duration": "18 min",
+      "subtitle": "Ferramentas para o momento em que tudo piora",
+      "members": 1923,
+      "activeUsers": 98,
+      "topics": [
+        "A técnica de surfar a fissura sem ceder",
+        "O que fazer nos primeiros 5 minutos de uma crise",
+        "Seu plano de emergência pessoal"
+      ],
+      "total": 6
+    },
+    {
+      "id": 6,
+      "name": "Mudando Sua Forma de Pensar",
+      "tag": "Mentalidade",
+      "duration": "34 min",
+      "subtitle": "Os pensamentos que te prendem e como sair deles",
+      "members": 1456,
+      "activeUsers": 87,
+      "topics": [
+        "Mentiras que o vício te conta",
+        "Como interromper um pensamento antes que ele vire ação",
+        "Reprogramando as crenças que sabotam você"
+      ],
+      "total": 9
+    },
+    {
+      "id": 7,
+      "name": "Curando as Emoções",
+      "tag": "Emocional",
+      "duration": "27 min",
+      "subtitle": "Apostas eram uma fuga — vamos entender do quê",
+      "members": 1456,
+      "activeUsers": 76,
+      "topics": [
+        "Por que emoções difíceis levam de volta à aposta",
+        "Como lidar com o estresse sem fugir",
+        "Reconstruindo a autoestima depois do vício"
+      ],
+      "total": 8
+    },
+    {
+      "id": 8,
+      "name": "Recuperação Financeira",
+      "tag": "Financeiro",
+      "duration": "47 min",
+      "subtitle": "Hora de olhar os números de frente",
+      "members": 987,
+      "activeUsers": 64,
+      "topics": [
+        "Como encarar a situação financeira real sem entrar em pânico",
+        "Montando um plano de quitação de dívidas que funciona",
+        "Reconstruindo a relação com dinheiro"
+      ],
+      "total": 12
+    },
+    {
+      "id": 9,
+      "name": "Reconstruindo Relacionamentos",
+      "tag": "Relacionamentos",
+      "duration": "80 min",
+      "subtitle": "Consertar o que o vício quebrou",
+      "members": 987,
+      "activeUsers": 52,
+      "topics": [
+        "Como ter conversas difíceis com quem você magoou",
+        "Reconstruindo confiança com família e parceiro",
+        "Criando uma rede de apoio verdadeira"
+      ],
+      "total": 11
+    },
+    {
+      "id": 10,
+      "name": "Mantendo o Rumo",
+      "tag": "Prático",
+      "duration": "46 min",
+      "subtitle": "Manter o que você conquistou",
+      "members": 987,
+      "activeUsers": 50,
+      "topics": [
+        "Como evitar uma recaída sem entrar em pânico",
+        "O que fazer se escorregar",
+        "Construindo uma vida que não precisa das apostas"
+      ],
+      "total": 9
+    }
+  ],
+  "Gd": {
+    "0": [
+      {
+        "id": "module-0-section-1",
+        "title": "Livre das Apostas: Visão Geral do Programa",
+        "type": "Conteúdo",
+        "duration": "3 min"
+      }
+    ],
+    "1": [
+      {
+        "id": "module-1-section-1",
+        "title": "Introdução: Sua Jornada Começa",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-1-section-2",
+        "title": "O Que É o Vício em Apostas?",
+        "type": "Conteúdo",
+        "duration": "3 min"
+      },
+      {
+        "id": "module-1-section-3",
+        "title": "Sinais e Consequências do Jogo Problemático",
+        "type": "Conteúdo",
+        "duration": "3 min"
+      },
+      {
+        "id": "module-1-section-4",
+        "title": "Como as Apostas Impactaram Sua Vida?",
+        "type": "Diário",
+        "duration": "13 min"
+      },
+      {
+        "id": "module-1-section-5",
+        "title": "Você Não Está Sozinho",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-1-section-6",
+        "title": "Da Negação à Aceitação",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-1-section-7",
+        "title": "Quiz: Eu Tenho um Problema com Apostas?",
+        "type": "Exercício",
+        "duration": "15 min"
+      }
+    ],
+    "2": [
+      {
+        "id": "module-2-section-1",
+        "title": "Módulo 2: Encontrando Motivação — Por Que Aposto e Por Que Quero Parar?",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-2-section-2",
+        "title": "Entendendo Por Que Você Aposta",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-2-section-3",
+        "title": "O Que Eu Gosto e Odeio nas Apostas",
+        "type": "Exercício",
+        "duration": "14 min"
+      },
+      {
+        "id": "module-2-section-4",
+        "title": "Por Que Você Quer Parar? (Construindo Motivação)",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-2-section-5",
+        "title": "\"Motivos pelos Quais Quero Parar de Apostar\"",
+        "type": "Diário",
+        "duration": "15 min"
+      },
+      {
+        "id": "module-2-section-6",
+        "title": "A Decisão de Mudar",
+        "type": "Exercício",
+        "duration": "14 min"
+      },
+      {
+        "id": "module-2-section-7",
+        "title": "Olhando Para Frente",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      }
+    ],
+    "3": [
+      {
+        "id": "module-3-section-1",
+        "title": "Módulo 3: Tomando Ação — Primeiros Passos Para Parar de Apostar",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-3-section-2",
+        "title": "Quebre a Rotina e Elimine as Tentações",
+        "type": "Conteúdo",
+        "duration": "4 min"
+      },
+      {
+        "id": "module-3-section-3",
+        "title": "Barreiras de Emergência Contra as Apostas",
+        "type": "Exercício",
+        "duration": "15 min"
+      },
+      {
+        "id": "module-3-section-4",
+        "title": "Peça Apoio e Conte Para Alguém",
+        "type": "Conteúdo",
+        "duration": "3 min"
+      },
+      {
+        "id": "module-3-section-5",
+        "title": "Opções de Ajuda Profissional",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-3-section-6",
+        "title": "Uma Nota Sobre os Impulsos no Início da Recuperação",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-3-section-7",
+        "title": "Celebre Suas Primeiras Conquistas",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      }
+    ],
+    "4": [
+      {
+        "id": "module-4-section-1",
+        "title": "Módulo 4: Identificando Gatilhos — Conhecendo o Que Te Desestabiliza",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-4-section-2",
+        "title": "O Que São Gatilhos?",
+        "type": "Conteúdo",
+        "duration": "3 min"
+      },
+      {
+        "id": "module-4-section-3",
+        "title": "Identifique Seus Gatilhos Pessoais",
+        "type": "Diário",
+        "duration": "12 min"
+      },
+      {
+        "id": "module-4-section-4",
+        "title": "Evitando e Gerenciando Gatilhos",
+        "type": "Conteúdo",
+        "duration": "7 min"
+      },
+      {
+        "id": "module-4-section-5",
+        "title": "Crie um Plano Gatilho-Ação",
+        "type": "Exercício",
+        "duration": "17 min"
+      },
+      {
+        "id": "module-4-section-6",
+        "title": "Construindo Consciência e Sinais de Alerta",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-4-section-7",
+        "title": "Os Gatilhos Enfraquecem Com o Tempo",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      }
+    ],
+    "5": [
+      {
+        "id": "module-5-section-1",
+        "title": "Módulo 5: Surfando na Onda — Lidando Com Fissuras e Impulsos",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-5-section-2",
+        "title": "Entendendo as Fissuras",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-5-section-3",
+        "title": "A Técnica de Surfar na Onda",
+        "type": "Conteúdo",
+        "duration": "3 min"
+      },
+      {
+        "id": "module-5-section-4",
+        "title": "Outras Ferramentas Rápidas Para Impulsos",
+        "type": "Conteúdo",
+        "duration": "3 min"
+      },
+      {
+        "id": "module-5-section-5",
+        "title": "Colocando em Prática: Situações do Dia a Dia",
+        "type": "Conteúdo",
+        "duration": "6 min"
+      },
+      {
+        "id": "module-5-section-6",
+        "title": "Construindo Confiança Para Lidar Com os Impulsos",
+        "type": "Conteúdo",
+        "duration": "3 min"
+      }
+    ],
+    "6": [
+      {
+        "id": "module-6-section-1",
+        "title": "Módulo 6: Mudando Sua Forma de Pensar — Superando as Distorções Cognitivas do Jogo",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-6-section-2",
+        "title": "Distorções Cognitivas Comuns no Jogo",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-6-section-3",
+        "title": "Substituindo Mitos por Fatos",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-6-section-4",
+        "title": "Quebrando as Crenças do Jogo",
+        "type": "Conteúdo",
+        "duration": "9 min"
+      },
+      {
+        "id": "module-6-section-5",
+        "title": "Parar o Pensamento e Substituir o Pensamento",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-6-section-6",
+        "title": "Conheça as Probabilidades",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-6-section-7",
+        "title": "Reformulando Seus Pensamentos",
+        "type": "Diário",
+        "duration": "14 min"
+      },
+      {
+        "id": "module-6-section-8",
+        "title": "Aceitando a Realidade e Deixando de Ser Apostador",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-6-section-9",
+        "title": "Resumo das Principais Mudanças de Mentalidade",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      }
+    ],
+    "7": [
+      {
+        "id": "module-7-section-1",
+        "title": "Módulo 7: Curando as Emoções — Gerenciando Estresse, Ansiedade e Humor Sem Apostar",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-7-section-2",
+        "title": "O Ciclo Emocional das Apostas",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-7-section-3",
+        "title": "Gerenciamento Geral do Estresse",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-7-section-4",
+        "title": "Lidando Com Ansiedade e Depressão",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-7-section-5",
+        "title": "Lidando Com Solidão e Tédio",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-7-section-6",
+        "title": "Plano de Autocuidado",
+        "type": "Exercício",
+        "duration": "15 min"
+      },
+      {
+        "id": "module-7-section-7",
+        "title": "Reconstruindo a Autoestima e a Saúde Emocional",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-7-section-8",
+        "title": "Quando Buscar Ajuda Profissional Para as Emoções",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      }
+    ],
+    "8": [
+      {
+        "id": "module-8-section-1",
+        "title": "Módulo 8: Reparando o Dano — Recuperação Financeira e Responsabilidade",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-8-section-2",
+        "title": "Encare os Números",
+        "type": "Conteúdo",
+        "duration": "9 min"
+      },
+      {
+        "id": "module-8-section-3",
+        "title": "Fazendo um Inventário Financeiro",
+        "type": "Conteúdo",
+        "duration": "4 min"
+      },
+      {
+        "id": "module-8-section-4",
+        "title": "Pare o Prejuízo Agora",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-8-section-5",
+        "title": "Crie um Orçamento",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-8-section-6",
+        "title": "A Regra dos 2%: Redirecionando Seu Dinheiro",
+        "type": "Conteúdo",
+        "duration": "5 min"
+      },
+      {
+        "id": "module-8-section-7",
+        "title": "Enfrentando as Dívidas",
+        "type": "Conteúdo",
+        "duration": "3 min"
+      },
+      {
+        "id": "module-8-section-8",
+        "title": "Crie Seu Plano de Retomada Financeira",
+        "type": "Exercício",
+        "duration": "17 min"
+      },
+      {
+        "id": "module-8-section-9",
+        "title": "Responsabilidade e Transparência Financeira",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-8-section-10",
+        "title": "Celebrando o Progresso Financeiro",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-8-section-11",
+        "title": "Evitando Tentações Financeiras Futuras",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-8-section-12",
+        "title": "Nota Sobre Ajuda Financeira de Outras Pessoas",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      }
+    ],
+    "9": [
+      {
+        "id": "module-9-section-1",
+        "title": "Módulo 9: Reconstruindo Relacionamentos — Restaurando a Confiança e a Comunicação",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-9-section-2",
+        "title": "Reconhecendo o Impacto nas Pessoas Queridas",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-9-section-3",
+        "title": "Comunicação Aberta",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-9-section-4",
+        "title": "Envolvendo Pessoas Queridas na Recuperação",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-9-section-5",
+        "title": "Fazendo as Pazes",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-9-section-6",
+        "title": "Restaurar a Confiança Leva Tempo",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-9-section-7",
+        "title": "Estabelecendo Limites",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-9-section-8",
+        "title": "Construindo uma Nova Rede de Apoio",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-9-section-9",
+        "title": "Reaprendendo a Comunicar e a Estar Presente Emocionalmente",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-9-section-10",
+        "title": "Planejando Fazer as Pazes",
+        "type": "Diário",
+        "duration": "15 min"
+      },
+      {
+        "id": "module-9-section-11",
+        "title": "Aprender a Se Perdoar",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      }
+    ],
+    "10": [
+      {
+        "id": "module-10-section-1",
+        "title": "Módulo 10: Mantendo o Rumo — Prevenção de Recaídas e Recuperação de Longo Prazo",
+        "type": "Conteúdo",
+        "duration": "1 min"
+      },
+      {
+        "id": "module-10-section-2",
+        "title": "Entendendo a Recaída",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-10-section-3",
+        "title": "Sinais de Alerta de Recaída",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-10-section-4",
+        "title": "Criando Seu Sistema de Alerta de Recaída",
+        "type": "Diário",
+        "duration": "14 min"
+      },
+      {
+        "id": "module-10-section-5",
+        "title": "Estratégias de Prevenção de Recaída",
+        "type": "Conteúdo",
+        "duration": "3 min"
+      },
+      {
+        "id": "module-10-section-6",
+        "title": "Se um Escorregão ou Recaída Acontecer",
+        "type": "Conteúdo",
+        "duration": "3 min"
+      },
+      {
+        "id": "module-10-section-7",
+        "title": "Aproveitando uma Vida Livre das Apostas",
+        "type": "Conteúdo",
+        "duration": "2 min"
+      },
+      {
+        "id": "module-10-section-8",
+        "title": "Gratidão e Visão de Futuro",
+        "type": "Diário",
+        "duration": "15 min"
+      },
+      {
+        "id": "module-10-section-9",
+        "title": "Encorajamento Final",
+        "type": "Conteúdo",
+        "duration": "4 min"
+      }
+    ]
+  },
+  "ae": {
+    "module-1-section-1": [
+      "Você deu um passo corajoso ao estar aqui. Reconhecer que as apostas estão causando problemas na sua vida exige honestidade — e honestidade é a base de tudo que vem a seguir.",
+      "Neste módulo, vamos explorar juntos o que é o vício em apostas, como ele funciona no cérebro e como ele pode ter afetado sua vida. Não para te fazer sentir mal — mas para que você entenda o que está enfrentando.",
+      "Conhecimento é a primeira arma. Quando você entende o mecanismo do vício, ele perde parte do seu poder sobre você. Vamos começar."
+    ],
+    "module-1-section-2": [
+      "O vício em apostas é reconhecido pela Organização Mundial da Saúde como um transtorno de saúde mental — não uma fraqueza de caráter, não uma falha moral, não falta de força de vontade.",
+      "Como qualquer vício, ele altera fisicamente o cérebro. Cada aposta dispara uma liberação de dopamina — o neurotransmissor do prazer e da antecipação. Com o tempo, o cérebro se adapta, exigindo apostas maiores e mais frequentes para sentir o mesmo efeito.",
+      "Isso explica por que simplesmente 'querer parar' raramente funciona. O cérebro foi literalmente reprogramado para buscar essa experiência. A boa notícia: o cérebro também pode ser reprogramado de volta — com as ferramentas certas e tempo suficiente.",
+      "Há algo ainda mais insidioso: pesquisas mostram que o quase-acerto — quando você quase ganha — ativa o cérebro quase tanto quanto uma vitória real. As plataformas de apostas são projetadas para criar esses momentos constantemente, mantendo você no loop.",
+      "Entender isso muda tudo. Você não é fraco. Você está enfrentando um sistema projetado por especialistas para ser irresistível. E agora você conhece o sistema."
+    ],
+    "module-1-section-3": [
+      "Vale a pena refletir sobre como as apostas afetaram a sua vida. Muitas pessoas com problema de jogo vivenciam consequências parecidas — e reconhecê-las é parte importante da recuperação.",
+      "**Problemas financeiros:** Costumam ser a consequência mais imediata e visível. Você pode ter esvaziado poupanças, acumulado dívidas, vendido pertences, ou até cometido atos ilegais para conseguir dinheiro para apostar. Vamos abordar a recuperação financeira em um módulo mais adiante.",
+      "**Desgaste nos relacionamentos:** A confiança vai se desgastando com mentiras e promessas quebradas. Pessoas próximas podem se sentir magoadas, traídas ou com medo por causa das apostas. Você pode ter perdido eventos importantes da família ou estado emocionalmente ausente. Brigas por dinheiro e pelo tempo gasto apostando são muito comuns.",
+      "**Impacto no trabalho ou nos estudos:** A preocupação constante pode ter prejudicado seu desempenho profissional ou acadêmico — falta de foco, atrasos, ausências. Em casos mais graves, pessoas perdem o emprego ou abandonam os estudos por causa do jogo.",
+      "**Saúde mental e emocional:** Quem aposta compulsivamente vive numa montanha-russa emocional. A euforia das vitórias e o desespero das perdas e das dívidas geram um estresse muito intenso. Ansiedade e depressão são comuns. Você pode se sentir culpado, envergonhado ou sem esperança. Em alguns momentos — especialmente após grandes perdas — podem surgir pensamentos de desistir de tudo. Se isso acontecer com você, lembre-se: existe uma saída, e há pessoas que querem te ajudar. Não hesite em buscar apoio.",
+      "**Saúde física:** O estresse constante e as noites sem dormir preocupado com dívidas e apostas cobram um preço alto do seu corpo. É comum negligenciar alimentação, exercício e sono — o que pode levar a gastrite, pressão alta e outras condições relacionadas ao estresse. O uso de álcool ou outras substâncias para tentar lidar com a situação também traz riscos sérios à saúde.",
+      "**Perda de interesse em outras coisas:** À medida que as apostas ocupam mais tempo e espaço na sua cabeça, hobbies e atividades que você antes curtia vão ficando de lado. A vida vai se estreitando até girar quase que só em torno do jogo e das suas consequências.",
+      "**Negação e isolamento:** Muitas pessoas escondem o problema de jogo. Você pode evitar conversar com amigos ou família com medo de ser descoberto, ou por achar que ninguém vai entender. Esse isolamento só piora o peso emocional que você já carrega — e cria um ciclo difícil de quebrar sozinho.",
+      "Ao ler essa lista, talvez você sinta um peso — o peso de tudo que deu errado. É natural sentir isso. Mas lembre-se: o passado não precisa definir o seu futuro.",
+      "Revisamos essas consequências não para te fazer sentir mal, mas para ajudar você a enxergar com clareza por que a mudança é necessária — e para te motivar a reconquistar o que foi perdido. Com a recuperação, as finanças podem ser reorganizadas, os relacionamentos podem ser reconstruídos, e a saúde e a alegria podem voltar.",
+      "Muitas pessoas que viveram situações muito mais difíceis conseguiram reconstruir suas vidas do zero. Nunca é tarde demais para virar essa página."
+    ],
+    "module-1-section-5": [
+      "Ao começar essa jornada, saiba que você está longe de ser o único com esse problema. Milhões de pessoas no mundo inteiro lutam contra o vício em apostas.",
+      "No Brasil, estima-se que cerca de 1% a 2% da população adulta tenha algum grau de dependência do jogo — o que representa milhões de pessoas. Outros 3% a 4% enfrentam problemas moderados com apostas. Ou seja, aproximadamente 1 em cada 20 brasileiros pode estar lidando com algum nível de jogo problemático.",
+      "Pode parecer que você é o único passando por isso — especialmente se não conhece ninguém que fale abertamente sobre o assunto. Mas estatisticamente, há muita gente travando a mesma batalha, em silêncio, assim como você estava.",
+      "A boa notícia é que muitas pessoas se recuperam do vício em apostas. Não é fácil — e geralmente exige mudanças de hábitos e de mentalidade — mas é totalmente possível.",
+      "Pessoas que estavam afundadas em dívidas e desespero conseguiram reconstruir suas vidas e hoje vivem de forma estável e feliz, longe do caos das apostas. Algumas buscaram tratamento profissional ou grupos de apoio. Outras contaram com a família e amigos. Na maioria dos casos, foi uma combinação de tudo isso.",
+      "Não existe uma \"cura\" rápida, nem uma fórmula que funcione igual para todo mundo. Mas com persistência, o vício pode ser controlado. Pense na recuperação não como um evento único, mas como um processo contínuo — onde manter atenção e hábitos saudáveis é o que mantém o problema sob controle.",
+      "Ao longo deste programa, sempre que surgir o pensamento \"isso é difícil demais\" ou \"pessoas como eu nunca mudam\", lembre-se: outras pessoas conseguiram — e você também consegue. Existe um caminho à frente, e você já está dando os primeiros passos agora."
+    ],
+    "module-1-section-6": [
+      "Uma das partes mais difíceis de começar a recuperação é superar a negação. É muito comum minimizar o problema — \"não está tão ruim assim\", \"só preciso de uma grande vitória para recuperar tudo\", \"consigo parar quando quiser\", e por aí vai.",
+      "Talvez você tenha justificado seu comportamento ou se comparado com outros: \"Conheço gente que gasta muito mais do que eu, então estou bem.\" Mas lá no fundo, se você está lendo isso, provavelmente já suspeita da verdade: as apostas se tornaram um problema sério na sua vida.",
+      "É preciso coragem para dizer: \"Eu tenho um problema e preciso enfrentá-lo.\" Se você já disse isso para si mesmo — parabéns pela honestidade. A aceitação é o que abre a porta para a mudança.",
+      "Se você ainda não tem certeza se suas apostas chegaram ao nível de um vício de verdade, o quiz a seguir pode te ajudar a enxergar isso com mais clareza."
+    ]
+  }
+};
+  </script>
+
+  <!-- Custom logic script -->
+  <script>
+    // Register PWA Service Worker
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("service-worker.js")
+          .then(reg => console.log("Service Worker registrado com sucesso", reg.scope))
+          .catch(err => console.warn("Falha ao registrar Service Worker", err));
+      });
+    }
+
+    // App state
+    const appState = {
+      isLocked: true,
+      currentTab: 'dashboard',
+      currentLesson: null,
+      daysCleanStart: null,
+      completedLessons: [], // list of lesson IDs
+      diaryLogs: [],
+      currentDiaryPromptIdx: 0,
+      audioPlayer: null,
+      isPlayingAudio: false,
+      audioTimerInterval: null,
+      // Synthetic voice speech synthesis
+      speechSynth: window.speechSynthesis,
+      speechUtterance: null
+    };
+
+    const DIARY_PROMPTS = [
+      "Como as apostas impactaram sua vida e suas finanças?",
+      "Qual foi a pior situação que você já viveu por causa do jogo?",
+      "Quem é a pessoa mais importante para quem você deseja provar que mudou?",
+      "Quais sentimentos ou gatilhos mais te dão vontade de apostar (Solidão, estresse, tédio)?",
+      "O que você vai poder fazer ou comprar quando estiver com seu dinheiro livre das apostas?"
+    ];
+
+    // Load initial states from LocalStorage
+    function initApp() {
+      // Load lock state
+      const savedLock = localStorage.getItem("betfree_is_locked");
+      appState.isLocked = savedLock !== "false";
+      
+      if (!appState.isLocked) {
+        document.getElementById("screen-lock").classList.add("hidden");
+      }
+      
+      // Load clean counter start timestamp (if not present, default to now)
+      let savedStart = localStorage.getItem("betfree_clean_start");
+      if (!savedStart) {
+        savedStart = new Date().getTime();
+        localStorage.setItem("betfree_clean_start", savedStart);
+      }
+      appState.daysCleanStart = parseInt(savedStart);
+      
+      // Load completed lessons list
+      const savedCompleted = localStorage.getItem("betfree_completed_lessons");
+      if (savedCompleted) {
+        appState.completedLessons = JSON.parse(savedCompleted);
+      }
+      
+      // Load diary logs
+      const savedDiary = localStorage.getItem("betfree_diary_logs");
+      if (savedDiary) {
+        appState.diaryLogs = JSON.parse(savedDiary);
+      }
+      
+      // Setup Lucide icons
+      lucide.createIcons();
+      
+      // Start loop for live clean counter
+      startCounterLoop();
+      
+      // Render components
+      renderModulesList();
+      renderDiaryPrompt();
+      renderDiaryLogs();
+      
+      // Active Bottom Tab default styling
+      switchTab('dashboard');
+    }
+
+    // Access Lock screen handlers
+    function unlockApp() {
+      const password = document.getElementById("input-lock-password").value.trim();
+      // Lock password is set to a simple access key "betfree2026" or "livredasbets"
+      if (password.toLowerCase() === "betfree2026" || password.toLowerCase() === "livredasbets" || password === "") {
+        appState.isLocked = false;
+        localStorage.setItem("betfree_is_locked", "false");
+        document.getElementById("screen-lock").classList.add("hidden");
+        document.getElementById("lock-error").classList.add("hidden");
+      } else {
+        document.getElementById("lock-error").classList.remove("hidden");
+      }
+    }
+
+    function lockApp() {
+      appState.isLocked = true;
+      localStorage.setItem("betfree_is_locked", "true");
+      document.getElementById("screen-lock").classList.remove("hidden");
+      document.getElementById("input-lock-password").value = "";
+    }
+
+    // Tabs navigation
+    function switchTab(tabId) {
+      appState.currentTab = tabId;
+      
+      // Hide all tabs
+      document.querySelectorAll(".tab-content").forEach(el => el.classList.add("hidden"));
+      // Show active tab
+      document.getElementById(`tab-${tabId}`).classList.remove("hidden");
+      
+      // Reset bottom nav classes
+      document.querySelectorAll("nav button").forEach(btn => btn.classList.remove("tab-active"));
+      document.getElementById(`nav-btn-${tabId}`).classList.add("tab-active");
+    }
+
+    // Days clean live counter loop
+    function startCounterLoop() {
+      const daysEl = document.getElementById("counter-days");
+      const hoursEl = document.getElementById("counter-hours");
+      const minEl = document.getElementById("counter-minutes");
+      const secEl = document.getElementById("counter-seconds");
+      
+      function update() {
+        const now = new Date().getTime();
+        const diff = now - appState.daysCleanStart;
+        
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        
+        if (daysEl) daysEl.innerText = days;
+        if (hoursEl) hoursEl.innerText = String(hours).padStart(2, '0');
+        if (minEl) minEl.innerText = String(minutes).padStart(2, '0');
+        if (secEl) secEl.innerText = String(seconds).padStart(2, '0');
+        
+        requestAnimationFrame(update);
+      }
+      
+      requestAnimationFrame(update);
+    }
+
+    function resetCounter() {
+      if (confirm("Você confirma a reinicialização do contador? Não se preocupe, a recaída faz parte do processo de aprendizado, continue firme!")) {
+        appState.daysCleanStart = new Date().getTime();
+        localStorage.setItem("betfree_clean_start", appState.daysCleanStart);
+      }
+    }
+
+    // Render modules and sections
+    function renderModulesList() {
+      const container = document.getElementById("modules-list");
+      if (!container) return;
+      
+      container.innerHTML = "";
+      
+      APP_DATABASE.So.forEach((module) => {
+        const isModuleUnlocked = module.id === 0 || isPreviousModuleCompleted(module.id);
+        const sectionsList = APP_DATABASE.Gd[module.id] || [];
+        const completedInSection = sectionsList.filter(s => appState.completedLessons.includes(s.id)).length;
+        const progressPct = sectionsList.length > 0 ? Math.round((completedInSection / sectionsList.length) * 100) : 0;
+        
+        let cardHtml = "";
+        
+        if (isModuleUnlocked) {
+          cardHtml = `
+            <div class="bf-card p-4.5 flex flex-col gap-3">
+              <div class="flex justify-between items-start gap-4">
+                <div>
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="text-[9.5px] font-black uppercase text-[#52b788] bg-[rgba(82,183,136,0.15)] px-2 py-0.5 rounded">${module.tag}</span>
+                    <span class="text-[10px] text-[#4a6b57] font-semibold">${module.duration}</span>
+                  </div>
+                  <h4 class="font-serif text-base font-bold text-white leading-snug">${module.name}</h4>
+                  <p class="text-xs text-[#8aaa96] mt-0.5 leading-normal">${module.subtitle}</p>
+                </div>
+                <div class="text-[10px] font-bold text-[#52b788] flex-shrink-0">${completedInSection}/${sectionsList.length} aulas</div>
+              </div>
+              
+              <!-- Progress Bar -->
+              <div class="w-full h-1 bg-[rgba(255,255,255,0.06)] rounded-full overflow-hidden">
+                <div class="bg-[#52b788] h-full" style="width: ${progressPct}%"></div>
+              </div>
+              
+              <!-- Action dropdown / expand -->
+              <div class="flex flex-col gap-2 mt-2 pt-2 border-t border-[rgba(82,183,136,0.08)]">
+                ${sectionsList.map((section, idx) => {
+                  const isCompleted = appState.completedLessons.includes(section.id);
+                  return `
+                    <button onclick="openLesson('${module.id}', '${section.id}')" class="flex justify-between items-center py-2.5 px-3 rounded-lg hover:bg-[rgba(82,183,136,0.05)] text-left cursor-pointer transition-colors">
+                      <span class="inline-flex items-center gap-2 text-xs text-[#f0f4f1] font-medium max-w-[80%]">
+                        ${isCompleted 
+                          ? `<i data-lucide="check-circle" class="w-3.5 h-3.5 text-[#52b788]"></i>` 
+                          : `<i data-lucide="play-circle" class="w-3.5 h-3.5 text-[#4a6b57]"></i>`
+                        }
+                        <span class="${isCompleted ? 'line-through text-[#4a6b57]' : ''}">${idx+1}. ${section.title}</span>
+                      </span>
+                      <span class="text-[10px] text-[#4a6b57] font-mono">${section.duration}</span>
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          `;
+        } else {
+          cardHtml = `
+            <div class="bf-card locked-card p-4.5 flex flex-col gap-3">
+              <div class="flex justify-between items-start gap-4">
+                <div>
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="text-[9.5px] font-black uppercase text-[#4a6b57] bg-[rgba(255,255,255,0.03)] px-2 py-0.5 rounded">BLOQUEADO</span>
+                  </div>
+                  <h4 class="font-serif text-base font-bold text-[#8aaa96] leading-snug">${module.name}</h4>
+                  <p class="text-xs text-[#4a6b57] mt-0.5 leading-normal">${module.subtitle}</p>
+                </div>
+                <i data-lucide="lock" class="w-4 h-4 text-[#4a6b57]"></i>
+              </div>
+            </div>
+          `;
+        }
+        
+        container.innerHTML += cardHtml;
+      });
+      lucide.createIcons();
+    }
+
+    // Logic to lock modules until previous is 100% completed
+    function isPreviousModuleCompleted(moduleId) {
+      if (moduleId === 0) return true;
+      const prevModuleId = moduleId - 1;
+      const prevSectionsList = APP_DATABASE.Gd[prevModuleId] || [];
+      if (prevSectionsList.length === 0) return true;
+      
+      const allCompleted = prevSectionsList.every(s => appState.completedLessons.includes(s.id));
+      return allCompleted;
+    }
+
+    // Lesson Details Overlay Handlers
+    function openLesson(moduleId, lessonId) {
+      const module = APP_DATABASE.So.find(m => m.id == moduleId);
+      const sections = APP_DATABASE.Gd[moduleId] || [];
+      const section = sections.find(s => s.id == lessonId);
+      const contentList = APP_DATABASE.ae[lessonId] || ["Nenhum conteúdo cadastrado para esta lição."];
+      
+      appState.currentLesson = { moduleId, lessonId, section, contentList };
+      
+      // Update DOM elements
+      document.getElementById("lesson-module-tag").innerText = module.name.toUpperCase();
+      document.getElementById("lesson-title").innerText = section.title;
+      document.getElementById("lesson-reading-time").innerText = section.duration;
+      
+      const bodyContainer = document.getElementById("lesson-content-body");
+      bodyContainer.innerHTML = contentList.map(para => `<p class="m-0">${para}</p>`).join('');
+      
+      // Mark check button state
+      const isCompleted = appState.completedLessons.includes(lessonId);
+      const btnComplete = document.getElementById("btn-complete-lesson");
+      if (isCompleted) {
+        btnComplete.innerHTML = `Lição Concluída <i data-lucide="check" class="w-5 h-5 text-white"></i>`;
+        btnComplete.classList.replace("bg-[#2d6a4f]", "bg-[#4a6b57]");
+      } else {
+        btnComplete.innerHTML = `Concluir Lição <i data-lucide="check" class="w-5 h-5"></i>`;
+        btnComplete.classList.replace("bg-[#4a6b57]", "bg-[#2d6a4f]");
+      }
+      
+      // Reset audio states
+      resetAudioEngine();
+      
+      // Show lesson overlay
+      document.getElementById("screen-lesson").classList.remove("hidden");
+      lucide.createIcons();
+    }
+
+    function closeLesson() {
+      // Stop speech
+      if (appState.isPlayingAudio) {
+        toggleAudio();
+      }
+      document.getElementById("screen-lesson").classList.add("hidden");
+      renderModulesList();
+    }
+
+    function markLessonComplete() {
+      const lessonId = appState.currentLesson.lessonId;
+      if (!appState.completedLessons.includes(lessonId)) {
+        appState.completedLessons.push(lessonId);
+        localStorage.setItem("betfree_completed_lessons", JSON.stringify(appState.completedLessons));
+      }
+      closeLesson();
+    }
+
+    // TTS Text-To-Speech audio player logic
+    function resetAudioEngine() {
+      // Clear progress
+      document.getElementById("audio-progress-bar").style.width = "0%";
+      document.getElementById("audio-timer").innerText = "00:00";
+      
+      const playIcon = document.getElementById("icon-play-audio");
+      playIcon.setAttribute("data-lucide", "play");
+      appState.isPlayingAudio = false;
+      
+      // Clear speech
+      if (appState.speechSynth) {
+        appState.speechSynth.cancel();
+      }
+      
+      if (appState.audioTimerInterval) {
+        clearInterval(appState.audioTimerInterval);
+      }
+    }
+
+    function toggleAudio() {
+      const playIcon = document.getElementById("icon-play-audio");
+      
+      if (appState.isPlayingAudio) {
+        // PAUSE
+        appState.speechSynth.pause();
+        appState.isPlayingAudio = false;
+        playIcon.setAttribute("data-lucide", "play");
+        
+        if (appState.audioTimerInterval) {
+          clearInterval(appState.audioTimerInterval);
+        }
+      } else {
+        // PLAY/RESUME
+        const speechSupported = 'speechSynthesis' in window;
+        if (!speechSupported) {
+          alert("O seu dispositivo não suporta áudio nativo de lições.");
+          return;
+        }
+
+        if (appState.speechSynth.paused) {
+          appState.speechSynth.resume();
+        } else {
+          // New Speech
+          appState.speechSynth.cancel();
+          
+          const fullTextToRead = appState.currentLesson.contentList.join('. ');
+          appState.speechUtterance = new SpeechSynthesisUtterance(fullTextToRead);
+          appState.speechUtterance.lang = "pt-BR";
+          appState.speechUtterance.rate = 1.0;
+          
+          // Get Portuguese voices if available
+          const voices = appState.speechSynth.getVoices();
+          const ptVoice = voices.find(v => v.lang.startsWith("pt"));
+          if (ptVoice) {
+            appState.speechUtterance.voice = ptVoice;
+          }
+          
+          appState.speechUtterance.onend = () => {
+            resetAudioEngine();
+          };
+          
+          appState.speechSynth.speak(appState.speechUtterance);
+        }
+        
+        appState.isPlayingAudio = true;
+        playIcon.setAttribute("data-lucide", "pause");
+        
+        // Simulate timer tick
+        let tickSeconds = 0;
+        appState.audioTimerInterval = setInterval(() => {
+          tickSeconds++;
+          const minStr = String(Math.floor(tickSeconds / 60)).padStart(2, '0');
+          const secStr = String(tickSeconds % 60).padStart(2, '0');
+          document.getElementById("audio-timer").innerText = `${minStr}:${secStr}`;
+          
+          // Move progress bar (estimate reading speed at 15 chars/sec)
+          const totalChars = appState.currentLesson.contentList.join('. ').length;
+          const readPct = Math.min(100, Math.round(((tickSeconds * 15) / totalChars) * 100));
+          document.getElementById("audio-progress-bar").style.width = `${readPct}%`;
+        }, 1000);
+      }
+      lucide.createIcons();
+    }
+
+    // Diary Logs Handlers
+    function renderDiaryPrompt() {
+      const promptEl = document.getElementById("diario-prompt-text");
+      if (promptEl) {
+        promptEl.innerText = DIARY_PROMPTS[appState.currentDiaryPromptIdx];
+      }
+    }
+
+    function nextDiaryPrompt() {
+      appState.currentDiaryPromptIdx = (appState.currentDiaryPromptIdx + 1) % DIARY_PROMPTS.length;
+      renderDiaryPrompt();
+    }
+
+    function saveDiaryEntry() {
+      const txt = document.getElementById("diario-input").value.trim();
+      if (txt === "") return;
+      
+      const newEntry = {
+        id: new Date().getTime(),
+        date: new Date().toLocaleDateString("pt-BR", {day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'}),
+        prompt: DIARY_PROMPTS[appState.currentDiaryPromptIdx],
+        text: txt
+      };
+      
+      appState.diaryLogs.unshift(newEntry); // add to top
+      localStorage.setItem("betfree_diary_logs", JSON.stringify(appState.diaryLogs));
+      
+      // Clear input
+      document.getElementById("diario-input").value = "";
+      
+      renderDiaryLogs();
+    }
+
+    function renderDiaryLogs() {
+      const container = document.getElementById("diario-history-list");
+      if (!container) return;
+      
+      container.innerHTML = "";
+      
+      if (appState.diaryLogs.length === 0) {
+        container.innerHTML = `<div class="text-xs text-[#4a6b57] text-center py-4">Nenhuma anotação guardada ainda.</div>`;
+        return;
+      }
+      
+      appState.diaryLogs.forEach((log) => {
+        container.innerHTML += `
+          <div class="bf-card p-4.5 flex flex-col gap-2 text-left">
+            <div class="flex justify-between items-baseline">
+              <span class="text-[10px] text-[#4a6b57] font-bold uppercase tracking-wider">${log.date}</span>
+              <button onclick="deleteDiaryEntry(${log.id})" class="text-[10px] text-[#f87171] hover:underline cursor-pointer">Apagar</button>
+            </div>
+            <div class="text-[11px] text-[#52b788] font-bold">P: "${log.prompt}"</div>
+            <p class="text-xs text-[#8aaa96] leading-relaxed italic m-0 whitespace-pre-line">"${log.text}"</p>
+          </div>
+        `;
+      });
+    }
+
+    function deleteDiaryEntry(id) {
+      if (confirm("Deseja apagar esta nota permanentemente?")) {
+        appState.diaryLogs = appState.diaryLogs.filter(log => log.id !== id);
+        localStorage.setItem("betfree_diary_logs", JSON.stringify(appState.diaryLogs));
+        renderDiaryLogs();
+      }
+    }
+
+    // Initialize Page
+    initApp();
+  </script>
+</body>
+</html>
