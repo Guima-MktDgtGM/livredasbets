@@ -157,6 +157,28 @@
         </div>
       </div>
 
+      <!-- PWA Install Banner Card -->
+      <div id="pwa-install-card" class="bf-card p-4.5 bg-gradient-to-r from-[rgba(82,183,136,0.12)] to-transparent flex gap-3.5 items-center justify-between hidden bf-fade">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-[#2d6a4f] text-white flex items-center justify-center border border-[rgba(82,183,136,0.2)]">
+            <i data-lucide="download-cloud" class="w-5 h-5 text-[#52b788]"></i>
+          </div>
+          <div class="flex flex-col gap-0.5">
+            <span class="text-xs font-bold text-white leading-tight">Instalar Aplicativo</span>
+            <span class="text-[10px] text-[#8aaa96]" id="pwa-install-instructions">Tenha acesso rápido direto da sua tela inicial.</span>
+          </div>
+        </div>
+        
+        <div class="flex items-center gap-2">
+          <button id="btn-pwa-install" class="bg-[#2d6a4f] hover:bg-[#52b788] text-white text-[10.5px] font-bold py-2 px-3.5 rounded-lg shadow cursor-pointer transition-colors">
+            Instalar
+          </button>
+          <button onclick="dismissPwaBanner()" class="text-[#4a6b57] hover:text-[#f87171] p-1 cursor-pointer">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
       <!-- CVV Alert Banner -->
       <div class="bg-[#fefce8] border border-[#fef08a] rounded-2xl p-4 flex gap-3 items-start text-[#854d0e] shadow-sm">
         <i data-lucide="alert-triangle" class="w-5 h-5 text-[#ca8a04] flex-shrink-0 mt-0.5"></i>
@@ -4239,6 +4261,67 @@
       localStorage.setItem("livredasbets_streak", streak);
       localStorage.setItem("livredasbets_last_open_date", todayStr);
       appState.streak = streak;
+    }
+
+    // PWA Install prompt handling
+    let deferredPrompt = null;
+
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      
+      const isDismissed = localStorage.getItem("pwa_install_dismissed");
+      if (isDismissed !== "true") {
+        const installCard = document.getElementById("pwa-install-card");
+        if (installCard) installCard.classList.remove("hidden");
+      }
+    });
+
+    function detectIosPwa() {
+      const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      const isStandalone = window.navigator.standalone === true;
+      const isDismissed = localStorage.getItem("pwa_install_dismissed");
+      
+      if (isIos && !isStandalone && isDismissed !== "true") {
+        const installCard = document.getElementById("pwa-install-card");
+        const instructionsText = document.getElementById("pwa-install-instructions");
+        const installBtn = document.getElementById("btn-pwa-install");
+        
+        if (installCard && instructionsText && installBtn) {
+          instructionsText.innerText = "Toque em compartilhar ↑ e 'Adicionar à Tela de Início'.";
+          installBtn.innerText = "Como fazer?";
+          installBtn.onclick = () => {
+            alert("No iPhone:\n1. Toque no botão de Compartilhar (ícone com quadrado e seta para cima no Safari, no rodapé).\n2. Role a lista e toque em 'Adicionar à Tela de Início'.\n3. Toque em Adicionar no canto superior direito.");
+          };
+          installCard.classList.remove("hidden");
+        }
+      }
+    }
+
+    // Call detectIosPwa on DOMContentLoaded or init
+    document.addEventListener("DOMContentLoaded", () => {
+      detectIosPwa();
+      
+      const installBtn = document.getElementById("btn-pwa-install");
+      if (installBtn && !/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+        installBtn.addEventListener("click", async () => {
+          if (!deferredPrompt) {
+            alert("O aplicativo já está instalado ou não é compatível com instalação automática neste navegador. Tente pelo Google Chrome!");
+            return;
+          }
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          console.log(`User response to the install prompt: ${outcome}`);
+          deferredPrompt = null;
+          dismissPwaBanner();
+        });
+      }
+    });
+
+    function dismissPwaBanner() {
+      localStorage.setItem("pwa_install_dismissed", "true");
+      const installCard = document.getElementById("pwa-install-card");
+      if (installCard) installCard.classList.add("hidden");
     }
 
     // Initialize Page
