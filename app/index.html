@@ -180,7 +180,31 @@
       </div>
     </section>
 
-    <!-- TAB 2: DIÁRIO -->
+    <!-- TAB 2: BIBLIOTECA -->
+    <section id="tab-biblioteca" class="tab-content p-5 flex flex-col gap-4 bf-fade hidden">
+      <div class="flex flex-col">
+        <h2 class="font-serif text-2xl font-bold text-white">Biblioteca</h2>
+        <p class="text-xs text-[#8aaa96] mt-1">Resumos práticos de grandes obras de desenvolvimento pessoal e psicologia.</p>
+      </div>
+
+      <!-- Search bar -->
+      <div class="relative w-full">
+        <input type="text" id="search-books" oninput="filterBooks()" placeholder="Pesquisar livros por título, autor ou tema..." class="w-full bg-[#0d1410] border border-[rgba(82,183,136,0.15)] rounded-xl py-3 pl-10 pr-4 text-xs text-white focus:outline-none focus:border-[#52b788] transition-all">
+        <i data-lucide="search" class="w-4 h-4 text-[#4a6b57] absolute left-3.5 top-3.5"></i>
+      </div>
+      
+      <!-- Category Filters (dynamic) -->
+      <div id="category-filters" class="flex gap-2 overflow-x-auto no-scrollbar pb-1.5 text-[11px] font-bold">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Books grid -->
+      <div id="books-grid" class="grid grid-cols-2 gap-4 mt-2">
+        <!-- Dynamic Books rendered here -->
+      </div>
+    </section>
+
+    <!-- TAB 3: DIÁRIO -->
     <section id="tab-diario" class="tab-content p-5 flex flex-col gap-5 bf-fade hidden">
       <div class="flex flex-col">
         <h2 class="font-serif text-2xl font-bold text-white">Diário de Bordo</h2>
@@ -219,7 +243,7 @@
       </div>
     </section>
 
-    <!-- TAB 3: EMERGÊNCIA -->
+    <!-- TAB 4: EMERGÊNCIA -->
     <section id="tab-emergencia" class="tab-content p-5 flex flex-col gap-5 bf-fade hidden">
       <div class="flex flex-col items-center text-center gap-2 mt-4">
         <div class="w-14 h-14 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-500 animate-pulse">
@@ -273,7 +297,7 @@
       </a>
     </section>
 
-    <!-- LESSON DETAIL VIEW SCREEN (Overlay/Sub-screen) -->
+    <!-- LESSON DETAIL VIEW SCREEN -->
     <div id="screen-lesson" class="absolute inset-0 bg-[#111a14] z-30 flex flex-col hidden bf-fade">
       <!-- Lesson Header -->
       <header class="p-5 flex justify-between items-center bg-[#0d1410] border-b border-[rgba(82,183,136,0.08)] sticky top-0 z-40">
@@ -281,7 +305,7 @@
           <i data-lucide="arrow-left" class="w-5 h-5"></i>
         </button>
         <div class="text-[#52b788] text-[10.5px] font-bold uppercase tracking-[0.15em]" id="lesson-module-tag">CONTEÚDO</div>
-        <div class="w-8 h-8"></div> <!-- Spacer -->
+        <div class="w-8 h-8"></div>
       </header>
       
       <!-- Lesson Scrollable content -->
@@ -303,7 +327,6 @@
           <div class="flex flex-col gap-1.5 flex-1">
             <span class="text-xs font-bold text-white leading-none">Áudio Narrado (ElevenLabs)</span>
             
-            <!-- Progress Bar -->
             <div class="flex items-center gap-2">
               <div class="relative flex-1 h-1 bg-[rgba(255,255,255,0.08)] rounded-full overflow-hidden">
                 <div id="audio-progress-bar" class="absolute left-0 top-0 bottom-0 bg-[#52b788] w-0 transition-all duration-150"></div>
@@ -325,6 +348,97 @@
         </button>
       </div>
     </div>
+
+    <!-- BOOK DETAIL SCREEN -->
+    <div id="screen-book" class="absolute inset-0 bg-[#111a14] z-30 flex flex-col hidden bf-fade">
+      <header class="p-5 flex justify-between items-center bg-[#0d1410] border-b border-[rgba(82,183,136,0.08)] sticky top-0 z-40">
+        <button onclick="closeBook()" class="w-8 h-8 rounded-full hover:bg-[rgba(255,255,255,0.05)] flex items-center justify-center text-[#8aaa96] cursor-pointer">
+          <i data-lucide="arrow-left" class="w-5 h-5"></i>
+        </button>
+        <span class="text-white text-xs font-bold font-serif">Detalhes do Livro</span>
+        <div class="w-8 h-8"></div>
+      </header>
+      
+      <div class="flex-1 overflow-y-auto p-5 pb-24 no-scrollbar flex flex-col gap-5">
+        <div class="flex gap-4 items-start">
+          <img id="book-detail-cover" src="" alt="" class="w-24 h-36 rounded-xl object-cover shadow-lg border border-[rgba(82,183,136,0.15)] flex-shrink-0">
+          <div class="flex flex-col gap-1.5 flex-1">
+            <h1 class="text-lg font-black text-white leading-tight font-serif" id="book-detail-title">Nome do Livro</h1>
+            <span class="text-xs text-[#8aaa96]" id="book-detail-author">Autor</span>
+            <div class="flex items-center gap-1 text-xs text-[#fbbf24] mt-1">
+              <i data-lucide="star" class="w-3.5 h-3.5 fill-[#fbbf24] stroke-none"></i>
+              <span id="book-detail-rating">4.8</span>
+              <span class="text-[10px] text-[#4a6b57]" id="book-detail-rating-count">(2.1k)</span>
+            </div>
+            <div class="text-[10px] font-bold text-[#52b788] bg-[rgba(82,183,136,0.12)] px-2.5 py-0.5 rounded self-start mt-1" id="book-detail-time">15 min</div>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <h3 class="text-white font-bold text-sm">Sobre a Obra</h3>
+          <p id="book-detail-about" class="text-xs text-[#8aaa96] leading-relaxed m-0">Descrição...</p>
+        </div>
+
+        <div class="bf-card p-4 flex flex-col gap-2.5 bg-gradient-to-b from-[rgba(82,183,136,0.05)] to-transparent">
+          <h3 class="text-white font-bold text-xs flex items-center gap-1.5">
+            <i data-lucide="award" class="w-4 h-4 text-[#52b788]"></i>
+            Lições de Destaque
+          </h3>
+          <ul id="book-detail-takeaways" class="list-none p-0 m-0 flex flex-col gap-2 text-xs text-[#8aaa96] leading-relaxed">
+            <!-- Takeaways list -->
+          </ul>
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <h3 class="text-white font-bold text-sm">Capítulos do Resumo</h3>
+          <div id="book-chapters-list" class="flex flex-col gap-2.5">
+            <!-- Chapters go here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOOK CHAPTER VIEW SCREEN -->
+    <div id="screen-chapter" class="absolute inset-0 bg-[#111a14] z-35 flex flex-col hidden bf-fade">
+      <header class="p-5 flex justify-between items-center bg-[#0d1410] border-b border-[rgba(82,183,136,0.08)] sticky top-0 z-40">
+        <button onclick="closeChapter()" class="w-8 h-8 rounded-full hover:bg-[rgba(255,255,255,0.05)] flex items-center justify-center text-[#8aaa96] cursor-pointer">
+          <i data-lucide="arrow-left" class="w-5 h-5"></i>
+        </button>
+        <div class="text-[#52b788] text-[10px] font-bold uppercase tracking-[0.15em]" id="chapter-header-book">LIVRO</div>
+        <div class="w-8 h-8"></div>
+      </header>
+      
+      <div class="flex-1 overflow-y-auto p-5 pb-24 no-scrollbar flex flex-col gap-5">
+        <h1 class="text-xl font-black font-serif text-white leading-tight mt-2" id="chapter-title">Título do Capítulo</h1>
+        
+        <!-- Audio Player -->
+        <div class="bf-card p-4 flex items-center gap-3.5 mt-2 bg-gradient-to-r from-[rgba(82,183,136,0.08)] to-transparent">
+          <button id="btn-chapter-audio-play" onclick="toggleChapterAudio()" class="w-11 h-11 rounded-full bg-[#2d6a4f] text-white flex items-center justify-center hover:bg-[#52b788] transition-all flex-shrink-0 cursor-pointer shadow-md">
+            <i data-lucide="play" class="w-5 h-5 fill-white" id="icon-play-chapter-audio"></i>
+          </button>
+          
+          <div class="flex flex-col gap-1.5 flex-1">
+            <span class="text-xs font-bold text-white leading-none">Áudio Narrado (ElevenLabs)</span>
+            
+            <div class="flex items-center gap-2">
+              <div class="relative flex-1 h-1 bg-[rgba(255,255,255,0.08)] rounded-full overflow-hidden">
+                <div id="chapter-audio-progress" class="absolute left-0 top-0 bottom-0 bg-[#52b788] w-0 transition-all duration-150"></div>
+              </div>
+              <span class="text-[10px] text-[#4a6b57] font-semibold font-mono" id="chapter-audio-timer">00:00</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-[#c1d1c6] text-[15px] leading-relaxed flex flex-col gap-4.5 mt-4" id="chapter-content-body">
+          <!-- Text content -->
+        </div>
+
+        <button id="btn-complete-chapter" onclick="markChapterComplete()" class="w-full bg-[#2d6a4f] text-white font-bold py-4 rounded-xl mt-8 flex items-center justify-center gap-2 hover:bg-[#52b788] transition-all shadow-md cursor-pointer">
+          Concluir Capítulo
+          <i data-lucide="check" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
   </main>
 
   <!-- ==================== BOTTOM NAVIGATION BAR ==================== -->
@@ -332,6 +446,11 @@
     <button onclick="switchTab('dashboard')" id="nav-btn-dashboard" class="flex flex-col items-center justify-center gap-1.5 text-[#8aaa96] py-1 flex-1 cursor-pointer">
       <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
       <span class="text-[10.5px] font-bold tracking-wide">Módulos</span>
+    </button>
+    
+    <button onclick="switchTab('biblioteca')" id="nav-btn-biblioteca" class="flex flex-col items-center justify-center gap-1.5 text-[#8aaa96] py-1 flex-1 cursor-pointer">
+      <i data-lucide="library" class="w-5 h-5"></i>
+      <span class="text-[10.5px] font-bold tracking-wide">Biblioteca</span>
     </button>
     
     <button onclick="switchTab('diario')" id="nav-btn-diario" class="flex flex-col items-center justify-center gap-1.5 text-[#8aaa96] py-1 flex-1 cursor-pointer">
@@ -344,7 +463,7 @@
         <i data-lucide="phone-call" class="w-5 h-5 text-red-400"></i>
         <span class="absolute top-[-3px] right-[-3px] w-2 h-2 bg-red-500 rounded-full animate-ping"></span>
       </div>
-      <span class="text-[10.5px] font-bold tracking-wide text-red-400">SOS Fissura</span>
+      <span class="text-[10.5px] font-bold tracking-wide text-red-400">SOS</span>
     </button>
   </nav>
 
@@ -1084,7 +1203,2140 @@
       "É preciso coragem para dizer: \"Eu tenho um problema e preciso enfrentá-lo.\" Se você já disse isso para si mesmo — parabéns pela honestidade. A aceitação é o que abre a porta para a mudança.",
       "Se você ainda não tem certeza se suas apostas chegaram ao nível de um vício de verdade, o quiz a seguir pode te ajudar a enxergar isso com mais clareza."
     ]
-  }
+  },
+  "wo": [
+    {
+      "id": "habitos-atomicos",
+      "title": "Hábitos Atômicos",
+      "author": "James Clear",
+      "coverImage": "covers/habitos-atomicos.jpg",
+      "gradient": "linear-gradient(135deg, #1a1a2e, #16213e)",
+      "rating": 4.8,
+      "ratingCount": "2.1k",
+      "categories": [
+        "Mindset",
+        "Recuperação"
+      ],
+      "readingTime": "15 min",
+      "chaptersCount": 8,
+      "about": "Guia prático sobre como pequenas mudanças de comportamento criam resultados extraordinários ao longo do tempo.",
+      "keyTakeaways": [
+        "Melhorias de 1% ao dia resultam em ser 37 vezes melhor em um ano",
+        "Hábitos seguem um ciclo de quatro etapas: gatilho, desejo, resposta e recompensa",
+        "Mudança duradoura começa pela identidade, não pelos resultados",
+        "O ambiente é mais poderoso que a força de vontade",
+        "Qualquer hábito deve começar com menos de dois minutos"
+      ],
+      "authorBio": "James Clear é escritor e palestrante especializado em hábitos, tomada de decisão e melhoria contínua. Hábitos Atômicos vendeu mais de 15 milhões de cópias no mundo.",
+      "relatedBooks": [
+        "o-poder-do-habito",
+        "mindset",
+        "o-obstaculo-e-o-caminho"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "O Surpreendente Poder dos Hábitos Atômicos",
+          "content": "Mudanças de 1% parecem insignificantes no dia a dia — mas ao longo de um ano, uma melhoria de 1% diária resulta em ser 37 vezes melhor. O mesmo vale para o lado negativo: piorar 1% por dia te leva quase a zero.\n\nA maioria das pessoas quer resultados grandes e imediatos. Quando não aparecem, desistem. Mas os resultados de bons hábitos são como juros compostos — invisíveis no curto prazo, transformadores no longo prazo. Seu nível atual de vida é o resultado acumulado dos seus hábitos passados.\n\nPara quem está em recuperação, isso é uma mensagem poderosa: cada dia sem apostar, cada pequena escolha saudável, está se acumulando silenciosamente em direção a uma vida completamente diferente."
+        },
+        {
+          "id": 2,
+          "title": "Por Que Seus Hábitos Moldam Sua Identidade",
+          "content": "A maioria das pessoas tenta mudar seus resultados — 'quero parar de apostar', 'quero economizar dinheiro'. Mas a mudança duradoura começa pela identidade: quem você quer se tornar?\n\nEm vez de dizer 'estou tentando parar de apostar', diga 'eu não sou um apostador'. Cada ação que confirma essa identidade é um voto para a pessoa que você está se tornando.\n\nA recuperação não é só sobre comportamento. É sobre se tornar uma pessoa diferente — alguém que não precisa de apostas para se sentir vivo."
+        },
+        {
+          "id": 3,
+          "title": "Como Construir Hábitos Melhores em 4 Passos",
+          "content": "Todo hábito segue um ciclo de quatro etapas: gatilho, desejo, resposta e recompensa. Entender esse ciclo é a chave para mudar qualquer comportamento.\n\nPara criar um bom hábito: torne o gatilho óbvio, o desejo atraente, a resposta fácil e a recompensa satisfatória. Para quebrar um hábito ruim: faça o oposto.\n\nAs apostas exploram exatamente esse ciclo. Mas agora que você conhece o mecanismo, pode reprogramá-lo."
+        },
+        {
+          "id": 4,
+          "title": "A Regra do Um Só",
+          "content": "Tentar mudar tudo de uma vez é receita para o fracasso. Escolha um hábito-âncora — uma pequena ação que, quando mantida, desencadeia outras mudanças positivas.\n\nPara muitos em recuperação, esse hábito-âncora é simples: acordar no horário, fazer uma caminhada diária, ou ligar para alguém de apoio toda manhã.\n\nUm hábito sustentado é infinitamente mais valioso do que dez hábitos abandonados."
+        },
+        {
+          "id": 5,
+          "title": "O Ambiente é Mais Forte que a Força de Vontade",
+          "content": "A verdade é que as pessoas com mais autocontrole são as que menos precisam usá-lo — porque estruturaram seu ambiente para que as boas escolhas sejam as mais fáceis.\n\nSe você quer parar de apostar online, deletar os apps e bloquear os sites é mais eficaz do que confiar na força de vontade.\n\nVocê não é fraco. Você foi colocado em ambientes projetados para explorar suas fraquezas."
+        },
+        {
+          "id": 6,
+          "title": "A Regra dos Dois Minutos",
+          "content": "Qualquer novo hábito deve começar com menos de dois minutos. Quer meditar? Comece com duas respirações profundas. Quer se exercitar? Vista o tênis.\n\nA barreira de entrada alta é o maior inimigo dos novos hábitos. Quando você reduz o hábito ao mínimo possível, elimina a resistência inicial.\n\nEm recuperação, a regra dos dois minutos pode ser: abrir este app por dois minutos. O começo já é a maior vitória."
+        },
+        {
+          "id": 7,
+          "title": "Como Manter os Hábitos no Longo Prazo",
+          "content": "Hábitos deixam de ser motivantes quando se tornam automáticos. Isso é bom — significa que funcionaram. Mas também significa que você precisa de novos desafios.\n\nA chave é o equilíbrio entre familiaridade e novidade. O ponto ideal é um desafio que você consegue superar com esforço.\n\nPara a recuperação, isso significa ir além de 'só não apostar' e encontrar novos objetivos que te façam sentir vivo."
+        },
+        {
+          "id": 8,
+          "title": "A Revisão e o Reflexo",
+          "content": "Mesmo os melhores hábitos se deterioram sem revisão. Para quem está em recuperação, uma revisão semanal é poderosa.\n\nPergunte-se: que hábitos estou mantendo? Quais abandonei? O que funcionou esta semana? O que preciso ajustar?\n\nA recuperação não é uma linha reta — é um processo de aprendizado contínuo. Cada semana é uma nova oportunidade de ajustar, melhorar e seguir em frente."
+        }
+      ]
+    },
+    {
+      "id": "o-poder-do-habito",
+      "title": "O Poder do Hábito",
+      "author": "Charles Duhigg",
+      "coverImage": "covers/o-poder-do-habito.jpg",
+      "gradient": "linear-gradient(135deg, #2d6a4f, #1b4332)",
+      "rating": 4.6,
+      "ratingCount": "1.8k",
+      "categories": [
+        "Mindset",
+        "Recuperação"
+      ],
+      "readingTime": "14 min",
+      "chaptersCount": 8,
+      "about": "Descubra como os hábitos funcionam no cérebro e como você pode transformá-los para mudar sua vida.",
+      "keyTakeaways": [
+        "Todo hábito existe como um loop: gatilho, rotina e recompensa",
+        "Você não elimina hábitos ruins — você os substitui",
+        "O anseio pela recompensa é o que torna os hábitos poderosos",
+        "Hábitos-chave criam reações em cadeia positivas em toda a vida",
+        "A força de vontade é um músculo que se fortalece com uso"
+      ],
+      "authorBio": "Charles Duhigg é jornalista investigativo do New York Times e autor premiado. O Poder do Hábito passou mais de 60 semanas na lista de bestsellers do NYT.",
+      "relatedBooks": [
+        "habitos-atomicos",
+        "inteligencia-emocional",
+        "mindset"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "O Loop do Hábito",
+          "content": "Todo hábito existe como um loop neurológico de três partes: gatilho, rotina e recompensa. O gatilho diz ao cérebro para entrar em modo automático. A rotina é o comportamento em si. A recompensa é o que o cérebro aprende a desejar.\n\nEsse loop se torna tão automático que o cérebro quase para de participar das decisões. É por isso que o vício em apostas pode parecer impossível de resistir. Não é falta de vontade. É neurologia.\n\nA boa notícia: entender o loop é o primeiro passo para reprogramá-lo."
+        },
+        {
+          "id": 2,
+          "title": "O Anseio que Impulsiona o Hábito",
+          "content": "Os hábitos são poderosos não por causa da rotina em si — mas pelo anseio que eles criam. O cérebro começa a antecipar a recompensa antes mesmo de você agir.\n\nPara apostadores, o gatilho pode ser estresse, tédio ou até um anúncio de esportes. O cérebro já começa a liberar dopamina antes da primeira aposta.\n\nReconhecer o anseio sem agir sobre ele é uma das habilidades mais importantes da recuperação."
+        },
+        {
+          "id": 3,
+          "title": "A Regra de Ouro da Mudança de Hábito",
+          "content": "Você não pode simplesmente eliminar um hábito ruim — você precisa substituí-lo. Mantenha o mesmo gatilho e a mesma recompensa, mas mude a rotina.\n\nSe você aposta quando está estressado para sentir alívio, encontre uma rotina diferente que produza estado semelhante — exercício, meditação, ligar para alguém.\n\nO hábito antigo nunca desaparece completamente. Mas pode ser sobrescrito por um novo caminho mais forte."
+        },
+        {
+          "id": 4,
+          "title": "Hábitos-Chave: A Alavanca que Move Tudo",
+          "content": "Alguns hábitos têm poder desproporcional — quando você os muda, outras áreas da vida melhoram automaticamente.\n\nExercício físico regular é talvez o hábito-chave mais estudado: pessoas que começam a se exercitar tendem a comer melhor, dormir melhor e gastar menos.\n\nPara quem está em recuperação, identificar seu hábito-chave pessoal pode transformar múltiplas áreas da vida de uma vez."
+        },
+        {
+          "id": 5,
+          "title": "A Força de Vontade é um Músculo",
+          "content": "A força de vontade se cansa com o uso. Quando você usa energia mental resistindo a uma coisa, tem menos energia para resistir à próxima tentação.\n\nÉ por isso que as recaídas acontecem frequentemente à noite — não porque a pessoa é fraca, mas porque o músculo da força de vontade está exausto.\n\nProteja sua energia mental como um recurso precioso. Planeje com antecedência para os momentos de crise."
+        },
+        {
+          "id": 6,
+          "title": "Quando os Hábitos se Tornam Vício",
+          "content": "No vício, o anseio se torna tão intenso que sobrepõe a racionalidade e o autocontrole.\n\nO jogo compulsivo é um exemplo claro — o cérebro aprende a associar apostas com picos de dopamina tão intensos que atividades normais da vida parecem sem graça em comparação.\n\nCompreender isso remove a culpa e direciona a energia para o que realmente funciona: reprogramação consistente."
+        },
+        {
+          "id": 7,
+          "title": "O Poder dos Hábitos Coletivos",
+          "content": "Grupos de apoio funcionam porque criam novos loops sociais: o gatilho é a reunião, a rotina é compartilhar e ouvir, a recompensa é conexão e pertencimento.\n\nEsses hábitos coletivos são frequentemente mais poderosos do que os individuais — porque adicionam responsabilidade social e identidade de grupo.\n\nVocê não está apenas tentando mudar um comportamento. Está se tornando parte de uma comunidade que não aposta."
+        },
+        {
+          "id": 8,
+          "title": "A Responsabilidade de Conhecer",
+          "content": "Se você sabe como os hábitos funcionam, você tem a responsabilidade de usá-los. A ignorância pode ser desculpa. O conhecimento, não.\n\nVocê agora entende o loop do hábito, o poder do anseio e a regra de ouro da mudança. Isso é poder real — ferramentas práticas para reconstruir sua vida.\n\nA mudança não é sobre motivação. É sobre sistemas. E agora você tem os seus."
+        }
+      ]
+    },
+    {
+      "id": "a-psicologia-do-dinheiro",
+      "title": "A Psicologia do Dinheiro",
+      "author": "Morgan Housel",
+      "coverImage": "covers/a-psicologia-do-dinheiro.webp",
+      "gradient": "linear-gradient(135deg, #7b2d8b, #4a1260)",
+      "rating": 4.7,
+      "ratingCount": "1.5k",
+      "categories": [
+        "Finanças Pessoais",
+        "Mindset"
+      ],
+      "readingTime": "14 min",
+      "chaptersCount": 8,
+      "about": "Como o comportamento humano, e não os números, determina o sucesso ou fracasso financeiro de uma pessoa.",
+      "keyTakeaways": [
+        "Ninguém é louco — cada pessoa toma decisões baseadas em suas experiências únicas",
+        "Sorte e risco moldam resultados mais do que qualquer habilidade",
+        "Saber quando parar é uma das virtudes financeiras mais raras",
+        "O poder dos juros compostos exige apenas tempo e consistência",
+        "A verdadeira riqueza é o que você não gasta"
+      ],
+      "authorBio": "Morgan Housel é sócio da Collaborative Fund e ex-colunista do Wall Street Journal. A Psicologia do Dinheiro vendeu mais de 4 milhões de cópias.",
+      "relatedBooks": [
+        "habitos-atomicos",
+        "a-arte-sutil",
+        "mindset"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "Ninguém é Louco",
+          "content": "Cada pessoa toma decisões financeiras baseadas em suas próprias experiências de vida. Ninguém é louco — todos estão agindo com base no que viveram.\n\nPara quem perdeu dinheiro em apostas, as decisões que pareciam racionais naquele momento faziam sentido dentro da sua visão de mundo.\n\nO dinheiro é carregado de emoção. Sempre foi, sempre será."
+        },
+        {
+          "id": 2,
+          "title": "Sorte e Risco",
+          "content": "Dois fatores moldam resultados financeiros mais do que qualquer habilidade: sorte e risco. São forças fora do seu controle.\n\nA indústria das apostas explora essa confusão. Quando você ganha, parece habilidade. Quando perde, parece azar temporário. Mas a casa sempre vence no longo prazo.\n\nHumildade diante do que não controlamos é uma das virtudes financeiras mais importantes."
+        },
+        {
+          "id": 3,
+          "title": "Nunca é Suficiente",
+          "content": "Um dos problemas mais perigosos com dinheiro é não saber quando parar. O ser humano é movido por comparação — sempre há uma aposta maior.\n\nApostadores compulsivos conhecem bem esse sentimento: a vitória nunca é suficiente para parar, e a perda sempre parece recuperável.\n\nDefinir o que é 'suficiente' para você — e realmente acreditar nisso — é um ato revolucionário."
+        },
+        {
+          "id": 4,
+          "title": "O Poder dos Juros Compostos",
+          "content": "A força financeira mais poderosa do mundo não é inteligência nem talento — é o tempo e a consistência.\n\nCada real que você não aposta hoje está trabalhando silenciosamente para o seu futuro. Não existe atalho mais poderoso do que consistência ao longo do tempo.\n\nAs apostas prometem juros compostos instantâneos. A realidade financeira honesta os entrega lentamente — mas de verdade."
+        },
+        {
+          "id": 5,
+          "title": "Ficar Rico vs. Continuar Rico",
+          "content": "Ficar rico e continuar rico são habilidades completamente diferentes. Para ficar rico é preciso coragem e risco. Para continuar rico é preciso humildade e cautela.\n\nMuitas pessoas que ganham grandes quantias perdem tudo porque aplicam a mentalidade errada na hora errada.\n\nA habilidade mais rara em finanças é saber manter."
+        },
+        {
+          "id": 6,
+          "title": "Você e Eu Somos Jogadores Diferentes",
+          "content": "Decisões que fazem sentido para uma pessoa podem ser loucura para outra — cada um está jogando um jogo financeiro diferente.\n\nVer alguém ganhar numa aposta e querer o mesmo é deixar de jogar o seu jogo — que pode ser pagar dívidas, construir estabilidade, estar presente para a família.\n\nConhecer o seu jogo é talvez a decisão financeira mais importante que você pode tomar."
+        },
+        {
+          "id": 7,
+          "title": "O Preço do Progresso",
+          "content": "Toda conquista financeira tem um preço — em paciência, incerteza e sacrifício.\n\nA recuperação financeira após apostas cobra um preço alto: anos de reconstrução, conversas difíceis, privações temporárias. Mas é um preço legítimo por uma recompensa legítima.\n\nVale a pena pagar preços reais por recompensas reais."
+        },
+        {
+          "id": 8,
+          "title": "A Riqueza que Você Não Vê",
+          "content": "A verdadeira riqueza é o que você não gasta. A riqueza real são os ativos que não aparecem: investimentos, reservas, opções futuras.\n\nPara quem está reconstruindo a vida financeira, a riqueza começa a aparecer de forma invisível — na dívida que diminui, na reserva que cresce.\n\nLiberdade real, no fim, é o único luxo que verdadeiramente importa."
+        }
+      ]
+    },
+    {
+      "id": "mindset",
+      "title": "Mindset",
+      "author": "Carol Dweck",
+      "coverImage": "covers/mindset.webp",
+      "gradient": "linear-gradient(135deg, #1565c0, #0d47a1)",
+      "rating": 4.7,
+      "ratingCount": "1.6k",
+      "categories": [
+        "Mindset",
+        "Recuperação"
+      ],
+      "readingTime": "13 min",
+      "chaptersCount": 8,
+      "about": "A pesquisadora Carol Dweck revela como a crença sobre nossas próprias capacidades determina o sucesso em todas as áreas da vida.",
+      "keyTakeaways": [
+        "Mindset fixo acredita que qualidades são imutáveis; mindset de crescimento acredita que podem ser desenvolvidas",
+        "O fracasso não é o oposto do sucesso — é parte do caminho para ele",
+        "Elogiar o esforço, não o talento, desenvolve resiliência",
+        "O cérebro é plástico — novos padrões podem ser aprendidos em qualquer idade",
+        "O 'ainda não' é uma das frases mais poderosas da psicologia humana"
+      ],
+      "authorBio": "Carol Dweck é professora de psicologia em Stanford e uma das pesquisadoras mais influentes do mundo sobre motivação e desenvolvimento humano.",
+      "relatedBooks": [
+        "habitos-atomicos",
+        "o-obstaculo-e-o-caminho",
+        "inteligencia-emocional"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "Os Dois Mindsets",
+          "content": "O mindset fixo acredita que qualidades como inteligência e talento são traços imutáveis. O mindset de crescimento acredita que podem ser desenvolvidas através de esforço e aprendizado.\n\nEssa diferença muda tudo: como você enfrenta desafios, lida com fracassos e persiste diante de obstáculos.\n\nPara quem está em recuperação, a pergunta fundamental é: você acredita que pode mudar?"
+        },
+        {
+          "id": 2,
+          "title": "O Mindset Fixo e a Armadilha da Identidade",
+          "content": "Pessoas com mindset fixo evitam desafios porque o fracasso ameaça sua identidade.\n\nO vício em apostas frequentemente coexiste com um mindset fixo: 'sou assim, não consigo mudar'. Essas crenças não são fatos — são histórias para se proteger do risco de tentar e falhar.\n\nReconhecer que você tem um mindset fixo em certas áreas já é o começo da mudança."
+        },
+        {
+          "id": 3,
+          "title": "O Mindset de Crescimento na Prática",
+          "content": "No mindset de crescimento, o fracasso não é o oposto do sucesso — é parte do caminho para ele. Cada recaída é informação valiosa sobre o que precisa ser ajustado.\n\nUm apostador em recuperação que escorrega e recomeça não é um fracasso — é alguém que está aprendendo um dos processos mais difíceis que existem.\n\nO esforço deixa de ser sinal de fraqueza e passa a ser o caminho para a maestria."
+        },
+        {
+          "id": 4,
+          "title": "Como o Mindset se Desenvolve",
+          "content": "Nosso mindset se forma através de como recebemos elogios e críticas. Crianças elogiadas pelo esforço desenvolvem mindset de crescimento.\n\nA boa notícia é que o mindset pode ser mudado em qualquer fase da vida. Não é destino — é hábito mental.\n\nVocê pode começar a cultivar o mindset de crescimento hoje, nesta situação, com o que tem."
+        },
+        {
+          "id": 5,
+          "title": "Mindset nos Relacionamentos",
+          "content": "O mindset fixo contamina os relacionamentos — acredita que devem ser perfeitos e sem esforço.\n\nO mindset de crescimento vê os relacionamentos como algo que se constrói. Para quem está reconstruindo relações danificadas pelas apostas, essa perspectiva é essencial.\n\nA reconstrução leva tempo e esforço, e isso é completamente normal."
+        },
+        {
+          "id": 6,
+          "title": "Mindset e Liderança",
+          "content": "Líderes com mindset fixo evitam feedback honesto. Líderes com mindset de crescimento buscam ativamente feedback e veem o desenvolvimento como prioridade.\n\nVocê é o líder da sua vida. Buscar ajuda não é fraqueza — é liderança inteligente.\n\nOuvir feedback difícil de pessoas que se importam com você não é humilhação — é sabedoria."
+        },
+        {
+          "id": 7,
+          "title": "Mudando Seu Mindset",
+          "content": "Ter um mindset de crescimento não significa ignorar fraquezas. Significa encarar a realidade com honestidade e acreditar que o esforço pode mudar os resultados.\n\nO processo começa com consciência — notar quando a voz do mindset fixo aparece: 'não consigo', 'sou assim mesmo'.\n\nQuando você ouve essa voz, pode escolher responder: 'Ainda não consigo — mas posso aprender.' Esse 'ainda não' é uma das frases mais poderosas da psicologia humana."
+        },
+        {
+          "id": 8,
+          "title": "O Poder de Acreditar que Você Pode Mudar",
+          "content": "As pessoas que mais mudam são as que acreditam que podem mudar. Neuroplasticidade confirma isso em nível biológico.\n\nVocê não é prisioneiro dos seus hábitos passados, das suas decisões anteriores ou da sua história com apostas.\n\nVocê é, a cada momento, a soma das escolhas que ainda está por fazer."
+        }
+      ]
+    },
+    {
+      "id": "o-obstaculo-e-o-caminho",
+      "title": "O Obstáculo é o Caminho",
+      "author": "Ryan Holiday",
+      "coverImage": "covers/o-obstaculo-e-o-caminho.webp",
+      "gradient": "linear-gradient(135deg, #e65100, #bf360c)",
+      "rating": 4.6,
+      "ratingCount": "1.3k",
+      "categories": [
+        "Mindset",
+        "Recuperação"
+      ],
+      "readingTime": "13 min",
+      "chaptersCount": 8,
+      "about": "Baseado na filosofia estoica, este livro ensina como transformar adversidades em vantagens e encontrar força onde outros veem derrota.",
+      "keyTakeaways": [
+        "Você não controla o que acontece, mas controla o que isso significa para você",
+        "Aceitar a realidade sem negação é o alicerce de qualquer mudança",
+        "Cada obstáculo enfrentado com coragem se torna um professor",
+        "A vontade interior jamais pode ser tirada sem sua permissão",
+        "Sua resposta aos obstáculos inspira quem está ao seu redor"
+      ],
+      "authorBio": "Ryan Holiday é autor e estudioso do estoicismo. Seus livros venderam milhões de cópias no mundo todo.",
+      "relatedBooks": [
+        "mindset",
+        "a-arte-sutil",
+        "inteligencia-emocional"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "A Disciplina da Percepção",
+          "content": "Você não controla o que acontece, mas controla o que isso significa para você. Essa é a essência do estoicismo.\n\nDuas pessoas podem perder tudo nas apostas e ter reações completamente diferentes: uma vê o fim, a outra vê o ponto de virada.\n\nTreinar sua percepção é o primeiro passo para transformar obstáculos em caminhos."
+        },
+        {
+          "id": 2,
+          "title": "Reconhecer e Aceitar a Realidade",
+          "content": "Os estoicos tinham o conceito de amor fati — amor pelo destino, incluindo as partes dolorosas. Não resignação passiva, mas aceitação ativa.\n\nPara quem perdeu dinheiro e relacionamentos nas apostas, a aceitação da realidade é o alicerce de tudo. Enquanto houver negação, não há recuperação real.\n\nA realidade não se importa com seus sentimentos sobre ela. Mas o que você faz com ela, importa."
+        },
+        {
+          "id": 3,
+          "title": "A Arte da Ação Persistente",
+          "content": "A virtude não está nas palavras ou intenções, mas nas ações persistentes diante da adversidade.\n\nDemóstenes tinha uma fala prejudicada. Treinou colocando pedras na boca. O obstáculo se tornou o método de treinamento.\n\nCada dia difícil que você atravessa sem apostar não é apenas sobrevivência — é treinamento."
+        },
+        {
+          "id": 4,
+          "title": "O Obstáculo como Professor",
+          "content": "Os maiores obstáculos da sua vida são seus maiores professores. Não apesar das dificuldades, mas por causa delas.\n\nO vício em apostas ensina lições que dificilmente seriam aprendidas de outra forma: os limites da força de vontade, o valor genuíno do dinheiro, a importância dos relacionamentos.\n\nQuem nunca enfrentou um obstáculo real raramente desenvolve profundidade de caráter."
+        },
+        {
+          "id": 5,
+          "title": "Persistência e Iteração",
+          "content": "A chave não era nunca falhar — era nunca parar de tentar de forma diferente.\n\nThomas Edison falhou mais de mil vezes antes de inventar a lâmpada. Cada tentativa fracassada era informação, não derrota.\n\nEm recuperação, uma recaída não é o fim. É informação sobre o que precisa ser ajustado."
+        },
+        {
+          "id": 6,
+          "title": "A Vontade Interior Inabalável",
+          "content": "Saúde, reputação, dinheiro — podem ser tirados. Mas a vontade interior, a integridade, a escolha de como responder — nunca pode ser tirada sem sua permissão.\n\nViktor Frankl sobreviveu aos campos de concentração porque manteve essa vontade interior intacta.\n\nNinguém pode tirar sua recuperação de você. Só você pode abandoná-la."
+        },
+        {
+          "id": 7,
+          "title": "Preparar-se para o Inesperado",
+          "content": "Os estoicos praticavam a premeditatio malorum — a premeditação dos males. Não pessimismo, mas preparação mental.\n\nPara a prevenção de recaídas: antecipar situações de risco, planejar respostas, preparar-se mentalmente para dias difíceis antes que cheguem.\n\nVisualize o obstáculo. Prepare a resposta. Enfrente sem pânico."
+        },
+        {
+          "id": 8,
+          "title": "O Legado que Você Constrói",
+          "content": "Nossa resposta aos obstáculos não é apenas sobre nós — é sobre quem observa e aprende com nossa jornada.\n\nSeu obstáculo, enfrentado com integridade, pode se tornar o caminho de outra pessoa.\n\nO obstáculo não está no caminho. O obstáculo é o caminho."
+        }
+      ]
+    },
+    {
+      "id": "inteligencia-emocional",
+      "title": "Inteligência Emocional",
+      "author": "Daniel Goleman",
+      "coverImage": "covers/inteligencia-emocional.webp",
+      "gradient": "linear-gradient(135deg, #00695c, #004d40)",
+      "rating": 4.6,
+      "ratingCount": "1.4k",
+      "categories": [
+        "Recuperação",
+        "Relacionamentos",
+        "Mindset"
+      ],
+      "readingTime": "14 min",
+      "chaptersCount": 8,
+      "about": "O psicólogo Daniel Goleman revela por que o QI não é suficiente para o sucesso — e como a inteligência emocional determina quem prospera.",
+      "keyTakeaways": [
+        "A inteligência emocional prevê o sucesso melhor do que o QI",
+        "A amígdala pode sequestrar o cérebro racional em momentos de intensa emoção",
+        "Nomear uma emoção reduz neurologicamente sua intensidade",
+        "Autorregulação não é suprimir emoções — é canalizá-las construtivamente",
+        "A inteligência emocional pode ser desenvolvida em qualquer idade"
+      ],
+      "authorBio": "Daniel Goleman é psicólogo e jornalista científico. Inteligência Emocional ficou 80 semanas na lista de bestsellers do New York Times.",
+      "relatedBooks": [
+        "mindset",
+        "as-5-linguagens-do-amor",
+        "o-poder-do-habito"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "O Que é Inteligência Emocional",
+          "content": "O QI prevê apenas uma fração do sucesso na vida. O que realmente diferencia as pessoas que prosperam é a inteligência emocional: a capacidade de reconhecer, entender e gerenciar emoções.\n\nA inteligência emocional tem cinco componentes: autoconsciência, autorregulação, motivação, empatia e habilidades sociais.\n\nPara quem lida com vício, desenvolver inteligência emocional não é opcional — é o núcleo da recuperação."
+        },
+        {
+          "id": 2,
+          "title": "O Sequestro da Amígdala",
+          "content": "Em momentos de intensa emoção, a amígdala pode literalmente sequestrar o córtex pré-frontal e assumir o controle do comportamento.\n\nPara apostadores, gatilhos emocionais — estresse, raiva, euforia — podem desencadear esse sequestro antes que a razão intervenha.\n\nReconhecer quando isso está acontecendo é o primeiro passo para interrompê-lo."
+        },
+        {
+          "id": 3,
+          "title": "Autoconsciência: Conhecer-se por Dentro",
+          "content": "A base de toda inteligência emocional é a autoconsciência — observar suas próprias emoções em tempo real sem ser dominado por elas.\n\nNomear uma emoção é neurologicamente poderoso: ao rotular o que sentimos, ativamos o córtex pré-frontal e reduzimos a atividade da amígdala.\n\n'Estou sentindo ansiedade agora' é mais poderoso do que você imagina."
+        },
+        {
+          "id": 4,
+          "title": "Autorregulação: Gerenciar as Tempestades Internas",
+          "content": "Autorregulação não é suprimir emoções — é canalizá-las de forma construtiva.\n\nPara quem usou apostas como válvula de escape emocional, desenvolver autorregulação é transformador. As emoções difíceis podem ser atravessadas com outras ferramentas.\n\nA emoção não precisa mais ser anestesiada — pode ser vivida e superada."
+        },
+        {
+          "id": 5,
+          "title": "Motivação Intrínseca",
+          "content": "Pessoas emocionalmente inteligentes são movidas por motivação intrínseca — o desejo de crescer e contribuir — em vez de apenas recompensas externas.\n\nO vício em apostas busca recompensa imediata e externa. Reconstruir a capacidade de encontrar satisfação em progressos lentos e genuínos é um dos trabalhos mais importantes da recuperação."
+        },
+        {
+          "id": 6,
+          "title": "Empatia: Sentir o Outro",
+          "content": "O vício frequentemente embota a empatia: quando consumido pela compulsão, a pessoa perde a capacidade de perceber o impacto nas pessoas ao redor.\n\nRecuperar a empatia — reaprender a sentir o que os outros sentem — é parte essencial de reparar os relacionamentos danificados.\n\nEmpatia não é fraqueza. É a base de todas as conexões humanas genuínas."
+        },
+        {
+          "id": 7,
+          "title": "Habilidades Sociais e Relacionamentos",
+          "content": "Pessoas com altas habilidades sociais não são necessariamente as mais carismáticas — são as mais honestas, presentes e genuínas nas interações.\n\nPara quem está reconstruindo relacionamentos após o vício: não é preciso ser perfeito, é preciso ser real.\n\nAutenticidade constrói mais confiança do que qualquer habilidade de comunicação."
+        },
+        {
+          "id": 8,
+          "title": "Desenvolver Inteligência Emocional é Possível",
+          "content": "Ao contrário do QI, a inteligência emocional pode ser desenvolvida em qualquer idade. O cérebro é plástico.\n\nCada vez que você reconhece uma emoção antes de agir impulsivamente, está desenvolvendo autoconsciência. Cada vez que atravessa um momento difícil sem recorrer às apostas, está fortalecendo a autorregulação.\n\nA inteligência emocional não é um dom. É uma prática diária — e você já está praticando."
+        }
+      ]
+    },
+    {
+      "id": "as-5-linguagens-do-amor",
+      "title": "As 5 Linguagens do Amor",
+      "author": "Gary Chapman",
+      "coverImage": "covers/as-5-linguagens-do-amor.webp",
+      "gradient": "linear-gradient(135deg, #c62828, #b71c1c)",
+      "rating": 4.7,
+      "ratingCount": "2.0k",
+      "categories": [
+        "Relacionamentos",
+        "Recuperação"
+      ],
+      "readingTime": "13 min",
+      "chaptersCount": 8,
+      "about": "O conselheiro matrimonial Gary Chapman revela por que tantos relacionamentos falham mesmo com amor genuíno — e como aprender a falar a linguagem certa.",
+      "keyTakeaways": [
+        "Cada pessoa tem uma linguagem emocional primária para receber e expressar amor",
+        "Amar bem é uma habilidade que pode ser aprendida",
+        "As cinco linguagens são: palavras de afirmação, tempo de qualidade, presentes, atos de serviço e toque físico",
+        "Observe como a pessoa expressa amor — geralmente é como ela quer receber",
+        "Amor duradouro é uma escolha e um compromisso, não apenas um sentimento"
+      ],
+      "authorBio": "Gary Chapman é conselheiro matrimonial com mais de 40 anos de experiência. As 5 Linguagens do Amor vendeu mais de 20 milhões de cópias.",
+      "relatedBooks": [
+        "inteligencia-emocional",
+        "o-poder-do-habito",
+        "mindset"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "Por Que o Amor Não é Suficiente",
+          "content": "Casais que se amam profundamente podem se sentir completamente desamados. Cada pessoa tem uma linguagem emocional primária — uma forma específica de receber amor.\n\nQuando duas pessoas falam linguagens diferentes, o amor existe mas não é comunicado de forma que o outro entenda.\n\nPara quem está reconstruindo relacionamentos após o vício, entender as linguagens do amor é urgente."
+        },
+        {
+          "id": 2,
+          "title": "Primeira Linguagem: Palavras de Afirmação",
+          "content": "Para algumas pessoas, nada nutre mais o amor do que ouvir palavras genuínas de encorajamento e apreciação.\n\nDurante o período de vício, quantas palavras duras foram ditas? Quantas promessas quebradas?\n\nReconstruir com palavras de afirmação significa criar um novo padrão consistente de reconhecimento genuíno."
+        },
+        {
+          "id": 3,
+          "title": "Segunda Linguagem: Tempo de Qualidade",
+          "content": "O vício em apostas rouba presença. Mesmo quando o apostador está fisicamente em casa, está mentalmente no jogo.\n\nPara familiares cuja linguagem é o tempo de qualidade, essa ausência presente é devastadora.\n\nRecuperar esse relacionamento exige presença real — não perfeita, mas genuína e consistente."
+        },
+        {
+          "id": 4,
+          "title": "Terceira Linguagem: Presentes",
+          "content": "Receber presentes não é materialismo — para algumas pessoas é a linguagem visual do amor.\n\nChapman é claro: o presente mais valioso frequentemente não custa dinheiro. Uma carta escrita à mão, tempo dedicado a fazer algo especial.\n\nA reconstrução financeira e emocional podem caminhar juntas."
+        },
+        {
+          "id": 5,
+          "title": "Quarta Linguagem: Atos de Serviço",
+          "content": "Durante o vício, responsabilidades domésticas e familiares foram negligenciadas. Para parceiros cuja linguagem são os atos de serviço, cada promessa quebrada foi uma mensagem de desamor.\n\nReconstruir com atos de serviço é poderoso porque é concreto, visível e consistente.\n\nÉ exatamente o que a confiança quebrada precisa para ser restaurada."
+        },
+        {
+          "id": 6,
+          "title": "Quinta Linguagem: Toque Físico",
+          "content": "O estresse e a tensão do período de vício frequentemente criam distância física nos relacionamentos. Parceiros magoados se fecham.\n\nReconectar através do toque físico gentil e genuíno pode ser um dos caminhos mais diretos para restaurar a intimidade emocional.\n\nNão necessariamente sexual — um abraço genuíno comunica mais do que horas de conversa."
+        },
+        {
+          "id": 7,
+          "title": "Descobrindo Sua Linguagem e a do Outro",
+          "content": "Observe como a pessoa expressa amor aos outros — geralmente expressamos da forma que gostaríamos de receber.\n\nPara quem está em recuperação, essa descoberta pode ser reveladora: talvez você nunca tenha realmente compreendido o que o outro precisava.\n\nO vício criou anos de comunicação emocional perdida. Agora você pode recuperá-la."
+        },
+        {
+          "id": 8,
+          "title": "Amor como Escolha",
+          "content": "O amor romântico não é apenas um sentimento — é uma escolha e um compromisso. O 'apaixonamento' inicial dura em média dois anos. Depois disso, o amor real é construído conscientemente.\n\nPara relacionamentos que sobreviveram ao vício, essa perspectiva é libertadora. O amor que permanece após tudo que aconteceu não é frágil — é o tipo mais forte que existe.\n\nAmor não é o que você sente. É o que você faz, consistentemente, pelo outro."
+        }
+      ]
+    },
+    {
+      "id": "a-arte-sutil",
+      "title": "A Arte Sutil de Ligar o F*da-se",
+      "author": "Mark Manson",
+      "coverImage": "covers/a-arte-sutil.jpg",
+      "gradient": "linear-gradient(135deg, #37474f, #263238)",
+      "rating": 4.5,
+      "ratingCount": "1.9k",
+      "categories": [
+        "Mindset",
+        "Recuperação"
+      ],
+      "readingTime": "13 min",
+      "chaptersCount": 8,
+      "about": "Um guia honesto e irreverente sobre como parar de se preocupar com tudo e focar no que realmente importa na vida.",
+      "keyTakeaways": [
+        "A chave para uma boa vida é escolher cuidadosamente com o que você se importa",
+        "A felicidade vem de ter problemas que valem a pena resolver",
+        "Assumir responsabilidade total pela sua vida é o ato mais empoderador possível",
+        "A dúvida saudável sobre suas próprias crenças protege contra recaídas",
+        "Dizer não protege o que você mais valoriza"
+      ],
+      "authorBio": "Mark Manson é blogueiro e autor americano. A Arte Sutil de Ligar o F*da-se vendeu mais de 13 milhões de cópias e foi traduzido para mais de 50 idiomas.",
+      "relatedBooks": [
+        "o-obstaculo-e-o-caminho",
+        "mindset",
+        "a-psicologia-do-dinheiro"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "Não Ligue para Tudo",
+          "content": "A chave para uma boa vida é escolher cuidadosamente com o que você vai se importar — e deliberadamente ignorar o resto.\n\nIsso não é apatia. É prioridade radical. Quando você se importa com tudo, sua energia se dispersa.\n\nPara quem está em recuperação: você não precisa resolver tudo de uma vez. Escolha o que importa agora."
+        },
+        {
+          "id": 2,
+          "title": "A Felicidade Vem dos Problemas",
+          "content": "A felicidade não é a ausência de problemas — vem de ter problemas que valem a pena resolver.\n\nApostas criam problemas caóticos e destrutivos. A recuperação cria problemas difíceis, mas com direção e significado.\n\nVocê sempre terá problemas. A questão é quais."
+        },
+        {
+          "id": 3,
+          "title": "Você Não é Especial",
+          "content": "A cultura moderna cria pessoas frágeis que entram em colapso diante do fracasso porque acreditam que não deveriam falhar.\n\nAceitar que você é comum — que vai errar, que precisa de ajuda — é paradoxalmente libertador.\n\nVocê não precisa ser extraordinário para merecer uma vida boa."
+        },
+        {
+          "id": 4,
+          "title": "O Valor da Responsabilidade",
+          "content": "Culpa é sobre quem causou o problema. Responsabilidade é sobre quem vai resolver.\n\nVocê pode não ter culpa de tudo que aconteceu na sua vida — mas é 100% responsável por como responde a isso.\n\nNinguém mais pode fazer sua recuperação por você."
+        },
+        {
+          "id": 5,
+          "title": "A Dúvida como Virtude",
+          "content": "O apostador compulsivo frequentemente opera com certezas perigosas: 'desta vez vai ser diferente', 'eu sei quando parar'.\n\nCultivar dúvida saudável sobre suas próprias crenças é proteção contra recaídas.\n\nA humildade intelectual não é fraqueza. É a base do crescimento real."
+        },
+        {
+          "id": 6,
+          "title": "O Fracasso é o Caminho",
+          "content": "Você vai fracassar. Muitas vezes. E isso não apenas está tudo bem — é necessário. O fracasso é o mecanismo pelo qual aprendemos.\n\nA diferença entre pessoas que chegam onde querem e as que não chegam não é a ausência de fracasso — é a velocidade com que levantam.\n\nFracasse mais rápido. Levante mais rápido. Aprenda mais rápido."
+        },
+        {
+          "id": 7,
+          "title": "A Importância de Dizer Não",
+          "content": "Dizer não às apostas é dizer sim à sua família, às suas finanças, à sua saúde mental.\n\nDizer não a amigos que ainda apostam é dizer sim à sua recuperação.\n\nAprenda a dizer não sem culpa. É um ato de amor próprio e clareza de valores."
+        },
+        {
+          "id": 8,
+          "title": "A Contemplação da Morte como Guia",
+          "content": "Quando você imagina estar no fim da sua vida olhando para trás, o que vai importar?\n\nPoucos no leito de morte se arrependem de não ter apostado mais. Mas muitos se arrependem de não ter estado mais presentes.\n\nVocê tem a chance — agora — de construir uma vida da qual se orgulhará no fim."
+        }
+      ]
+    },
+    {
+      "id": "rapido-e-devagar",
+      "title": "Rápido e Devagar: Duas Formas de Pensar",
+      "author": "Daniel Kahneman",
+      "coverImage": "covers/rapido-e-devagar.jpg",
+      "gradient": "linear-gradient(135deg, #1a237e, #283593)",
+      "rating": 4.7,
+      "ratingCount": "1.7k",
+      "categories": [
+        "Mindset",
+        "Recuperação"
+      ],
+      "readingTime": "14 min",
+      "chaptersCount": 8,
+      "about": "O psicólogo vencedor do Nobel revela os dois sistemas que governam nosso pensamento — e por que tomamos decisões irracionais mesmo quando acreditamos ser racionais.",
+      "keyTakeaways": [
+        "O Sistema 1 é rápido e emocional; o Sistema 2 é lento e racional",
+        "Apostas exploram o Sistema 1 antes que o Sistema 2 possa intervir",
+        "A aversão à perda é o dobro do prazer de ganhar",
+        "A ilusão de controle faz apostadores acreditarem que têm um sistema vencedor",
+        "O enquadramento da informação muda completamente nossas decisões"
+      ],
+      "authorBio": "Daniel Kahneman é psicólogo e economista comportamental, vencedor do Nobel de Economia. É professor emérito em Princeton.",
+      "relatedBooks": [
+        "o-poder-do-habito",
+        "mindset",
+        "a-arte-sutil"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "Dois Sistemas",
+          "content": "O cérebro opera com dois sistemas. O Sistema 1 é rápido, automático e emocional. O Sistema 2 é lento, deliberado e racional.\n\nO Sistema 1 domina a maioria das decisões. Apostas exploram exatamente isso — criam ambientes onde ele assume o controle antes que o Sistema 2 possa intervir.\n\nReconhecer que você tem dois sistemas é o primeiro passo para ativar o certo na hora certa."
+        },
+        {
+          "id": 2,
+          "title": "O Viés da Disponibilidade",
+          "content": "O Sistema 1 julga a probabilidade de um evento pela facilidade com que exemplos vêm à mente.\n\nA indústria das apostas celebra vitórias publicamente e esconde perdas. Seu Sistema 1 conclui que ganhar é comum. Não é.\n\nA realidade estatística é invisível para o Sistema 1. Por isso a lógica sozinha não resolve o vício."
+        },
+        {
+          "id": 3,
+          "title": "O Efeito Halo e a Ilusão de Controle",
+          "content": "Um site de apostas com design profissional parece confiável. Um comentarista que acertou uma previsão parece sábio.\n\nApostadores também desenvolvem a ilusão de controle — a crença de que habilidade influencia resultados puramente aleatórios.\n\nO Sistema 2, quando ativado, destrói essa ilusão facilmente."
+        },
+        {
+          "id": 4,
+          "title": "Aversão à Perda",
+          "content": "A dor de perder R$100 é psicologicamente o dobro do prazer de ganhar R$100. Isso explica o comportamento de recuperar perdas.\n\nNão é ganância. É neurologia. A aversão à perda garante que você sempre termine tentando voltar ao zero.\n\nAs apostas foram projetadas para explorar esse mecanismo com precisão cirúrgica."
+        },
+        {
+          "id": 5,
+          "title": "O Efeito do Enquadramento",
+          "content": "A forma como uma informação é apresentada muda completamente nossa decisão.\n\nPlataformas de apostas são mestras no enquadramento: 'bônus de R$500', 'aposta grátis', 'cashback' — tudo enquadrado para parecer ganho, nunca perda.\n\nSeu Sistema 2 sabe que não existe almoço grátis. Seu Sistema 1 já clicou antes de você perceber."
+        },
+        {
+          "id": 6,
+          "title": "A Falácia do Planejamento",
+          "content": "O Sistema 1 é otimista por natureza. Apostadores planejam 'só uma aposta' e terminam horas depois.\n\nA solução é a 'visão externa': em vez de perguntar 'como vai ser desta vez?', pergunte 'o que acontece com a maioria das pessoas nessa situação?'\n\nA resposta honesta para apostas compulsivas é sempre a mesma: a casa vence."
+        },
+        {
+          "id": 7,
+          "title": "Confiança Excessiva",
+          "content": "O Sistema 1 gera um senso de certeza que frequentemente não corresponde à realidade.\n\nEm domínios aleatórios como resultados esportivos, experiência não melhora previsões. Você não fica melhor em prever o imprevisível.\n\nFica apenas mais confiante — e mais exposto."
+        },
+        {
+          "id": 8,
+          "title": "O Eu que Experimenta e o Eu que Lembra",
+          "content": "O eu que lembra domina nossas decisões — e é profundamente irracional. Uma pequena vitória no final cria uma memória positiva mesmo após grandes perdas.\n\nAs apostas exploram isso: terminam com pequenas vitórias que criam memórias de 'quase ganhou', trazendo você de volta.\n\nConhecer esse mecanismo é a primeira defesa contra ele."
+        }
+      ]
+    },
+    {
+      "id": "garra",
+      "title": "Garra: O Poder da Paixão e da Perseverança",
+      "author": "Angela Duckworth",
+      "coverImage": "covers/garra.jpg",
+      "gradient": "linear-gradient(135deg, #4a148c, #6a1b9a)",
+      "rating": 4.6,
+      "ratingCount": "1.4k",
+      "categories": [
+        "Mindset",
+        "Recuperação"
+      ],
+      "readingTime": "13 min",
+      "chaptersCount": 8,
+      "about": "A pesquisadora Angela Duckworth revela que o segredo do sucesso não é talento — é garra: a combinação de paixão e perseverança por objetivos de longo prazo.",
+      "keyTakeaways": [
+        "Garra é mais preditora de sucesso do que talento ou QI",
+        "O esforço conta duas vezes: constrói habilidade e transforma habilidade em realização",
+        "Interesse genuíno é a base da garra sustentada",
+        "Esperança ativa — não passiva — é o componente mais crítico da garra",
+        "Garra pode ser desenvolvida em qualquer idade através de prática deliberada"
+      ],
+      "authorBio": "Angela Duckworth é psicóloga e professora na Universidade da Pensilvânia. Fundou o Character Lab, organização dedicada ao desenvolvimento do caráter em jovens.",
+      "relatedBooks": [
+        "mindset",
+        "o-obstaculo-e-o-caminho",
+        "habitos-atomicos"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "O Que é Garra",
+          "content": "Após estudar cadetes militares e estudantes, Duckworth descobriu que o melhor preditor de sucesso não era QI nem talento — era garra: ter paixão e perseverança por objetivos de longo prazo.\n\nNão é o dia 1 que define quem consegue parar. É o dia 47, o dia 103, o dia depois de uma recaída.\n\nGarra é o que mantém você de volta ao caminho quando tudo dentro de você quer desistir."
+        },
+        {
+          "id": 2,
+          "title": "Talento vs. Esforço",
+          "content": "A sociedade supervaloriza o talento e subestima o esforço. Duckworth propõe: Talento × Esforço = Habilidade. Habilidade × Esforço = Realização. O esforço conta duas vezes.\n\nIsso destrói a narrativa do 'não tenho força de vontade suficiente'. Força de vontade é uma habilidade desenvolvida com prática.\n\nCada dia limpo é um treino. A garra se constrói, não se nasce com ela."
+        },
+        {
+          "id": 3,
+          "title": "Interesse: A Base da Garra",
+          "content": "Garra começa com interesse genuíno. E esse interesse se desenvolve através de experiências, exploração e tempo — não surge do nada.\n\nPara quem está em recuperação, encontrar novos interesses genuínos não é luxo — é necessidade clínica.\n\nO que você sempre quis explorar mas as apostas consumiam seu tempo e dinheiro?"
+        },
+        {
+          "id": 4,
+          "title": "Prática Deliberada",
+          "content": "Pessoas com garra não apenas praticam — praticam deliberadamente. Identificam sua fraqueza específica, trabalham nela com foco total e buscam feedback.\n\nAplicado à recuperação: não basta tentar não apostar. Identifique o gatilho específico que mais te derruba e crie um plano de resposta detalhado.\n\nRecuperação com garra é ativa, não passiva."
+        },
+        {
+          "id": 5,
+          "title": "Propósito: Conectar ao Maior",
+          "content": "Garra sustentada exige propósito — a convicção de que o que você faz importa para além de você mesmo.\n\nQuem é a pessoa para quem você está fazendo isso? Seus filhos? Seu parceiro? Você mesmo?\n\nConectar sua recuperação a um propósito maior transforma a motivação de curto prazo em comprometimento de longo prazo."
+        },
+        {
+          "id": 6,
+          "title": "Esperança: A Garra nos Momentos Difíceis",
+          "content": "Após uma recaída, duas narrativas são possíveis: 'Falhei porque sou fraco' ou 'Falhei — o que faço diferente agora?'\n\nA primeira destrói a garra. A segunda a fortalece.\n\nA esperança ativa é uma escolha — e pode ser praticada."
+        },
+        {
+          "id": 7,
+          "title": "Cultivando Garra de Fora para Dentro",
+          "content": "Garra pode ser desenvolvida através do ambiente: fazer parte de uma cultura de perseverança, ter mentores com garra, criar estruturas de comprometimento.\n\nComunidades de apoio e programas estruturados não são muletas — são os andaimes que constroem sua garra enquanto ela ainda está sendo desenvolvida."
+        },
+        {
+          "id": 8,
+          "title": "A Escala da Garra e Onde Você Está",
+          "content": "Garra não é fixa. Aumenta com a idade e com experiências de superação deliberada.\n\nCada vez que você atravessa um dia difícil na recuperação, sua garra aumenta — mensurável, comprovadamente.\n\nVocê não está apenas evitando apostas. Está se tornando uma pessoa com mais garra. E isso vai mudar tudo."
+        }
+      ]
+    },
+    {
+      "id": "em-busca-de-sentido",
+      "title": "Em Busca de Sentido",
+      "author": "Viktor Frankl",
+      "coverImage": "covers/em-busca-de-sentido.jpg",
+      "gradient": "linear-gradient(135deg, #33691e, #1b5e20)",
+      "rating": 4.9,
+      "ratingCount": "2.3k",
+      "categories": [
+        "Recuperação",
+        "Propósito"
+      ],
+      "readingTime": "13 min",
+      "chaptersCount": 8,
+      "about": "O psiquiatra sobrevivente do Holocausto descreve sua experiência nos campos de concentração e a teoria que nasceu dela: mesmo nas piores circunstâncias, o ser humano pode encontrar sentido.",
+      "keyTakeaways": [
+        "A última liberdade humana é escolher a própria atitude diante de qualquer circunstância",
+        "A motivação primária humana é a busca por sentido, não por prazer ou poder",
+        "O vácuo existencial frequentemente alimenta comportamentos compulsivos",
+        "Sentido pode ser encontrado através de criação, amor ou atitude diante do sofrimento",
+        "Sofrimento inevitável só tem sentido quando transformado em crescimento"
+      ],
+      "authorBio": "Viktor Frankl foi psiquiatra austríaco e sobrevivente de Auschwitz. Fundou a logoterapia e escreveu mais de 39 livros. Em Busca de Sentido vendeu mais de 16 milhões de cópias.",
+      "relatedBooks": [
+        "o-obstaculo-e-o-caminho",
+        "a-coragem-de-ser-imperfeito",
+        "garra"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "O Inferno que Gerou uma Teoria",
+          "content": "Viktor Frankl chegou a Auschwitz com um manuscrito escondido no casaco. O manuscrito foi destruído. Em seu lugar nasceu algo maior — a confirmação viva de sua teoria.\n\nNos campos, Frankl observou que os sobreviventes não eram necessariamente os mais fortes fisicamente. Eram os que encontravam um motivo para continuar.\n\nO sentido sustentava a vida quando tudo mais havia sido tirado."
+        },
+        {
+          "id": 2,
+          "title": "A Logoterapia: Curar pelo Sentido",
+          "content": "Frankl argumentava que a motivação primária humana é a busca por sentido. Quando o sentido está ausente, surge o vácuo existencial.\n\nO vício em apostas frequentemente nasce desse vácuo: quando a vida perdeu significado, a adrenalina artificial preenche temporariamente o buraco.\n\nA cura real exige encontrar sentido genuíno."
+        },
+        {
+          "id": 3,
+          "title": "O Sofrimento como Escolha",
+          "content": "O sofrimento evitável deve ser evitado. Mas quando inevitável, a única liberdade restante é a atitude que você escolhe diante dele.\n\nO dano causado pelas apostas é real e doloroso. Não pode ser desfeito com pensamento positivo.\n\nMas a atitude diante desse sofrimento — vergonha paralisante ou aprendizado transformador — é uma escolha que permanece livre."
+        },
+        {
+          "id": 4,
+          "title": "Três Caminhos para o Sentido",
+          "content": "Frankl identificou três fontes de sentido: criar uma obra, experimentar algo ou encontrar alguém, e a atitude diante do sofrimento inevitável.\n\nNenhum desses caminhos requer circunstâncias perfeitas. O sentido está disponível agora, nesta circunstância, com o que você tem.\n\nSua recuperação em si é um caminho de sentido — tornando-se alguém que ajuda outros que ainda estão no fundo."
+        },
+        {
+          "id": 5,
+          "title": "O Vácuo Existencial Moderno",
+          "content": "Frankl previu com décadas de antecedência a crise de sentido da modernidade, preenchida com tédio, depressão e comportamentos compulsivos.\n\nA aposta é a solução perfeita para o vácuo existencial: cria urgência artificial, comunidade falsa, propósito ilusório.\n\nA recuperação duradoura exige substituir o sentido descartável pelo sentido genuíno."
+        },
+        {
+          "id": 6,
+          "title": "A Autodistância e o Humor",
+          "content": "Frankl descobriu que o humor era uma arma de sobrevivência nos campos. A capacidade de criar distância da própria situação preservava a sanidade.\n\nEm recuperação, a autodistância é útil: 'Lá está o meu cérebro pedindo dopamina de novo.' Não 'eu quero apostar' mas 'meu cérebro condicionado está disparando'.\n\nEssa distância de uma vírgula muda tudo."
+        },
+        {
+          "id": 7,
+          "title": "Liberdade e Responsabilidade",
+          "content": "Frankl insistia que liberdade e responsabilidade são inseparáveis. Liberdade sem responsabilidade é arbitrariedade.\n\nVocê é livre para escolher sua resposta a cada gatilho, a cada impulso. E com essa liberdade vem responsabilidade total pelos resultados.\n\nSe você é responsável, você tem poder. Se é apenas vítima, não tem nenhum."
+        },
+        {
+          "id": 8,
+          "title": "O Sentido que Espera por Você",
+          "content": "Frankl acreditava que o sentido não se inventa — se descobre. A pergunta não é 'qual é o sentido da vida?' mas 'qual é o sentido desta situação para mim agora?'\n\nSua recuperação tem um sentido único que só você pode descobrir e cumprir.\n\nFrankl sobreviveu ao pior que a humanidade produziu porque tinha um sentido à frente. Você tem o seu esperando."
+        }
+      ]
+    },
+    {
+      "id": "a-coragem-de-ser-imperfeito",
+      "title": "A Coragem de Ser Imperfeito",
+      "author": "Brené Brown",
+      "coverImage": "covers/a-coragem-de-ser-imperfeito.jpg",
+      "gradient": "linear-gradient(135deg, #880e4f, #ad1457)",
+      "rating": 4.7,
+      "ratingCount": "1.6k",
+      "categories": [
+        "Recuperação",
+        "Relacionamentos"
+      ],
+      "readingTime": "13 min",
+      "chaptersCount": 8,
+      "about": "A pesquisadora Brené Brown revela como a vulnerabilidade — não a força — é o caminho para conexões genuínas, criatividade e uma vida com significado.",
+      "keyTakeaways": [
+        "Vulnerabilidade é o núcleo de todas as conexões genuínas",
+        "Vergonha diz 'eu sou ruim'; culpa diz 'eu fiz algo ruim' — e só a culpa leva à mudança",
+        "O antídoto para a vergonha é contar para alguém de confiança",
+        "Apostas são uma armadura contra sentimentos difíceis",
+        "A coragem começa exatamente onde o controle termina"
+      ],
+      "authorBio": "Brené Brown é pesquisadora e professora na Universidade de Houston. Sua palestra no TED sobre vulnerabilidade é uma das mais assistidas da história.",
+      "relatedBooks": [
+        "em-busca-de-sentido",
+        "inteligencia-emocional",
+        "as-5-linguagens-do-amor"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "A Pesquisadora que Entrou em Colapso",
+          "content": "Brené Brown passou anos estudando conexão humana quando descobriu que vulnerabilidade era o núcleo de todas as conexões genuínas. Como pesquisadora treinada para controlar tudo, isso foi devastador.\n\nEla entrou em colapso. Foi para terapia. E emergiu com uma teoria que mudou milhões de vidas.\n\nA coragem começa exatamente onde o controle termina."
+        },
+        {
+          "id": 2,
+          "title": "Vergonha vs. Culpa",
+          "content": "Culpa é 'eu fiz algo ruim'. Vergonha é 'eu sou ruim'. Culpa pode ser produtiva — leva à reparação. Vergonha é paralisante.\n\nO vício em apostas é frequentemente mantido pela vergonha. A vergonha isola, e o isolamento alimenta o vício.\n\nO antídoto é exatamente o oposto: contar para alguém de confiança. A vergonha não sobrevive à luz."
+        },
+        {
+          "id": 3,
+          "title": "A Armadura que Usamos",
+          "content": "Brown identificou as armaduras que usamos para evitar vulnerabilidade: entorpecimento, perfeccionismo, cinismo e controle.\n\nAs apostas são uma armadura perfeita contra sentimentos difíceis. Quando a ansiedade aumenta, a aposta entorpece tudo rapidamente.\n\nIdentificar qual sentimento você está evitando quando sente vontade de apostar é uma das perguntas mais importantes da recuperação."
+        },
+        {
+          "id": 4,
+          "title": "Wholehearted: Vivendo de Todo Coração",
+          "content": "Pessoas 'wholehearted' cultivam autenticidade, compaixão por si mesmas, gratidão, criatividade e trabalho significativo.\n\nNenhuma dessas práticas é compatível com o vício ativo. As apostas destroem a autenticidade, a compaixão própria e a gratidão.\n\nA recuperação não é só parar de apostar — é reconstruir cada uma dessas práticas."
+        },
+        {
+          "id": 5,
+          "title": "Parentalidade e Vulnerabilidade",
+          "content": "Pais que têm medo da vulnerabilidade criam filhos que têm medo da vulnerabilidade.\n\nA recuperação é um dos maiores presentes que um pai pode dar aos filhos: a demonstração viva de que é possível cometer erros graves, assumir responsabilidade e reconstruir.\n\nIsso ensina resiliência real — não a ilusão de que a vida é sempre boa."
+        },
+        {
+          "id": 6,
+          "title": "Crítica e Criatividade",
+          "content": "Brown cita Roosevelt: 'O crédito pertence ao homem que está na arena, com o rosto coberto de poeira, suor e sangue.'\n\nSua recuperação é uma arena. Cada dia que você aparece — mesmo imperfeito, mesmo com vontade de desistir — você está na arena.\n\nOs que ficam de fora julgando nunca saberão o que custa estar onde você está."
+        },
+        {
+          "id": 7,
+          "title": "Conexão Genuína",
+          "content": "A conexão genuína exige vulnerabilidade: ser visto de verdade, com seus defeitos e suas lutas.\n\nO vício isola porque exige segredo. A recuperação reconecta porque exige honestidade.\n\nCada vez que você diz 'estou passando por isso e preciso de ajuda', você cria a oportunidade para a conexão mais profunda que existe."
+        },
+        {
+          "id": 8,
+          "title": "A Revolução da Vulnerabilidade",
+          "content": "Cada vez que você admite sua luta em vez de escondê-la, cada vez que pede ajuda em vez de fingir que está bem — você está mudando não só sua vida.\n\nEstá contribuindo para uma cultura mais humana. A coragem é contagiosa.\n\nSua vulnerabilidade pode ser exatamente o que alguém ao seu redor precisa ver para ter coragem de pedir ajuda também."
+        }
+      ]
+    },
+    {
+      "id": "o-corpo-guarda-as-marcas",
+      "title": "O Corpo Guarda as Marcas",
+      "author": "Bessel van der Kolk",
+      "coverImage": "covers/o-corpo-guarda-as-marcas.jpg",
+      "gradient": "linear-gradient(135deg, #004d61, #006064)",
+      "rating": 4.8,
+      "ratingCount": "1.5k",
+      "categories": [
+        "Recuperação",
+        "Mindset"
+      ],
+      "readingTime": "14 min",
+      "chaptersCount": 8,
+      "about": "O psiquiatra Bessel van der Kolk revela como o trauma não vive apenas na mente — vive no corpo. E por que abordagens que ignoram o corpo frequentemente falham.",
+      "keyTakeaways": [
+        "Trauma reorganiza o sistema nervoso, não é apenas uma memória ruim",
+        "Muitos vícios têm trauma não resolvido como raiz",
+        "Abordagens corporais chegam onde as palavras não chegam",
+        "Relacionamentos seguros são o principal regulador do sistema nervoso",
+        "Yoga e movimento físico têm eficácia comprovada no tratamento do trauma"
+      ],
+      "authorBio": "Bessel van der Kolk é psiquiatra e professor na Universidade de Boston. Fundou o Trauma Center e é um dos maiores especialistas mundiais em trauma.",
+      "relatedBooks": [
+        "inteligencia-emocional",
+        "a-coragem-de-ser-imperfeito",
+        "em-busca-de-sentido"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "O Trauma que Não Passa",
+          "content": "Trauma não é apenas uma memória ruim. É uma reorganização do sistema nervoso que muda como você percebe o mundo.\n\nMuitos apostadores compulsivos têm histórias de trauma não resolvido — e as apostas funcionam como regulador emocional para um sistema nervoso que nunca aprendeu a se acalmar.\n\nEntender isso é o começo de um tratamento que realmente funciona."
+        },
+        {
+          "id": 2,
+          "title": "O Cérebro Traumatizado",
+          "content": "O trauma hiperativa a amígdala, desativa o córtex pré-frontal e fragmenta a integração de experiências.\n\nO resultado: a pessoa reage a ameaças percebidas antes de pensar. Para essa pessoa, 'apenas pense diferente' não funciona — a parte racional do cérebro está offline.\n\nO tratamento precisa ir além das palavras."
+        },
+        {
+          "id": 3,
+          "title": "O Corpo que Não Mente",
+          "content": "Emoções não resolvidas se manifestam fisicamente: tensão crônica, dores inexplicáveis, dificuldade de respirar fundo.\n\nApostadores frequentemente relatam que o corpo 'pede' a aposta — uma tensão que só alivia quando apostam.\n\nAprender a regular o sistema nervoso sem apostas é parte essencial da recuperação."
+        },
+        {
+          "id": 4,
+          "title": "Relacionamentos como Reguladores",
+          "content": "Seres humanos são regulados pelos outros desde o nascimento. Relacionamentos seguros continuam sendo o principal regulador do sistema nervoso.\n\nO isolamento do vício priva a pessoa exatamente do que mais precisa para se recuperar.\n\nGrupos de apoio funcionam porque a presença de outros em recuperação regula o sistema nervoso de formas que nenhuma técnica individual consegue replicar."
+        },
+        {
+          "id": 5,
+          "title": "Por Que Falar Sobre o Trauma Não é Suficiente",
+          "content": "Você pode falar sobre o que aconteceu sem que o sistema nervoso mude. Van der Kolk descobriu que abordagens corporais frequentemente chegam onde as palavras não chegam.\n\nIsso explica por que protocolos físicos são parte da recuperação: exercício, respiração, banhos frios, meditação.\n\nNão são sugestões superficiais de bem-estar. São intervenções no sistema nervoso."
+        },
+        {
+          "id": 6,
+          "title": "EMDR e Reprocessamento",
+          "content": "O EMDR mostrava resultados extraordinários com trauma. O movimento dos olhos parece ajudar o cérebro a integrar o que foi fragmentado.\n\nPara apostadores com trauma subjacente, pode ser uma ferramenta poderosa que a terapia convencional não oferece.\n\nSe há algo do passado que alimenta o vício e as palavras nunca conseguem tocar, vale explorar com um profissional treinado."
+        },
+        {
+          "id": 7,
+          "title": "Yoga e o Sistema Nervoso",
+          "content": "Van der Kolk conduziu um dos primeiros estudos científicos sobre yoga e trauma. Os resultados foram surpreendentes — reduziu sintomas de PTSD comparável a medicamentos.\n\nYoga ensina a notar sensações corporais sem ser dominado por elas. Para apostadores: aprender a sentir a tensão do impulso no corpo e deixá-la passar sem agir.\n\nO corpo que foi parte do problema torna-se parte da solução."
+        },
+        {
+          "id": 8,
+          "title": "Recuperação como Reconquista do Corpo",
+          "content": "Pessoas que se recuperam de trauma e vício frequentemente descrevem a mesma experiência: pela primeira vez em anos, conseguem estar no próprio corpo sem querer escapar.\n\nEssa é a promessa real da recuperação: não apenas parar de apostar, mas voltar a habitar sua própria vida.\n\nÉ um processo, não um destino. E começa com o próximo momento de presença que você escolhe."
+        }
+      ]
+    },
+    {
+      "id": "12-regras-para-a-vida",
+      "title": "12 Regras para a Vida",
+      "author": "Jordan Peterson",
+      "coverImage": "covers/12-regras-para-a-vida.jpg",
+      "gradient": "linear-gradient(135deg, #4e342e, #3e2723)",
+      "rating": 4.5,
+      "ratingCount": "1.8k",
+      "categories": [
+        "Mindset",
+        "Recuperação"
+      ],
+      "readingTime": "14 min",
+      "chaptersCount": 8,
+      "about": "O psicólogo clínico Jordan Peterson oferece 12 princípios práticos derivados de psicologia, filosofia e mitologia para navegar o caos da existência.",
+      "keyTakeaways": [
+        "Postura física retroalimenta estado mental — fique de pé com os ombros para trás",
+        "Cuide de si mesmo como cuidaria de alguém que você ama",
+        "Compare-se com quem você era ontem, não com os outros",
+        "Diga a verdade — ou pelo menos não minta",
+        "Coloque sua casa em ordem antes de criticar o mundo"
+      ],
+      "authorBio": "Jordan Peterson é psicólogo clínico e professor na Universidade de Toronto. 12 Regras para a Vida vendeu mais de 5 milhões de cópias em 50 países.",
+      "relatedBooks": [
+        "o-obstaculo-e-o-caminho",
+        "em-busca-de-sentido",
+        "garra"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "Regra 1: Fique de Pé com os Ombros para Trás",
+          "content": "Lagostas dominantes ficam eretas, expansivas. Lagostas derrotadas encolhem. E a postura física retroalimenta o estado mental.\n\nApós o vício, a vergonha encolhe o corpo. Recuperar a postura é recuperar a dignidade — literalmente, antes que os sentimentos sigam.\n\nFicar de pé com os ombros para trás não é fingir que está bem — é sinalizar ao seu sistema nervoso que você merece respeito."
+        },
+        {
+          "id": 2,
+          "title": "Regra 2: Cuide de Si Mesmo como Cuidaria de Alguém que Você Ama",
+          "content": "Pessoas cuidam melhor dos seus animais de estimação do que de si mesmas. Quando se trata delas mesmas, negligenciam e autopunem.\n\nA vergonha do vício intensifica isso. A recuperação exige uma inversão radical: começar a tratar a si mesmo com a mesma consideração que daria a alguém que você ama.\n\nO que você faria por um amigo em recuperação? Faça isso por você."
+        },
+        {
+          "id": 3,
+          "title": "Regra 3: Faça Amizade com Pessoas que Querem o Melhor para Você",
+          "content": "Cerque-se de pessoas que estão se esforçando para melhorar, não de pessoas que puxam você para baixo.\n\nAmigos que ainda apostam, que normalizam o comportamento, que convidam para ambientes de risco — não são inimigos, mas não são aliados na recuperação.\n\nVocê não pode se dar ao luxo de ignorar com quem passa seu tempo."
+        },
+        {
+          "id": 4,
+          "title": "Regra 4: Compare-se com Quem Você Era Ontem",
+          "content": "A comparação com outros é uma armadilha garantida de miséria. Peterson propõe uma métrica diferente: você é melhor hoje do que ontem?\n\nVocê resistiu a um impulso que ontem não resistiria? Você é melhor. Teve uma conversa honesta que ontem evitaria? Você é melhor.\n\nProgresso medido assim nunca para."
+        },
+        {
+          "id": 5,
+          "title": "Regra 6: Coloque Sua Casa em Ordem Antes de Criticar o Mundo",
+          "content": "Antes de resolver os problemas do mundo, resolva os seus. Antes de criticar a indústria das apostas, cuide da sua própria relação com elas.\n\nUma pessoa cuja casa está em ordem tem clareza, energia e credibilidade para contribuir com algo maior.\n\nColoque sua casa em ordem — não perfeitamente, mas progressivamente — e o resto segue."
+        },
+        {
+          "id": 6,
+          "title": "Regra 8: Diga a Verdade — ou pelo Menos Não Minta",
+          "content": "O vício sobrevive na mentira — para si mesmo e para os outros. A recuperação começa com a primeira verdade dita em voz alta.\n\nCada verdade fortalece a identidade de pessoa honesta, que é incompatível com o comportamento compulsivo secreto.\n\nA honestidade radical é ao mesmo tempo o caminho mais difícil e o mais libertador."
+        },
+        {
+          "id": 7,
+          "title": "Regra 11: Não Perturbe as Crianças quando Estão Fazendo Skate",
+          "content": "O desconforto dos impulsos não respondidos, a ansiedade de situações sociais sem a muleta das apostas — tudo isso é o 'skate' da recuperação.\n\nVocê está aprendendo algo real e difícil. O desconforto não é sinal de que algo está errado.\n\nÉ sinal de crescimento."
+        },
+        {
+          "id": 8,
+          "title": "Regra 12: Celebre as Pequenas Vitórias",
+          "content": "Quando você vir um gato na rua, faça uma pausa e acaricie-o. Em outras palavras: perceba e aprecie os momentos de beleza que existem mesmo no caos.\n\nCada dia limpo merece reconhecimento. Cada pequena vitória merece celebração.\n\nA vida que você está reconstruindo não começa depois que você estiver curado. Ela está acontecendo agora."
+        }
+      ]
+    },
+    {
+      "id": "quieto",
+      "title": "Quieto: O Poder dos Introvertidos",
+      "author": "Susan Cain",
+      "coverImage": "covers/quieto.jpg",
+      "gradient": "linear-gradient(135deg, #37474f, #455a64)",
+      "rating": 4.6,
+      "ratingCount": "1.3k",
+      "categories": [
+        "Mindset",
+        "Relacionamentos"
+      ],
+      "readingTime": "12 min",
+      "chaptersCount": 8,
+      "about": "Susan Cain revela como a cultura moderna supervaloriza a extroversão — e como introvertidos têm poderes únicos que o mundo precisa.",
+      "keyTakeaways": [
+        "Introversão não é timidez — é preferência por ambientes com menos estímulo",
+        "Introvertidos têm sistemas nervosos mais reativos por biologia, não por fraqueza",
+        "Ambientes de alta estimulação são especialmente desreguladores para introvertidos",
+        "Solidão saudável restaura; isolamento destrói",
+        "O mundo precisa da profundidade de pensamento e capacidade de escuta dos introvertidos"
+      ],
+      "authorBio": "Susan Cain é advogada e escritora americana. Quieto ficou sete anos na lista de bestsellers do New York Times e sua palestra no TED tem mais de 40 milhões de visualizações.",
+      "relatedBooks": [
+        "inteligencia-emocional",
+        "a-coragem-de-ser-imperfeito",
+        "rapido-e-devagar"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "O Ideal Extrovertido",
+          "content": "A cultura ocidental moderna é construída em torno do ideal extrovertido. Introvertidos aprendem desde cedo que há algo errado com eles.\n\nMas introversão não é timidez nem ansiedade social. É simplesmente uma preferência por ambientes com menos estímulo.\n\nIsso não é fraqueza — é um modo diferente e igualmente válido de existir no mundo."
+        },
+        {
+          "id": 2,
+          "title": "A Biologia da Introversão",
+          "content": "Introvertidos têm sistemas nervosos mais reativos — respondem mais fortemente a estímulos externos. É neurobiologia, não escolha.\n\nAmbientes de alta estimulação — casinos, eventos esportivos, bares — são particularmente desreguladores para introvertidos.\n\nConhecer seu tipo ajuda a criar um plano de recuperação adequado para você."
+        },
+        {
+          "id": 3,
+          "title": "A Personalidade como Destino?",
+          "content": "Introvertidos frequentemente desenvolvem uma persona extrovertida para situações específicas sem perder sua natureza essencial.\n\nMesmo que você seja naturalmente reservado, pode desenvolver habilidades para pedir ajuda e participar de grupos de apoio.\n\nNão significa mudar quem você é — significa expandir seu repertório para situações que importam."
+        },
+        {
+          "id": 4,
+          "title": "Quando a Colaboração Mata a Criatividade",
+          "content": "As melhores ideias frequentemente surgem em solidão. Brainstorms em grupo produzem menos ideias e de menor qualidade do que pessoas trabalhando individualmente.\n\nPara introvertidos em recuperação: você não precisa de um grupo enorme para se recuperar. Trabalho individual profundo é igualmente valioso.\n\nO importante é encontrar o ritmo de solidão e conexão que funciona para você."
+        },
+        {
+          "id": 5,
+          "title": "Liderança Quieta",
+          "content": "Os líderes mais eficazes nem sempre são os mais barulhentos. Introvertidos frequentemente superam extrovertidos como líderes de equipes proativas.\n\nGandhi, Rosa Parks, Einstein — introvertidos que mudaram o mundo não apesar de sua quietude, mas através dela.\n\nSua recuperação também é uma forma de liderança quieta: silenciosa, consistente, sem plateia — e poderosa exatamente por isso."
+        },
+        {
+          "id": 6,
+          "title": "Introversão e Relacionamentos",
+          "content": "Introvertidos preferem conexões profundas a redes amplas. Isso não é isolamento — é seletividade.\n\nEm recuperação, a tendência introvertida à profundidade é uma vantagem: você provavelmente tem pelo menos uma ou duas pessoas com quem pode ser completamente honesto.\n\nEssas conexões profundas são mais valiosas para a recuperação do que qualquer rede ampla."
+        },
+        {
+          "id": 7,
+          "title": "Criando Espaço para Introvertidos",
+          "content": "Para a recuperação de introvertidos: planejar tempo de recarregamento depois de situações sociais intensas, criar rituais de solidão saudável e comunicar claramente quando precisam de espaço.\n\nSolidão saudável é diferente de isolamento — uma restaura, o outro destrói.\n\nAprender a distinguir as duas é fundamental para a sua recuperação."
+        },
+        {
+          "id": 8,
+          "title": "O Mundo Precisa de Você",
+          "content": "O mundo está desequilibrado em direção à extroversão, e precisamos dos dons únicos dos introvertidos — profundidade de pensamento, capacidade de escuta, reflexão antes da ação.\n\nSua recuperação não é apenas sobre você — é sobre liberar essa contribuição única que o vício estava bloqueando.\n\nO mundo precisa de pessoas que pensam profundamente, ouvem verdadeiramente e agem com deliberação. Esse é você."
+        }
+      ]
+    },
+    {
+      "id": "fora-de-serie",
+      "title": "Fora de Série: O que Faz a Diferença",
+      "author": "Malcolm Gladwell",
+      "coverImage": "covers/fora-de-serie.jpg",
+      "gradient": "linear-gradient(135deg, #1b5e20, #2e7d32)",
+      "rating": 4.5,
+      "ratingCount": "1.4k",
+      "categories": [
+        "Mindset",
+        "Recuperação"
+      ],
+      "readingTime": "13 min",
+      "chaptersCount": 8,
+      "about": "Malcolm Gladwell desafia a ideia de que o sucesso é resultado de talento individual, revelando como oportunidade, cultura e contexto moldam quem se torna extraordinário.",
+      "keyTakeaways": [
+        "Maestria exige aproximadamente 10.000 horas de prática deliberada",
+        "Pequenas vantagens iniciais se compõem em enormes diferenças ao longo do tempo",
+        "Inteligência prática supera inteligência bruta no mundo real",
+        "O contexto cultural molda comportamentos mais do que percebemos",
+        "Oportunidades disfarçadas de crise podem forjar caráter extraordinário"
+      ],
+      "authorBio": "Malcolm Gladwell é jornalista e autor canadense-britânico. Todos os seus cinco livros chegaram ao topo da lista de bestsellers do New York Times.",
+      "relatedBooks": [
+        "garra",
+        "habitos-atomicos",
+        "mindset"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "A Regra das 10.000 Horas",
+          "content": "A maestria em qualquer área exige aproximadamente 10.000 horas de prática deliberada.\n\nVocê passou milhares de horas praticando apostas, tornando-se altamente habilidoso em um comportamento autodestrutivo. A recuperação é aprender novas habilidades com a mesma dedicação.\n\nO cérebro é igualmente capaz de masterizar comportamentos saudáveis."
+        },
+        {
+          "id": 2,
+          "title": "O Efeito Mateus",
+          "content": "Pequenas vantagens iniciais se compõem em enormes diferenças ao longo do tempo.\n\nPara a recuperação: cada pequena vantagem que você cria hoje se compõe. Um dia limpo torna o próximo ligeiramente mais fácil.\n\nO efeito Mateus funciona para o bem tanto quanto para o mal — e você está do lado certo agora."
+        },
+        {
+          "id": 3,
+          "title": "O Problema com os Gênios",
+          "content": "Inteligência bruta sem inteligência prática — a capacidade de navegar sistemas sociais, pedir o que precisa — é insuficiente.\n\nMuitos apostadores são pessoas inteligentes que nunca desenvolveram inteligência prática.\n\nA recuperação desenvolve exatamente isso: habilidade de pedir ajuda, navegar sistemas de suporte, comunicar necessidades."
+        },
+        {
+          "id": 4,
+          "title": "A Teoria das 10.000 Horas Aplicada à Recuperação",
+          "content": "O que importa não é apenas quantidade de horas — é qualidade da prática e do feedback.\n\nSeguir um programa estruturado de recuperação — em vez de tentar parar sozinho — é a diferença entre prática aleatória e prática deliberada.\n\nVocê está acelerando sua curva de aprendizado com estrutura e ferramentas testadas."
+        },
+        {
+          "id": 5,
+          "title": "Legados Culturais",
+          "content": "O Brasil tem uma cultura complexa em relação às apostas — normalizada pela mídia, celebrada por figuras públicas, integrada ao futebol.\n\nReconhecer esse legado cultural não é desculpa, mas contexto: você não estava lutando apenas contra um impulso pessoal, mas contra uma narrativa cultural inteira.\n\nIsso torna sua escolha de recuperação ainda mais corajosa."
+        },
+        {
+          "id": 6,
+          "title": "Oportunidade Disfarçada",
+          "content": "Muitos foras de série tiveram oportunidades que pareciam normais mas eram extraordinárias.\n\nSua recuperação é uma oportunidade extraordinária disfarçada de crise. Pessoas que atravessam vícios desenvolvem resiliência e empatia que a maioria nunca desenvolve.\n\nVocê está sendo forjado por uma experiência que, atravessada com intencionalidade, produz algo raro: caráter testado."
+        },
+        {
+          "id": 7,
+          "title": "O Avião que Voava Direito Demais",
+          "content": "Muitos acidentes ocorreram porque co-pilotos não corrigiram erros do capitão — hierarquia cultural matou pessoas.\n\nPara a recuperação: você precisa ser capaz de corrigir sua própria cabine de comando quando está indo na direção errada.\n\nEssa voz interna que questiona pode ser desenvolvida e fortalecida."
+        },
+        {
+          "id": 8,
+          "title": "Reescrevendo Sua História de Origem",
+          "content": "Compreender sua história de origem com apostas — as circunstâncias, a cultura, os momentos que contribuíram — não é criar desculpas. É criar compreensão.\n\nE compreensão é o que permite reescrever o próximo capítulo com intenção.\n\nVocê não é apenas o produto da sua história. Você é o autor dos próximos capítulos."
+        }
+      ]
+    },
+    {
+      "id": "fluxo",
+      "title": "Fluxo",
+      "author": "Mihaly Csikszentmihalyi",
+      "coverImage": "covers/fluxo.jpg",
+      "gradient": "linear-gradient(135deg, #0d3b66, #1d5a8a)",
+      "rating": 4.6,
+      "ratingCount": "1.2k",
+      "categories": [
+        "Mindset",
+        "Felicidade & Bem-estar"
+      ],
+      "readingTime": "14 min",
+      "chaptersCount": 8,
+      "about": "A ciência do estado ótimo de consciência — quando atenção, ação e desafio se alinham e produzem engajamento profundo e satisfação genuína.",
+      "keyTakeaways": [
+        "Fluxo acontece quando habilidade e desafio se encontram em equilíbrio",
+        "Atividades passivas raramente produzem felicidade duradoura",
+        "Atenção é o recurso psicológico mais precioso que temos",
+        "Objetivos claros e feedback imediato são ingredientes do fluxo",
+        "Uma vida significativa é uma vida cheia de experiências de fluxo"
+      ],
+      "authorBio": "Mihaly Csikszentmihalyi foi psicólogo húngaro-americano e pioneiro no estudo da felicidade e da criatividade. Seu conceito de fluxo influenciou a psicologia positiva e a educação em todo o mundo.",
+      "relatedBooks": [
+        "mindset",
+        "garra",
+        "habitos-atomicos"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "Felicidade Revisitada",
+          "content": "A felicidade não é algo que acontece — é uma condição que precisa ser cultivada. Não depende de eventos externos, mas de como interpretamos o que nos acontece.\n\nApostas oferecem prazer imediato, mas raramente fluxo verdadeiro. Há excitação, mas não engajamento profundo. Há estímulo, mas não sentido.\n\nA recuperação abre espaço para descobrir o que realmente produz satisfação duradoura na sua vida."
+        },
+        {
+          "id": 2,
+          "title": "A Anatomia da Consciência",
+          "content": "A atenção é o recurso mais precioso da mente. O que escolhemos atender molda o que somos.\n\nApostar sequestra a atenção — pensamentos sobre próxima jogada, próxima oportunidade, próxima recuperação. Pouco espaço sobra para o resto da vida.\n\nRecuperar a atenção é recuperar a si mesmo."
+        },
+        {
+          "id": 3,
+          "title": "A Experiência de Fluxo",
+          "content": "Fluxo é aquele estado em que tempo desaparece, ego silencia e ação se torna fluida. Ocorre quando o desafio da atividade encontra o nível da sua habilidade.\n\nApostas simulam fluxo, mas oferecem apenas excitação intermitente — não engajamento sustentado.\n\nFluxo verdadeiro vem de atividades que exigem habilidade, foco e crescimento real."
+        },
+        {
+          "id": 4,
+          "title": "As Condições do Fluxo",
+          "content": "Fluxo exige objetivos claros, feedback imediato e equilíbrio entre desafio e capacidade.\n\nUm plano de recuperação bem estruturado oferece exatamente isso: metas diárias, sinais claros de progresso, e desafios calibrados ao seu momento.\n\nA recuperação pode se tornar, ela mesma, uma fonte de fluxo."
+        },
+        {
+          "id": 5,
+          "title": "O Corpo em Fluxo",
+          "content": "Atividades físicas — esporte, dança, caminhada consciente — são portas naturais para o fluxo.\n\nMover o corpo libera dopamina de forma saudável, ocupando o mesmo sistema neurológico que as apostas exploravam.\n\nUm corpo ativo é um aliado poderoso na recuperação."
+        },
+        {
+          "id": 6,
+          "title": "A Mente em Fluxo",
+          "content": "Leitura profunda, escrita, aprendizado de novas habilidades — todos produzem fluxo mental.\n\nO cérebro que apostava precisa de novos territórios para explorar. A curiosidade é um antídoto poderoso para o tédio que alimenta a recaída.\n\nAlimente a mente com desafios que importam."
+        },
+        {
+          "id": 7,
+          "title": "Trabalho como Fluxo",
+          "content": "Trabalho pode ser fonte de tédio ou de fluxo — depende de como o estruturamos.\n\nPara quem está em recuperação, recuperar prazer no trabalho é parte essencial da reconstrução. Não significa amar tudo — significa encontrar pedaços de engajamento real.\n\nQuando o trabalho oferece fluxo, ele se torna remédio em vez de fuga."
+        },
+        {
+          "id": 8,
+          "title": "Construindo Sentido",
+          "content": "Uma vida em fluxo é uma vida com tema — um propósito que organiza as experiências em narrativa coerente.\n\nSua recuperação pode ser parte central desse tema: a história de quem atravessou e construiu algo melhor.\n\nO sentido não é encontrado — é construído, escolha após escolha."
+        }
+      ]
+    },
+    {
+      "id": "o-instinto-da-vontade",
+      "title": "O Instinto da Vontade",
+      "author": "Kelly McGonigal",
+      "coverImage": "covers/o-instinto-da-vontade.jpg",
+      "gradient": "linear-gradient(135deg, #4a148c, #6a1b9a)",
+      "rating": 4.5,
+      "ratingCount": "980",
+      "categories": [
+        "Mindset",
+        "Recuperação"
+      ],
+      "readingTime": "13 min",
+      "chaptersCount": 8,
+      "about": "A ciência do autocontrole — por que falhamos, como o cérebro resiste à tentação, e como treinar a força de vontade como um músculo.",
+      "keyTakeaways": [
+        "Força de vontade é biológica — pode ser treinada e esgotada",
+        "Sono, alimentação e respiração afetam diretamente o autocontrole",
+        "Culpa após falhas aumenta a chance de recaída",
+        "Estresse é o maior inimigo da força de vontade",
+        "Visualizar o eu futuro fortalece decisões presentes"
+      ],
+      "authorBio": "Kelly McGonigal é psicóloga da saúde e professora em Stanford. Seu curso sobre ciência do autocontrole se tornou um dos mais populares da universidade.",
+      "relatedBooks": [
+        "habitos-atomicos",
+        "o-poder-do-habito",
+        "mindset"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "O Que é Força de Vontade",
+          "content": "Força de vontade não é uma virtude moral — é uma função biológica do córtex pré-frontal. Pode ser fortalecida com prática e esgotada pelo uso.\n\nApostadores não falham porque são fracos. Falham porque enfrentam um adversário que explora exatamente os pontos cegos do autocontrole.\n\nEntender a biologia tira o peso da culpa e abre espaço para estratégia."
+        },
+        {
+          "id": 2,
+          "title": "O Instinto de Pausar e Planejar",
+          "content": "Diante da tentação, o cérebro saudável pausa antes de agir. Esse instinto pode ser treinado por respiração lenta, meditação e sono adequado.\n\nUma respiração de quatro segundos antes de uma decisão importante muda a química cerebral em segundos.\n\nA recuperação se constrói nesses pequenos instantes de pausa."
+        },
+        {
+          "id": 3,
+          "title": "O Músculo Cansado",
+          "content": "Força de vontade se esgota como um músculo. Quanto mais decisões tomamos no dia, menos energia sobra para resistir à noite.\n\nPor isso recaídas são mais frequentes ao fim do dia, em momentos de fadiga.\n\nProteja sua energia mental: simplifique decisões, automatize o que puder, descanse cedo."
+        },
+        {
+          "id": 4,
+          "title": "Licença Moral",
+          "content": "Depois de uma vitória, o cérebro tende a se permitir uma falha. 'Resisti a semana toda, mereço uma aposta.'\n\nEsse mecanismo é uma armadilha. A recompensa por ser bom não pode ser justamente aquilo que te machuca.\n\nReconhecer essa lógica é o primeiro passo para neutralizá-la."
+        },
+        {
+          "id": 5,
+          "title": "Por Que a Culpa Não Funciona",
+          "content": "Sentir culpa após uma falha aumenta a chance de recair de novo. Culpa esgota recursos mentais e produz desejo de fuga — frequentemente para o próprio comportamento.\n\nAutocompaixão, paradoxalmente, é mais eficaz que autocrítica para sustentar mudança.\n\nTrate-se como trataria um amigo que está tentando se recuperar."
+        },
+        {
+          "id": 6,
+          "title": "O Estresse e a Recaída",
+          "content": "Sob estresse, o cérebro busca recompensas rápidas. Apostas estão entre as mais rápidas.\n\nGerenciar estresse é, portanto, gerenciamento de risco de recaída.\n\nRespiração, exercício, conversa, sono — essas são as ferramentas reais de autocontrole."
+        },
+        {
+          "id": 7,
+          "title": "O Eu Futuro",
+          "content": "Tendemos a tratar o eu futuro como um estranho. Por isso é fácil sabotá-lo: 'amanhã eu paro'.\n\nVisualizar com vividez quem você quer ser daqui a um ano fortalece decisões hoje.\n\nO eu futuro está sendo construído agora, escolha por escolha."
+        },
+        {
+          "id": 8,
+          "title": "Treinando o Músculo",
+          "content": "Pequenos exercícios diários de autocontrole — postura, vocabulário, pequenas escolhas — fortalecem o músculo geral da força de vontade.\n\nNão é preciso heroísmo. É preciso prática constante em coisas pequenas.\n\nO autocontrole que você treina hoje em coisas simples estará disponível amanhã para o momento decisivo."
+        }
+      ]
+    },
+    {
+      "id": "previsivelmente-irracional",
+      "title": "Previsivelmente Irracional",
+      "author": "Dan Ariely",
+      "coverImage": "covers/previsivelmente-irracional.jpg",
+      "gradient": "linear-gradient(135deg, #5d4037, #3e2723)",
+      "rating": 4.5,
+      "ratingCount": "1.1k",
+      "categories": [
+        "Mindset",
+        "Finanças Pessoais"
+      ],
+      "readingTime": "13 min",
+      "chaptersCount": 8,
+      "about": "Por que tomamos decisões financeiras e comportamentais aparentemente irracionais — e como reconhecer esses padrões pode nos proteger.",
+      "keyTakeaways": [
+        "Decisões irracionais seguem padrões previsíveis",
+        "Comparações relativas distorcem nossa percepção de valor",
+        "Gratuidade e ancoragem manipulam decisões financeiras",
+        "Emoção quente leva a decisões que arrependeríamos a frio",
+        "Reconhecer os vieses é a defesa mais eficaz contra eles"
+      ],
+      "authorBio": "Dan Ariely é professor de economia comportamental na Duke University e autor bestseller. Seus experimentos revolucionaram nossa compreensão da tomada de decisão humana.",
+      "relatedBooks": [
+        "a-psicologia-do-dinheiro",
+        "rapido-e-devagar",
+        "habitos-atomicos"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "A Verdade Sobre a Irracionalidade",
+          "content": "Não somos irracionais por acaso — somos irracionais de forma previsível. Os mesmos vieses afetam praticamente todos nós.\n\nApostadores caem em armadilhas cognitivas específicas: ilusão de controle, falácia do jogador, viés da recuperação. Não é falta de inteligência — é arquitetura cerebral.\n\nConhecer essas armadilhas é construir defesas contra elas."
+        },
+        {
+          "id": 2,
+          "title": "A Verdade Sobre Relatividade",
+          "content": "Avaliamos as coisas em comparação, não em absoluto. Uma perda de R$ 100 dói menos depois de já ter perdido R$ 1.000.\n\nApostadores frequentemente perdem a noção do valor real do dinheiro — porque vivem em mundo de comparações distorcidas.\n\nRetomar referências reais — o que R$ 100 compram na vida real — é parte da recuperação."
+        },
+        {
+          "id": 3,
+          "title": "A Verdade Sobre Oferta e Demanda",
+          "content": "Âncoras iniciais determinam o quanto estamos dispostos a pagar pelas coisas.\n\nO primeiro depósito grande em uma plataforma de apostas se torna a âncora — tudo depois parece pequeno em comparação.\n\nResetar essas âncoras exige consciência ativa."
+        },
+        {
+          "id": 4,
+          "title": "O Custo do Custo Zero",
+          "content": "Quando algo é 'grátis', perdemos a capacidade de avaliar racionalmente. Bônus de cassino são desenhados para explorar exatamente isso.\n\nNão existe aposta 'grátis'. O custo está embutido no comportamento que ela cria.\n\nReconhecer o preço oculto é proteção essencial."
+        },
+        {
+          "id": 5,
+          "title": "A Influência da Excitação",
+          "content": "Decisões tomadas em estado emocional intenso são muito diferentes das tomadas a frio.\n\nApostadores raramente decidem racionalmente no calor do momento. Por isso barreiras estruturais — bloqueios, autoexclusão — são tão eficazes.\n\nDecida quando está calmo o que fará quando estiver agitado."
+        },
+        {
+          "id": 6,
+          "title": "O Problema da Procrastinação",
+          "content": "Sabemos o que devemos fazer — e mesmo assim adiamos. O custo presente do esforço pesa mais do que o benefício futuro.\n\nNa recuperação, isso aparece como 'amanhã eu paro de vez', 'na próxima eu não aposto'.\n\nQuebrar a procrastinação exige compromissos públicos, prazos curtos e responsabilização."
+        },
+        {
+          "id": 7,
+          "title": "O Alto Preço da Posse",
+          "content": "Supervalorizamos o que possuímos — incluindo nossas ideias e nossos vícios.\n\n'Sou um apostador' pode se tornar identidade tão profunda que abandoná-la parece perda.\n\nA recuperação envolve, em parte, desinvestir dessa identidade."
+        },
+        {
+          "id": 8,
+          "title": "Por Que Confiamos em Quem Não Devíamos",
+          "content": "Confiamos em padrões e narrativas — mesmo quando os dados não suportam.\n\nApostadores confiam em 'sistemas', 'sentimentos', 'sequências'. Nenhum desses corresponde à realidade estatística.\n\nDesconfiar das próprias narrativas é uma das competências mais valiosas da recuperação."
+        }
+      ]
+    },
+    {
+      "id": "nao-me-faca-pensar",
+      "title": "Não Posso Parar",
+      "author": "David Goggins",
+      "coverImage": "covers/nao-me-faca-pensar.jpg",
+      "gradient": "linear-gradient(135deg, #212121, #424242)",
+      "rating": 4.7,
+      "ratingCount": "2.0k",
+      "categories": [
+        "Mindset",
+        "Recuperação"
+      ],
+      "readingTime": "14 min",
+      "chaptersCount": 8,
+      "about": "A história de David Goggins, que superou trauma, obesidade e limitações extremas para se tornar um dos atletas de resistência mais notáveis do mundo — e o que isso ensina sobre superar a si mesmo.",
+      "keyTakeaways": [
+        "A mente desiste muito antes do corpo",
+        "A regra dos 40%: quando pensa que acabou, ainda tem 60% restante",
+        "Confrontar o passado é a única forma de superá-lo",
+        "Disciplina supera motivação em todos os momentos críticos",
+        "Calejar a mente é tão importante quanto calejar o corpo"
+      ],
+      "authorBio": "David Goggins é ex-Navy SEAL, ultramaratonista e autor bestseller. Considerado por muitos o homem mais durão do mundo, ele dedica sua vida a ajudar outros a superar limites mentais.",
+      "relatedBooks": [
+        "garra",
+        "o-obstaculo-e-o-caminho",
+        "mindset"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "Eu Devia Ter Morrido na Infância",
+          "content": "Goggins enfrentou abuso, racismo e pobreza extrema na infância. Sua história mostra que o ponto de partida não determina o destino.\n\nMuitos apostadores carregam histórias semelhantes — traumas, perdas, dores que o vício prometia anestesiar.\n\nConfrontar essas dores, em vez de fugir delas, é o caminho real para fora."
+        },
+        {
+          "id": 2,
+          "title": "A Verdade Bruta",
+          "content": "Goggins fala em 'olhar no espelho com brutalidade'. Listar exatamente quem você é, sem desculpas.\n\nPara quem está em recuperação: escrever sem filtro o que o vício custou — relacionamentos, dinheiro, dignidade — é doloroso e libertador.\n\nA verdade machuca, mas é a única plataforma real para reconstrução."
+        },
+        {
+          "id": 3,
+          "title": "Calejando a Mente",
+          "content": "Assim como o corpo se adapta ao desconforto físico, a mente se adapta ao desconforto emocional — se for exposta consistentemente.\n\nFazer coisas difíceis de propósito, todos os dias, fortalece o músculo de tolerar desconforto.\n\nE a recuperação é, em grande parte, tolerar desconforto sem fugir para a aposta."
+        },
+        {
+          "id": 4,
+          "title": "A Regra dos 40 Por Cento",
+          "content": "Quando o cérebro grita que você não aguenta mais, ainda tem 60% de reserva.\n\nNo pico da fissura por apostar, a sensação é de impossibilidade absoluta. Mas é mentira da mente — ela passa.\n\nResistir só mais cinco minutos, e mais cinco, é como se conquista a recuperação."
+        },
+        {
+          "id": 5,
+          "title": "O Inimigo Interno",
+          "content": "O maior adversário não está fora — é a voz que sussurra desistência, justifica recaídas, oferece atalhos.\n\nGoggins chama isso de 'inner bitch'. Identificá-la, nomeá-la e enfrentá-la diretamente é fundamental.\n\nVocê não é essa voz. Você é quem escolhe ignorá-la."
+        },
+        {
+          "id": 6,
+          "title": "O Calo da Alma",
+          "content": "Cada vez que você atravessa algo difícil sem fugir, sua alma forma um calo — fica mais resistente para a próxima.\n\nCada fissura superada sem apostar fortalece a próxima resistência.\n\nA dor não é desperdiçada — ela é matéria-prima de força."
+        },
+        {
+          "id": 7,
+          "title": "Recordando Vitórias",
+          "content": "Goggins mantém um 'cookie jar' mental — lembranças de todas as vezes que superou o impossível.\n\nQuando a fissura chega, lembre de cada dia que você não apostou. Cada um deles é prova viva da sua capacidade.\n\nVocê já fez isso. Pode fazer de novo."
+        },
+        {
+          "id": 8,
+          "title": "Quem Você Pode Se Tornar",
+          "content": "Goggins acredita que a maioria das pessoas usa só 40% do seu potencial. Imagine o restante.\n\nA recuperação não é apenas parar de apostar. É descobrir quem você poderia ser sem a corrente do vício.\n\nO outro lado da disciplina é liberdade."
+        }
+      ]
+    },
+    {
+      "id": "a-alma-sem-amarras",
+      "title": "A Alma sem Amarras",
+      "author": "Michael Singer",
+      "coverImage": "covers/a-alma-sem-amarras.jpg",
+      "gradient": "linear-gradient(135deg, #1a4d4d, #2d6e6e)",
+      "rating": 4.6,
+      "ratingCount": "1.3k",
+      "categories": [
+        "Mindset",
+        "Felicidade & Bem-estar"
+      ],
+      "readingTime": "13 min",
+      "chaptersCount": 8,
+      "about": "Um guia para libertar a consciência das amarras do pensamento compulsivo e das emoções que dominam nossa vida interior.",
+      "keyTakeaways": [
+        "Você não é seus pensamentos — você é quem os observa",
+        "Emoções armazenadas no passado distorcem o presente",
+        "Resistência ao desconforto é o que o mantém vivo",
+        "Liberdade interior não depende de circunstâncias externas",
+        "O coração se abre quando paramos de tentar controlar tudo"
+      ],
+      "authorBio": "Michael Singer é autor, professor espiritual e fundador da Temple of the Universe. Seus livros sobre consciência e liberdade interior são referência em desenvolvimento pessoal.",
+      "relatedBooks": [
+        "o-poder-do-agora",
+        "inteligencia-emocional",
+        "mindset"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "A Voz Dentro da Sua Cabeça",
+          "content": "Existe uma voz que comenta tudo — julga, planeja, reclama, fantasia. A pergunta importante é: quem ouve essa voz?\n\nApostadores conhecem bem a voz que justifica, promete, racionaliza. Mas você não é essa voz. Você é quem a escuta.\n\nEsse reconhecimento simples já abre espaço de liberdade."
+        },
+        {
+          "id": 2,
+          "title": "Seu Companheiro de Cela",
+          "content": "A voz mental é, frequentemente, um companheiro tóxico — crítico, ansioso, insaciável.\n\nNa recuperação, essa voz pode dizer 'você nunca vai conseguir', 'uma aposta não faz mal'. Mentiras dela, não verdades suas.\n\nObservar sem obedecer é a habilidade mais transformadora."
+        },
+        {
+          "id": 3,
+          "title": "Quem Está Aí Dentro",
+          "content": "Há uma consciência por trás de toda experiência — silenciosa, presente, sempre disponível.\n\nReconhecer essa consciência traz alívio imediato: você é maior que qualquer impulso, qualquer fissura, qualquer pensamento.\n\nEsse 'eu observador' é seu refúgio interno."
+        },
+        {
+          "id": 4,
+          "title": "Liberando Energia Bloqueada",
+          "content": "Emoções não processadas ficam armazenadas no corpo e na mente, distorcendo a percepção do presente.\n\nMuita recaída é, na verdade, energia bloqueada do passado pedindo saída.\n\nProcessar — pela escrita, pela terapia, pela conversa — libera o que estava preso."
+        },
+        {
+          "id": 5,
+          "title": "Quebrando a Lei das Resistências",
+          "content": "Resistir ao desconforto é o que o mantém vivo. Aceitar não significa gostar — significa parar de lutar internamente.\n\nDeixar uma fissura passar, sem lutar dramaticamente, frequentemente a dissolve mais rápido.\n\nA resistência alimenta o que tenta eliminar."
+        },
+        {
+          "id": 6,
+          "title": "Vivendo sem Limites",
+          "content": "Limites internos são, em geral, ilusões — barreiras mentais que aceitamos como reais.\n\n'Não consigo viver sem apostar' é um desses limites. Pode parecer verdade absoluta — não é.\n\nTestar esses limites, um dia de cada vez, prova que eles eram menores do que pareciam."
+        },
+        {
+          "id": 7,
+          "title": "Indo Além",
+          "content": "Crescimento exige soltar identidades que conhecemos — incluindo a identidade de 'apostador em recuperação'.\n\nEm algum momento, você se torna simplesmente alguém vivendo sua vida — não mais definido pelo que abandonou.\n\nIr além é parte natural do processo."
+        },
+        {
+          "id": 8,
+          "title": "O Caminho da Mente sem Condicionamento",
+          "content": "Uma mente livre não precisa de condições externas perfeitas para estar em paz.\n\nIsso é o oposto da mente do apostador, que sempre precisa de mais um estímulo, mais uma jogada, mais uma chance.\n\nLiberdade interior é o destino real da recuperação."
+        }
+      ]
+    },
+    {
+      "id": "a-vantagem-da-felicidade",
+      "title": "A Vantagem da Felicidade",
+      "author": "Shawn Achor",
+      "coverImage": "covers/a-vantagem-da-felicidade.jpg",
+      "gradient": "linear-gradient(135deg, #b8860b, #8b6914)",
+      "rating": 4.5,
+      "ratingCount": "890",
+      "categories": [
+        "Felicidade & Bem-estar",
+        "Mindset"
+      ],
+      "readingTime": "12 min",
+      "chaptersCount": 8,
+      "about": "Pesquisas em psicologia positiva mostram que a felicidade vem antes do sucesso — não depois. E que pequenos hábitos diários podem mudar a química do cérebro.",
+      "keyTakeaways": [
+        "Cérebros positivos performam significativamente melhor",
+        "Gratidão diária reprograma o cérebro em 21 dias",
+        "Pequenas vitórias criam espirais ascendentes",
+        "Conexões sociais são o maior preditor de bem-estar",
+        "Investir em felicidade é estratégia, não luxo"
+      ],
+      "authorBio": "Shawn Achor é pesquisador de psicologia positiva formado por Harvard e autor bestseller. Seu TED Talk sobre o tema está entre os mais assistidos da história.",
+      "relatedBooks": [
+        "fluxo",
+        "habitos-atomicos",
+        "mindset"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "A Vantagem da Felicidade",
+          "content": "Pensamos que o sucesso traz felicidade. A pesquisa mostra o contrário: felicidade aumenta nossa capacidade de ter sucesso.\n\nApostadores frequentemente perseguem ganhos como atalho para a felicidade. Mas o estado mental positivo precede — não segue — os bons resultados.\n\nInvestir em bem-estar é, na verdade, investir em todas as outras áreas da vida."
+        },
+        {
+          "id": 2,
+          "title": "O Princípio da Alavanca",
+          "content": "Pequenas mudanças nos hábitos diários produzem efeitos desproporcionais ao longo do tempo.\n\nDois minutos de gratidão por dia, por 21 dias, mudam padrões neurológicos mensuráveis.\n\nA recuperação se constrói nessas alavancas pequenas, repetidas, consistentes."
+        },
+        {
+          "id": 3,
+          "title": "Efeito Tetris",
+          "content": "O cérebro se molda pelo que repete. Apostadores treinam o cérebro a procurar oportunidades de aposta em todo lugar.\n\nÉ possível retreinar para procurar coisas positivas: gratidão, pequenos prazeres, momentos de conexão.\n\nO que você procura, encontra."
+        },
+        {
+          "id": 4,
+          "title": "Caindo para Cima",
+          "content": "Falhas e recaídas podem ser combustível para crescimento — se interpretadas como aprendizado, não como sentença.\n\nUma recaída na recuperação não anula tudo. É informação sobre o que precisa ajustar.\n\nQuedas seguidas de aprendizado são parte do progresso real."
+        },
+        {
+          "id": 5,
+          "title": "O Círculo Zorro",
+          "content": "Quando o problema parece grande demais, comece com um círculo pequeno — uma área que você controla totalmente.\n\nPara hoje: só hoje, só não apostar. Só isso. Amanhã o círculo cresce.\n\nVitórias pequenas e contínuas mudam a percepção de capacidade."
+        },
+        {
+          "id": 6,
+          "title": "A Regra dos 20 Segundos",
+          "content": "Reduzir em 20 segundos a barreira para um bom hábito — ou aumentar em 20 segundos a barreira para um ruim — muda comportamentos.\n\nDeletar apps de apostas, bloquear sites, esconder cartões. Cada atrito adicional importa.\n\nVocê não precisa ser herói o tempo todo se ajustar o ambiente."
+        },
+        {
+          "id": 7,
+          "title": "Investimento Social",
+          "content": "Em momentos difíceis, a tendência é se isolar. Mas conexões sociais são o maior preditor de bem-estar e recuperação sustentada.\n\nGrupos de apoio, terapeutas, amigos próximos — investir nessas conexões é investir na sua recuperação.\n\nNão tente fazer isso sozinho."
+        },
+        {
+          "id": 8,
+          "title": "Espirais Ascendentes",
+          "content": "Pequenas vitórias geram energia para próximas vitórias. Pequenas perdas geram desânimo que produz mais perdas.\n\nA recuperação consciente alimenta a espiral ascendente: cada dia limpo torna o próximo ligeiramente mais provável.\n\nE assim, dia após dia, uma vida diferente toma forma."
+        }
+      ]
+    },
+    {
+      "id": "7-habitos-pessoas-eficazes",
+      "title": "Os 7 Hábitos das Pessoas Altamente Eficazes",
+      "author": "Stephen Covey",
+      "coverImage": "covers/7-habitos-pessoas-eficazes.jpg",
+      "gradient": "linear-gradient(135deg, #1c2541, #3a506b)",
+      "rating": 4.7,
+      "ratingCount": "2.3k",
+      "categories": [
+        "Mindset",
+        "Propósito"
+      ],
+      "readingTime": "15 min",
+      "chaptersCount": 8,
+      "about": "Um clássico atemporal sobre os princípios fundamentais que sustentam vidas eficazes — da proatividade individual à colaboração transformadora.",
+      "keyTakeaways": [
+        "Comece sempre pelo fim em mente",
+        "Ser proativo é assumir responsabilidade total pela própria vida",
+        "Primeiro o mais importante, depois o urgente",
+        "Pensar ganha-ganha transforma todas as relações",
+        "Afie o instrumento: renovação contínua sustenta tudo"
+      ],
+      "authorBio": "Stephen Covey foi educador, autor e palestrante americano. Os 7 Hábitos vendeu mais de 40 milhões de cópias e moldou pensamento sobre liderança pessoal por décadas.",
+      "relatedBooks": [
+        "habitos-atomicos",
+        "comece-pelo-porque",
+        "mindset"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "Dentro para Fora",
+          "content": "Mudança duradoura vem de dentro para fora — de princípios internos, não de técnicas externas.\n\nApostadores frequentemente tentam soluções superficiais — bloqueios, promessas, contratos. Funcionam por um tempo, mas sem mudança interna, falham.\n\nA verdadeira recuperação começa em quem você decide ser."
+        },
+        {
+          "id": 2,
+          "title": "Seja Proativo",
+          "content": "Entre estímulo e resposta há um espaço — e nesse espaço está sua liberdade.\n\nSentir vontade de apostar é estímulo. Apostar é uma resposta entre muitas possíveis. Nesse espaço, você escolhe.\n\nReconhecer essa liberdade é o primeiro hábito de quem se recupera."
+        },
+        {
+          "id": 3,
+          "title": "Comece com o Fim em Mente",
+          "content": "Imagine seu funeral. O que gostaria que dissessem? Essa visão deve guiar suas decisões hoje.\n\nNinguém quer ser lembrado como 'aquele que perdeu tudo apostando'. Mas todos podem ser lembrados pela coragem de mudar.\n\nA visão do fim dá direção ao caminho."
+        },
+        {
+          "id": 4,
+          "title": "Primeiro o Mais Importante",
+          "content": "Não é falta de tempo — é falta de prioridade. Dedicamos tempo ao que urge, não ao que importa.\n\nRecuperação precisa entrar na coluna 'importante mas não urgente'. Senão, sempre algo mais urgente toma o lugar.\n\nAgendar momentos diários de cuidado consigo é proteção essencial."
+        },
+        {
+          "id": 5,
+          "title": "Pense Ganha-Ganha",
+          "content": "Em relacionamentos saudáveis, ambos ganham. Apostas são, por natureza, jogo de soma zero — alguém perde para alguém ganhar.\n\nReconstruir relações afetadas pelo vício exige adotar mentalidade ganha-ganha em casa, no trabalho, com amigos.\n\nÉ um músculo que se desenvolve com prática."
+        },
+        {
+          "id": 6,
+          "title": "Procure Primeiro Compreender",
+          "content": "Ouvir para entender, não para responder, transforma relações.\n\nMuitos apostadores foram pouco ouvidos na vida — e raramente ouvem outros de verdade. Mudar isso reconecta com pessoas e consigo.\n\nA escuta profunda é antídoto contra solidão."
+        },
+        {
+          "id": 7,
+          "title": "Crie Sinergia",
+          "content": "Quando pessoas diferentes colaboram com confiança, o resultado é maior que a soma das partes.\n\nGrupos de recuperação criam sinergia: a força coletiva sustenta cada indivíduo nos momentos fracos.\n\nVocê é mais forte com aliados."
+        },
+        {
+          "id": 8,
+          "title": "Afie o Instrumento",
+          "content": "Renovação contínua nas quatro dimensões — física, mental, emocional, espiritual — sustenta tudo o mais.\n\nNa recuperação: dormir, ler, conversar, refletir. Essas práticas mantêm o instrumento — você — afiado.\n\nSem renovação, qualquer estrutura desmorona."
+        }
+      ]
+    },
+    {
+      "id": "o-poder-do-agora",
+      "title": "O Poder do Agora",
+      "author": "Eckhart Tolle",
+      "coverImage": "covers/o-poder-do-agora.jpg",
+      "gradient": "linear-gradient(135deg, #2e3b3b, #4a5a5a)",
+      "rating": 4.6,
+      "ratingCount": "1.7k",
+      "categories": [
+        "Felicidade & Bem-estar",
+        "Mindset"
+      ],
+      "readingTime": "14 min",
+      "chaptersCount": 8,
+      "about": "Um guia prático para a iluminação espiritual centrado na ideia de que toda dor humana vem da resistência ao momento presente.",
+      "keyTakeaways": [
+        "Todo sofrimento vive em passado ou futuro — nunca no agora",
+        "Você não é sua mente — é a consciência que observa",
+        "Aceitação do presente dissolve resistência",
+        "Dor emocional crônica vem do 'corpo de dor' acumulado",
+        "A entrega não é passividade — é poder profundo"
+      ],
+      "authorBio": "Eckhart Tolle é professor espiritual alemão-canadense. O Poder do Agora vendeu mais de 10 milhões de cópias em 33 idiomas.",
+      "relatedBooks": [
+        "a-alma-sem-amarras",
+        "inteligencia-emocional",
+        "mindset"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "Você Não é Sua Mente",
+          "content": "A maior fonte de sofrimento humano é a identificação com a mente — pensar que somos os pensamentos que temos.\n\nApostadores frequentemente são dominados por uma narrativa mental incessante: próxima jogada, recuperar perda, mais uma chance.\n\nReconhecer que você é o observador, não o pensamento, é o primeiro passo da liberdade."
+        },
+        {
+          "id": 2,
+          "title": "Consciência: O Caminho para Fora",
+          "content": "Sair do sofrimento não é mudar circunstâncias — é mudar a relação com elas.\n\nA consciência simples do momento presente interrompe os padrões automáticos de sofrimento.\n\nCada respiração consciente é um momento fora do ciclo."
+        },
+        {
+          "id": 3,
+          "title": "O Corpo de Dor",
+          "content": "Emoções não processadas acumulam-se ao longo da vida formando o que Tolle chama de 'corpo de dor' — uma entidade interna que se alimenta de mais sofrimento.\n\nO vício em apostas frequentemente alimenta esse corpo de dor: cada perda reforça o ciclo.\n\nReconhecê-lo é começar a dissolvê-lo."
+        },
+        {
+          "id": 4,
+          "title": "O Agora como Refúgio",
+          "content": "Toda fissura vive em projeção — antecipação do alívio que a aposta supostamente traria.\n\nRetornar ao agora — esta respiração, esta sensação, este momento — corta o combustível da fissura.\n\nO agora não tem espaço para vício."
+        },
+        {
+          "id": 5,
+          "title": "Estados Internos e Realidade Externa",
+          "content": "O estado interno cria a realidade externa muito mais do que percebemos.\n\nUm estado de presença produz decisões diferentes de um estado de pressa ou ansiedade.\n\nCultivar presença é cultivar resultados diferentes."
+        },
+        {
+          "id": 6,
+          "title": "O Portal para o Agora",
+          "content": "Respirar conscientemente, sentir o corpo, observar pensamentos sem julgamento — todos são portais para o presente.\n\nNa recuperação, esses portais são ferramentas práticas, não conceitos abstratos.\n\nUse-os várias vezes por dia."
+        },
+        {
+          "id": 7,
+          "title": "Iluminação em Relacionamentos",
+          "content": "Relacionamentos são, frequentemente, espelhos dos nossos padrões.\n\nReconstruir relações afetadas pelo vício exige presença real — não a presença distraída de quem está mentalmente em outro lugar.\n\nEstar presente é o maior presente que se pode dar."
+        },
+        {
+          "id": 8,
+          "title": "Entrega: Aceitação do Que É",
+          "content": "Entregar não é desistir — é parar de lutar contra a realidade do presente.\n\nAceitar que você teve um vício, que está em recuperação, que algumas coisas serão difíceis — abre espaço para responder com clareza.\n\nA entrega é, paradoxalmente, o início da força real."
+        }
+      ]
+    },
+    {
+      "id": "comece-pelo-porque",
+      "title": "Comece pelo Porquê",
+      "author": "Simon Sinek",
+      "coverImage": "covers/comece-pelo-porque.jpg",
+      "gradient": "linear-gradient(135deg, #c0392b, #922b21)",
+      "rating": 4.5,
+      "ratingCount": "1.4k",
+      "categories": [
+        "Propósito",
+        "Mindset"
+      ],
+      "readingTime": "13 min",
+      "chaptersCount": 8,
+      "about": "Líderes e organizações inspiradoras começam sempre pelo porquê — o propósito profundo que dá sentido a tudo o resto.",
+      "keyTakeaways": [
+        "O 'porquê' precede 'como' e 'o que'",
+        "Pessoas se conectam a propósitos, não a produtos",
+        "Decisões alinhadas com o porquê são mais sustentáveis",
+        "Manipulação produz resultados curtos; inspiração produz longos",
+        "Líderes inspiradores começam pelo significado"
+      ],
+      "authorBio": "Simon Sinek é autor e palestrante britânico-americano. Seu TED Talk 'How great leaders inspire action' é um dos mais assistidos da história.",
+      "relatedBooks": [
+        "7-habitos-pessoas-eficazes",
+        "garra",
+        "mindset"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "Assumimos que Sabemos",
+          "content": "Frequentemente sabemos o que fazemos e como fazemos, mas raramente o porquê.\n\nMuitos apostadores nunca pararam para perguntar: por que eu aposto? O que estou tentando resolver, sentir ou evitar?\n\nA resposta a essa pergunta é o início da recuperação real."
+        },
+        {
+          "id": 2,
+          "title": "O Círculo de Ouro",
+          "content": "Sinek descreve três círculos: o que, como, porquê. A maioria comunica de fora para dentro — comece de dentro para fora.\n\nNa recuperação: o porquê é a vida que quer construir. O como são os hábitos. O que é cada ação concreta.\n\nSem porquê claro, os hábitos não sobrevivem aos dias difíceis."
+        },
+        {
+          "id": 3,
+          "title": "Não é Opinião — É Biologia",
+          "content": "O cérebro límbico — responsável por decisões e emoções — não processa linguagem. Por isso decisões importantes 'sentem' antes de 'pensar'.\n\nReconectar com o porquê emocional da recuperação é mais potente do que listas racionais de prós e contras.\n\nO coração move o que a mente apenas planeja."
+        },
+        {
+          "id": 4,
+          "title": "Confiança Emerge",
+          "content": "Confiança vem quando ações alinham com o porquê declarado.\n\nReconstruir confiança com família e amigos exige consistência entre o que você diz que quer e o que faz dia após dia.\n\nNão são as palavras. É o alinhamento."
+        },
+        {
+          "id": 5,
+          "title": "A Tração Aparece",
+          "content": "Quando o porquê está claro, decisões difíceis se tornam menos difíceis — porque há um filtro.\n\n'Isso me aproxima ou me afasta da vida que estou construindo?' é uma pergunta simples que filtra muita coisa.\n\nO porquê é o filtro. Use-o todos os dias."
+        },
+        {
+          "id": 6,
+          "title": "Falhar Sem Perder o Porquê",
+          "content": "Recaídas acontecem. Mas se o porquê continua claro, a recaída se torna desvio temporário, não fim de jornada.\n\nLíderes resilientes — e pessoas em recuperação resilientes — voltam ao porquê após cada falha.\n\nO porquê é o ponto de retorno."
+        },
+        {
+          "id": 7,
+          "title": "Sucesso Versus Realização",
+          "content": "Sucesso é alcançar o que se busca. Realização é alcançar o que importa.\n\nMuitos apostadores buscavam sucesso financeiro e perderam tudo. A recuperação oferece realização — algo que ganhos nunca trariam.\n\nMude o objetivo, mude o resultado."
+        },
+        {
+          "id": 8,
+          "title": "Inspire Outros",
+          "content": "Quem descobre o próprio porquê, naturalmente inspira outros a descobrir os deles.\n\nSua recuperação pode ser fonte de inspiração para outras pessoas — familiares, amigos, alguém anônimo que você ainda nem conhece.\n\nO porquê pessoal se torna porquê coletivo."
+        }
+      ]
+    },
+    {
+      "id": "como-fazer-amigos-influenciar-pessoas",
+      "title": "Como Fazer Amigos e Influenciar Pessoas",
+      "author": "Dale Carnegie",
+      "coverImage": "covers/como-fazer-amigos-influenciar-pessoas.jpg",
+      "gradient": "linear-gradient(135deg, #6d4c41, #4e342e)",
+      "rating": 4.6,
+      "ratingCount": "2.5k",
+      "categories": [
+        "Relacionamentos",
+        "Mindset"
+      ],
+      "readingTime": "14 min",
+      "chaptersCount": 8,
+      "about": "O clássico definitivo sobre relacionamentos humanos, com princípios atemporais sobre como nos conectarmos genuinamente com os outros.",
+      "keyTakeaways": [
+        "Critique menos, compreenda mais",
+        "Interesse genuíno cria conexões verdadeiras",
+        "O nome da pessoa é o som mais doce em qualquer idioma",
+        "Ouça mais do que fala",
+        "Reconheça erros antes que outros os apontem"
+      ],
+      "authorBio": "Dale Carnegie foi escritor e palestrante americano. Publicado em 1936, seu livro continua entre os mais vendidos de todos os tempos sobre desenvolvimento interpessoal.",
+      "relatedBooks": [
+        "comunicacao-nao-violenta",
+        "as-5-linguagens-do-amor",
+        "inteligencia-emocional"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "Não Critique, Não Condene, Não se Queixe",
+          "content": "Crítica raramente muda comportamento — apenas gera defensividade.\n\nApostadores frequentemente foram alvo de muita crítica. Mas também precisam aprender a não criticar — começando por si mesmos.\n\nAutocompaixão e compaixão pelos outros são duas faces da mesma habilidade."
+        },
+        {
+          "id": 2,
+          "title": "Aprecie Honestamente",
+          "content": "Reconhecimento sincero é uma das forças mais poderosas das relações humanas.\n\nReconstruir relações afetadas pelo vício exige reconhecer e valorizar quem ficou ao seu lado.\n\nGratidão expressa fortalece vínculos profundamente."
+        },
+        {
+          "id": 3,
+          "title": "Desperte Desejos Genuínos",
+          "content": "Para influenciar alguém, mostre como o que você propõe atende ao desejo da pessoa — não ao seu.\n\nPedir apoio na recuperação funciona melhor quando você mostra como isso também beneficia quem ajuda.\n\nReciprocidade fortalece todos os laços."
+        },
+        {
+          "id": 4,
+          "title": "Interesse-se Genuinamente",
+          "content": "Você pode fazer mais amigos em dois meses se interessando pelos outros do que em dois anos tentando ser interessante.\n\nApostadores frequentemente viviam autocentrados — o vício consome atenção.\n\nRedirecionar a atenção para os outros é parte essencial da reconexão."
+        },
+        {
+          "id": 5,
+          "title": "Sorria",
+          "content": "Um sorriso genuíno transforma encontros e abre portas. É comunicação não-verbal universal.\n\nNa recuperação, o sorriso espontâneo retorna gradualmente — é sinal de cura interna.\n\nE também acelera a cura ao mudar a química interna."
+        },
+        {
+          "id": 6,
+          "title": "Ouça Verdadeiramente",
+          "content": "A maioria das pessoas espera sua vez de falar — não escuta de verdade.\n\nOuvir com atenção total é presente raro e poderoso. Reconstrói confiança quebrada.\n\nNa recuperação, aprender a ouvir é tão importante quanto aprender a se expressar."
+        },
+        {
+          "id": 7,
+          "title": "Admita Erros Rapidamente",
+          "content": "Reconhecer um erro antes que outros o apontem desarma conflitos.\n\nNa reconstrução após o vício, admitir abertamente o que aconteceu — sem se autoflagelar e sem desculpas elaboradas — abre caminho para perdão.\n\nA verdade dita primeiro é sempre mais leve."
+        },
+        {
+          "id": 8,
+          "title": "Faça o Outro se Sentir Importante",
+          "content": "O desejo mais profundo do ser humano é se sentir valorizado e importante.\n\nNa família e nas amizades afetadas pelo vício, frequentemente as pessoas próximas se sentiram secundárias.\n\nFazê-las se sentir centrais agora é parte importante da reparação."
+        }
+      ]
+    },
+    {
+      "id": "comunicacao-nao-violenta",
+      "title": "Comunicação Não-Violenta",
+      "author": "Marshall Rosenberg",
+      "coverImage": "covers/comunicacao-nao-violenta.jpg",
+      "gradient": "linear-gradient(135deg, #2e7d32, #1b5e20)",
+      "rating": 4.7,
+      "ratingCount": "1.3k",
+      "categories": [
+        "Relacionamentos",
+        "Mindset"
+      ],
+      "readingTime": "13 min",
+      "chaptersCount": 8,
+      "about": "Um método para nos comunicarmos de forma honesta e empática, baseado em quatro passos: observação, sentimento, necessidade e pedido.",
+      "keyTakeaways": [
+        "Observe sem julgar — descreva, não avalie",
+        "Identifique sentimentos sem culpar os outros",
+        "Reconheça necessidades por trás dos sentimentos",
+        "Faça pedidos claros, não exigências",
+        "Empatia precede solução"
+      ],
+      "authorBio": "Marshall Rosenberg foi psicólogo americano e fundador do Centro para Comunicação Não-Violenta. Trabalhou em zonas de conflito ao redor do mundo aplicando seus princípios.",
+      "relatedBooks": [
+        "como-fazer-amigos-influenciar-pessoas",
+        "as-5-linguagens-do-amor",
+        "inteligencia-emocional"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "Dar com o Coração",
+          "content": "Comunicação que vem do coração transforma relações em qualquer contexto.\n\nApostadores frequentemente desenvolveram comunicação defensiva — mentiras, omissões, esquivas. Recuperar comunicação verdadeira é parte essencial da reconstrução.\n\nFalar do coração exige coragem que a recuperação vai desenvolvendo."
+        },
+        {
+          "id": 2,
+          "title": "Observação Sem Avaliação",
+          "content": "Misturar observação com avaliação gera defensividade. 'Você nunca está presente' é avaliação. 'Nos últimos três sábados você não veio jantar' é observação.\n\nNa reconstrução de relações, aprender a observar sem julgar abre conversas que estavam fechadas.\n\nFatos primeiro, interpretações depois."
+        },
+        {
+          "id": 3,
+          "title": "Identificando Sentimentos",
+          "content": "Frequentemente confundimos pensamentos com sentimentos. 'Sinto que você não se importa' é pensamento. 'Sinto tristeza' é sentimento.\n\nDistinguir os dois — para si e para os outros — é habilidade fundamental.\n\nA precisão emocional abre espaço para conexão real."
+        },
+        {
+          "id": 4,
+          "title": "Assumindo Responsabilidade pelos Sentimentos",
+          "content": "Ninguém 'me faz' sentir algo. Outros agem, e eu sinto baseado em minhas necessidades atendidas ou não.\n\nIsso libera dos jogos de culpa que destruíram tantas relações no vício.\n\nResponsabilidade pelos próprios sentimentos é maturidade emocional."
+        },
+        {
+          "id": 5,
+          "title": "Pedindo o que Enriquece a Vida",
+          "content": "Pedidos claros, específicos e positivos têm muito mais chance de serem atendidos do que reclamações vagas.\n\n'Gostaria que conversássemos por 20 minutos antes de dormir, três vezes por semana' é pedido. 'Você nunca conversa comigo' é reclamação.\n\nPedidos concretos constroem; reclamações afastam."
+        },
+        {
+          "id": 6,
+          "title": "Recebendo com Empatia",
+          "content": "Quando alguém expressa frustração ou dor, a tendência é defender-se ou explicar.\n\nMas o que a pessoa precisa primeiro é empatia — ser realmente ouvida.\n\nNa reconstrução pós-vício, oferecer empatia antes de explicação muda dinâmicas profundamente."
+        },
+        {
+          "id": 7,
+          "title": "Conectando-se Compassivamente Consigo",
+          "content": "Compaixão pelos outros começa pela compaixão por si mesmo.\n\nApostadores frequentemente carregam autocrítica destrutiva. Aprender a falar consigo com a mesma gentileza que falaria com um amigo é transformador.\n\nAuto-empatia não é fraqueza — é base para tudo o mais."
+        },
+        {
+          "id": 8,
+          "title": "Expressando Gratidão",
+          "content": "Expressões genuínas de gratidão — específicas, concretas, com necessidade atendida nomeada — fortalecem vínculos profundamente.\n\n'Obrigado por estar comigo no hospital, isso atendeu minha necessidade de apoio em um momento de medo' é diferente de 'obrigado por tudo'.\n\nGratidão específica é gratidão poderosa."
+        }
+      ]
+    },
+    {
+      "id": "pai-rico-pai-pobre",
+      "title": "Pai Rico, Pai Pobre",
+      "author": "Robert Kiyosaki",
+      "coverImage": "covers/pai-rico-pai-pobre.jpg",
+      "gradient": "linear-gradient(135deg, #6a1b1a, #4a1110)",
+      "rating": 4.4,
+      "ratingCount": "1.9k",
+      "categories": [
+        "Finanças Pessoais",
+        "Mindset"
+      ],
+      "readingTime": "13 min",
+      "chaptersCount": 8,
+      "about": "Lições sobre dinheiro contadas a partir de dois 'pais' com mentalidades opostas — e como o que aprendemos sobre dinheiro na infância molda nossa vida adulta.",
+      "keyTakeaways": [
+        "Ativos colocam dinheiro no bolso; passivos retiram",
+        "Ricos compram ativos; pobres compram passivos pensando serem ativos",
+        "Inteligência financeira pode ser aprendida em qualquer idade",
+        "Medo e ganância dominam decisões financeiras ruins",
+        "Pague-se primeiro: invista antes de gastar"
+      ],
+      "authorBio": "Robert Kiyosaki é empresário e autor americano. Pai Rico, Pai Pobre é um dos livros sobre finanças pessoais mais vendidos da história, com mais de 32 milhões de cópias.",
+      "relatedBooks": [
+        "a-psicologia-do-dinheiro",
+        "quem-pensa-enriquece",
+        "habitos-atomicos"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "Os Ricos Não Trabalham por Dinheiro",
+          "content": "Os ricos fazem o dinheiro trabalhar para eles, em vez de trabalhar pelo dinheiro.\n\nApostadores frequentemente buscavam atalhos — ganhos sem trabalho. Mas a única forma sustentável é construir ativos ao longo do tempo.\n\nA recuperação financeira começa com essa mudança mental."
+        },
+        {
+          "id": 2,
+          "title": "Por que Ensinar Educação Financeira",
+          "content": "A maioria das pessoas nunca recebe educação financeira formal. Por isso repete os erros dos pais.\n\nApostadores frequentemente vêm de famílias sem alfabetização financeira. Quebrar esse ciclo é parte da recuperação.\n\nO que você não sabe sobre dinheiro está custando caro."
+        },
+        {
+          "id": 3,
+          "title": "Cuide do Seu Próprio Negócio",
+          "content": "'Trabalhe para aprender, não pelo dinheiro' — desenvolva habilidades que se acumulam.\n\nNa recuperação, isso significa reconstruir carreira ou habilidades que o vício havia paralisado.\n\nCada habilidade nova é um ativo."
+        },
+        {
+          "id": 4,
+          "title": "A História dos Impostos e o Poder das Corporações",
+          "content": "Sistemas financeiros premiam quem os entende e penalizam quem os ignora.\n\nApostadores frequentemente eram penalizados duplamente: perdiam para o sistema e ainda pagavam impostos sobre o pouco que ganhavam.\n\nEntender o sistema é parte da recuperação financeira."
+        },
+        {
+          "id": 5,
+          "title": "Os Ricos Inventam Dinheiro",
+          "content": "Oportunidades estão em toda parte para quem aprende a vê-las. Mas exigem inteligência financeira para serem aproveitadas.\n\nO mesmo cérebro que via 'oportunidade' em cada aposta pode aprender a ver oportunidades reais de crescimento.\n\nÉ retreino, não substituição."
+        },
+        {
+          "id": 6,
+          "title": "Trabalhe para Aprender",
+          "content": "Antes de buscar salário alto, busque aprendizado que se torna ativo permanente.\n\nReconstruir carreira após o vício oferece chance de fazer escolhas conscientes — não apenas pelo dinheiro.\n\nAprendizado contínuo é a habilidade mais valiosa do século."
+        },
+        {
+          "id": 7,
+          "title": "Vencendo Obstáculos",
+          "content": "Medo, cinismo, preguiça, maus hábitos e arrogância — esses são os cinco obstáculos principais ao sucesso financeiro.\n\nA recuperação enfrenta cada um deles diretamente. Vencê-los na vida financeira fortalece vencê-los em todas as áreas.\n\nObstáculos vencidos se tornam degraus."
+        },
+        {
+          "id": 8,
+          "title": "Começando",
+          "content": "O melhor momento para começar a construir vida financeira saudável foi há vinte anos. O segundo melhor é hoje.\n\nNão importa o quanto você perdeu apostando — a partir de hoje começa uma nova história.\n\nO primeiro real economizado conscientemente é o início."
+        }
+      ]
+    },
+    {
+      "id": "quem-pensa-enriquece",
+      "title": "Quem Pensa Enriquece",
+      "author": "Napoleon Hill",
+      "coverImage": "covers/quem-pensa-enriquece.jpg",
+      "gradient": "linear-gradient(135deg, #5e35b1, #4527a0)",
+      "rating": 4.5,
+      "ratingCount": "1.6k",
+      "categories": [
+        "Mindset",
+        "Propósito"
+      ],
+      "readingTime": "14 min",
+      "chaptersCount": 8,
+      "about": "O clássico atemporal sobre como o pensamento estruturado, o desejo definido e a persistência geram resultados extraordinários em qualquer área da vida.",
+      "keyTakeaways": [
+        "Desejo definido é o ponto de partida de toda realização",
+        "Persistência supera talento e oportunidade",
+        "A mente se torna o que pensa repetidamente",
+        "Decisão rápida e mudança lenta marcam quem fracassa",
+        "Mente mestra: cercar-se de pessoas que elevam o pensamento"
+      ],
+      "authorBio": "Napoleon Hill foi autor americano pioneiro do gênero de desenvolvimento pessoal. Quem Pensa Enriquece, publicado em 1937, vendeu mais de 100 milhões de cópias.",
+      "relatedBooks": [
+        "pai-rico-pai-pobre",
+        "a-psicologia-do-dinheiro",
+        "mindset"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "Pensamento é Coisa",
+          "content": "Pensamentos repetidos com emoção tendem a se materializar em circunstâncias.\n\nApostadores treinaram pensamento em torno de perdas, recuperações e próximas apostas. Esse padrão moldou a realidade.\n\nRetreinar o pensamento é retreinar a vida."
+        },
+        {
+          "id": 2,
+          "title": "Desejo: O Ponto de Partida",
+          "content": "Desejo difuso produz resultados difusos. Desejo definido, escrito e datado produz resultados.\n\nDefinir claramente a vida que quer construir — em detalhes — é mais poderoso do que vontade genérica de 'parar de apostar'.\n\nQuanto mais concreta a visão, mais provável a realização."
+        },
+        {
+          "id": 3,
+          "title": "Fé: A Visualização e a Crença",
+          "content": "Crença no resultado precede o resultado. Sem crença, esforço se dispersa.\n\nNa recuperação, momentos de visualizar com fé a vida sem apostas — sentindo como será — fortalece o caminho até ela.\n\nVer com clareza é meio caminho andado."
+        },
+        {
+          "id": 4,
+          "title": "Autosugestão",
+          "content": "Repetir a si mesmo o que quer se tornar reprograma a mente subconsciente ao longo do tempo.\n\nAfirmações específicas, repetidas diariamente com convicção, mudam padrões mentais que pareciam fixos.\n\nO subconsciente acredita no que escuta repetidamente."
+        },
+        {
+          "id": 5,
+          "title": "Conhecimento Especializado",
+          "content": "Conhecimento geral é abundante. Conhecimento especializado, organizado e aplicado é o que produz resultados.\n\nNa recuperação, aprofundar conhecimento sobre vício, finanças, psicologia — em vez de saber pouco de tudo — acelera a transformação.\n\nProfundidade vence largura."
+        },
+        {
+          "id": 6,
+          "title": "Imaginação: A Oficina da Mente",
+          "content": "Imaginação é o laboratório onde planos são construídos antes da execução.\n\nReservar tempo para imaginar com detalhes a vida em recuperação — sons, lugares, pessoas, sentimentos — é prática poderosa.\n\nO que se imagina com vividez tende a se realizar."
+        },
+        {
+          "id": 7,
+          "title": "Decisão: O Antídoto à Procrastinação",
+          "content": "Pessoas que fracassam decidem devagar e mudam de ideia rápido. Pessoas que vencem decidem rápido e mudam de ideia devagar.\n\nUma decisão firme de não apostar — tomada com convicção e mantida — é mais poderosa que dezenas de decisões hesitantes.\n\nDecisão clara é metade da vitória."
+        },
+        {
+          "id": 8,
+          "title": "Persistência e Mente Mestra",
+          "content": "Persistência é qualidade mais decisiva que talento. E persistência se fortalece em grupo — a 'mente mestra' de Hill.\n\nGrupos de apoio são exatamente isso: mente mestra a serviço da recuperação.\n\nCom persistência e aliados, qualquer transformação é possível."
+        }
+      ]
+    },
+    {
+      "id": "tropecando-na-felicidade",
+      "title": "Tropeçando na Felicidade",
+      "author": "Daniel Gilbert",
+      "coverImage": "covers/tropecando-na-felicidade.jpg",
+      "gradient": "linear-gradient(135deg, #f9a825, #e65100)",
+      "rating": 4.4,
+      "ratingCount": "1.1k",
+      "categories": [
+        "Felicidade & Bem-estar",
+        "Mindset"
+      ],
+      "readingTime": "13 min",
+      "chaptersCount": 8,
+      "about": "O psicólogo de Harvard Daniel Gilbert revela como o cérebro humano sistematicamente erra ao prever o que realmente nos fará felizes no futuro — e por que confiar ciegamente nessas previsões pode custar caro.",
+      "keyTakeaways": [
+        "O cérebro humano é péssimo em prever a própria felicidade futura",
+        "Imaginamos o futuro preenchendo lacunas com o presente, distorcendo a previsão",
+        "Superestimamos o impacto emocional de eventos futuros, bons e ruins",
+        "Buscamos prazer imediato em vez de bem-estar duradouro por erro de previsão",
+        "A felicidade real frequentemente surge de onde menos esperamos"
+      ],
+      "authorBio": "Daniel Gilbert é psicólogo e professor de Harvard, especializado em como o cérebro humano constrói previsões emocionais sobre o futuro.",
+      "relatedBooks": [
+        "a-vantagem-da-felicidade",
+        "fluxo",
+        "mindset"
+      ],
+      "chapters": [
+        {
+          "id": 1,
+          "title": "Viajando no Tempo da Mente",
+          "content": "Somos a única espécie capaz de imaginar vividamente o futuro — e isso nos dá uma falsa confiança sobre o que vai nos fazer felizes.\n\nApostadores imaginam constantemente o futuro da próxima vitória, sentindo antecipadamente uma felicidade que raramente se sustenta depois do resultado real.\n\nReconhecer que a mente erra sistematicamente ao prever felicidade é o primeiro passo para confiar menos nessas previsões impulsivas."
+        },
+        {
+          "id": 2,
+          "title": "O Vazio nas Lacunas",
+          "content": "Quando imaginamos o futuro, o cérebro preenche lacunas automaticamente com informações do presente, distorcendo a previsão real.\n\nIsso explica por que, no meio de uma fissura, a vida sem apostar parece insuportavelmente vazia — o cérebro está projetando o desconforto presente para todo o futuro imaginado.\n\nEssa projeção é ilusão, não profecia."
+        },
+        {
+          "id": 3,
+          "title": "O Presente Tirano",
+          "content": "O presente exerce influência desproporcional sobre como imaginamos o futuro — sentimos como se o estado atual fosse permanente.\n\nUm dia difícil na recuperação não significa que todos os dias serão assim. O presente tirano mente sobre a duração do desconforto.\n\nLembrar disso ajuda a atravessar momentos difíceis sem desistir."
+        },
+        {
+          "id": 4,
+          "title": "Realismo nas Previsões Emocionais",
+          "content": "Sistematicamente superestimamos a intensidade e a duração de emoções futuras, tanto positivas quanto negativas.\n\nA vitória de uma aposta parece que vai durar para sempre na imaginação — mas a alegria real dura minutos. A dor de parar de apostar parece eterna — mas também passa.\n\nCalibrar expectativas emocionais com mais realismo reduz decisões baseadas em previsões exageradas."
+        },
+        {
+          "id": 5,
+          "title": "O Sistema Imunológico Psicológico",
+          "content": "Temos uma capacidade subestimada de nos adaptarmos e encontrarmos significado mesmo em circunstâncias difíceis — um 'sistema imunológico psicológico' real.\n\nPessoas em recuperação frequentemente descobrem força e resiliência que nunca souberam que tinham, exatamente como Gilbert descreve.\n\nVocê é mais capaz de lidar com o difícil do que sua mente prevê agora."
+        },
+        {
+          "id": 6,
+          "title": "A Comparação Distorce Tudo",
+          "content": "Julgamos nossa felicidade comparando com referências próximas, não em termos absolutos — e isso distorce decisões importantes.\n\nApostadores comparam ganhos com perdas recentes, nunca com a estabilidade financeira real. Essa comparação distorcida sustenta o ciclo.\n\nRecalibrar as referências de comparação é parte da reconstrução mental."
+        },
+        {
+          "id": 7,
+          "title": "Por Que Erramos Tanto",
+          "content": "Erramos nas previsões de felicidade porque confiamos demais na imaginação e pouco na experiência real de outras pessoas que já passaram pela mesma situação.\n\nOuvir relatos reais de quem já está em recuperação avançada é mais confiável do que a imaginação sobre como será 'impossível' viver sem apostar.\n\nA experiência coletiva corrige os erros da imaginação individual."
+        },
+        {
+          "id": 8,
+          "title": "Encontrando Felicidade Real",
+          "content": "A felicidade genuína frequentemente surge de lugares inesperados — conexão, propósito, pequenas rotinas — não de onde a mente previu.\n\nMuitas pessoas em recuperação relatam encontrar uma felicidade mais estável e profunda do que jamais sentiram durante o vício, exatamente onde menos esperavam.\n\nConfie menos na previsão e mais na experiência de viver plenamente o presente."
+        }
+      ]
+    }
+  ]
 };
   </script>
 
@@ -1104,14 +3356,16 @@
       isLocked: true,
       currentTab: 'dashboard',
       currentLesson: null,
+      currentBook: null,
+      currentChapter: null,
+      selectedCategory: 'Todos',
       daysCleanStart: null,
-      completedLessons: [], // list of lesson IDs
+      completedLessons: [], 
+      completedChapters: {}, // maps bookId to array of chapterIds
       diaryLogs: [],
       currentDiaryPromptIdx: 0,
-      audioPlayer: null,
       isPlayingAudio: false,
       audioTimerInterval: null,
-      // Synthetic voice speech synthesis
       speechSynth: window.speechSynthesis,
       speechUtterance: null
     };
@@ -1148,6 +3402,12 @@
         appState.completedLessons = JSON.parse(savedCompleted);
       }
       
+      // Load completed book chapters
+      const savedChapters = localStorage.getItem("betfree_completed_chapters");
+      if (savedChapters) {
+        appState.completedChapters = JSON.parse(savedChapters);
+      }
+      
       // Load diary logs
       const savedDiary = localStorage.getItem("betfree_diary_logs");
       if (savedDiary) {
@@ -1162,6 +3422,8 @@
       
       // Render components
       renderModulesList();
+      renderCategoryFilters();
+      renderBooksGrid();
       renderDiaryPrompt();
       renderDiaryLogs();
       
@@ -1172,7 +3434,7 @@
     // Access Lock screen handlers
     function unlockApp() {
       const password = document.getElementById("input-lock-password").value.trim();
-      // Lock password is set to a simple access key "betfree2026" or "livredasbets"
+      // Universal Access Key
       if (password.toLowerCase() === "betfree2026" || password.toLowerCase() === "livredasbets" || password === "") {
         appState.isLocked = false;
         localStorage.setItem("betfree_is_locked", "false");
@@ -1202,6 +3464,9 @@
       // Reset bottom nav classes
       document.querySelectorAll("nav button").forEach(btn => btn.classList.remove("tab-active"));
       document.getElementById(`nav-btn-${tabId}`).classList.add("tab-active");
+      
+      // Stop speech synthesis if switching tabs
+      resetAudioEngine();
     }
 
     // Days clean live counter loop
@@ -1257,34 +3522,32 @@
           cardHtml = `
             <div class="bf-card p-4.5 flex flex-col gap-3">
               <div class="flex justify-between items-start gap-4">
-                <div>
+                <div class="flex-1">
                   <div class="flex items-center gap-2 mb-1">
-                    <span class="text-[9.5px] font-black uppercase text-[#52b788] bg-[rgba(82,183,136,0.15)] px-2 py-0.5 rounded">${module.tag}</span>
-                    <span class="text-[10px] text-[#4a6b57] font-semibold">${module.duration}</span>
+                    <span class="text-[9.5px] font-black uppercase text-[#52b788] bg-[rgba(82,183,136,0.12)] px-2 py-0.5 rounded">${module.tag}</span>
+                    <span class="text-[10px] text-[#4a6b57] font-semibold">sub:${module.duration}</span>
                   </div>
                   <h4 class="font-serif text-base font-bold text-white leading-snug">${module.name}</h4>
                   <p class="text-xs text-[#8aaa96] mt-0.5 leading-normal">${module.subtitle}</p>
                 </div>
-                <div class="text-[10px] font-bold text-[#52b788] flex-shrink-0">${completedInSection}/${sectionsList.length} aulas</div>
+                <div class="text-[10px] font-bold text-[#52b788] flex-shrink-0">${completedInSection}/\ ${sectionsList.length} aulas</div>
               </div>
               
-              <!-- Progress Bar -->
               <div class="w-full h-1 bg-[rgba(255,255,255,0.06)] rounded-full overflow-hidden">
                 <div class="bg-[#52b788] h-full" style="width: ${progressPct}%"></div>
               </div>
               
-              <!-- Action dropdown / expand -->
               <div class="flex flex-col gap-2 mt-2 pt-2 border-t border-[rgba(82,183,136,0.08)]">
                 ${sectionsList.map((section, idx) => {
                   const isCompleted = appState.completedLessons.includes(section.id);
                   return `
-                    <button onclick="openLesson('${module.id}', '${section.id}')" class="flex justify-between items-center py-2.5 px-3 rounded-lg hover:bg-[rgba(82,183,136,0.05)] text-left cursor-pointer transition-colors">
+                    <button onclick="openLesson('${module.id}', '${section.id}')" class="flex justify-between items-center py-2 px-2.5 rounded-lg hover:bg-[rgba(82,183,136,0.04)] text-left cursor-pointer transition-colors">
                       <span class="inline-flex items-center gap-2 text-xs text-[#f0f4f1] font-medium max-w-[80%]">
                         ${isCompleted 
-                          ? `<i data-lucide="check-circle" class="w-3.5 h-3.5 text-[#52b788]"></i>` 
-                          : `<i data-lucide="play-circle" class="w-3.5 h-3.5 text-[#4a6b57]"></i>`
+                          ? `<i data-lucide="check-circle" class="w-3.5 h-3.5 text-[#52b788] flex-shrink-0"></i>` 
+                          : `<i data-lucide="play-circle" class="w-3.5 h-3.5 text-[#4a6b57] flex-shrink-0"></i>`
                         }
-                        <span class="${isCompleted ? 'line-through text-[#4a6b57]' : ''}">${idx+1}. ${section.title}</span>
+                        <span class="${isCompleted ? 'line-through text-[#4a6b57]' : ''} truncate">${idx+1}. ${section.title}</span>
                       </span>
                       <span class="text-[10px] text-[#4a6b57] font-mono">${section.duration}</span>
                     </button>
@@ -1304,7 +3567,7 @@
                   <h4 class="font-serif text-base font-bold text-[#8aaa96] leading-snug">${module.name}</h4>
                   <p class="text-xs text-[#4a6b57] mt-0.5 leading-normal">${module.subtitle}</p>
                 </div>
-                <i data-lucide="lock" class="w-4 h-4 text-[#4a6b57]"></i>
+                <i data-lucide="lock" class="w-4 h-4 text-[#4a6b57] mt-0.5"></i>
               </div>
             </div>
           `;
@@ -1315,18 +3578,15 @@
       lucide.createIcons();
     }
 
-    // Logic to lock modules until previous is 100% completed
     function isPreviousModuleCompleted(moduleId) {
       if (moduleId === 0) return true;
       const prevModuleId = moduleId - 1;
       const prevSectionsList = APP_DATABASE.Gd[prevModuleId] || [];
       if (prevSectionsList.length === 0) return true;
-      
-      const allCompleted = prevSectionsList.every(s => appState.completedLessons.includes(s.id));
-      return allCompleted;
+      return prevSectionsList.every(s => appState.completedLessons.includes(s.id));
     }
 
-    // Lesson Details Overlay Handlers
+    // Open Lesson Overlay
     function openLesson(moduleId, lessonId) {
       const module = APP_DATABASE.So.find(m => m.id == moduleId);
       const sections = APP_DATABASE.Gd[moduleId] || [];
@@ -1335,7 +3595,6 @@
       
       appState.currentLesson = { moduleId, lessonId, section, contentList };
       
-      // Update DOM elements
       document.getElementById("lesson-module-tag").innerText = module.name.toUpperCase();
       document.getElementById("lesson-title").innerText = section.title;
       document.getElementById("lesson-reading-time").innerText = section.duration;
@@ -1343,7 +3602,6 @@
       const bodyContainer = document.getElementById("lesson-content-body");
       bodyContainer.innerHTML = contentList.map(para => `<p class="m-0">${para}</p>`).join('');
       
-      // Mark check button state
       const isCompleted = appState.completedLessons.includes(lessonId);
       const btnComplete = document.getElementById("btn-complete-lesson");
       if (isCompleted) {
@@ -1354,19 +3612,13 @@
         btnComplete.classList.replace("bg-[#4a6b57]", "bg-[#2d6a4f]");
       }
       
-      // Reset audio states
       resetAudioEngine();
-      
-      // Show lesson overlay
       document.getElementById("screen-lesson").classList.remove("hidden");
       lucide.createIcons();
     }
 
     function closeLesson() {
-      // Stop speech
-      if (appState.isPlayingAudio) {
-        toggleAudio();
-      }
+      resetAudioEngine();
       document.getElementById("screen-lesson").classList.add("hidden");
       renderModulesList();
     }
@@ -1380,31 +3632,224 @@
       closeLesson();
     }
 
-    // TTS Text-To-Speech audio player logic
+    // Category Filters and Books rendering (Biblioteca)
+    function renderCategoryFilters() {
+      const categoriesSet = new Set(['Todos']);
+      APP_DATABASE.wo.forEach(book => {
+        if (book.categories) {
+          book.categories.forEach(cat => categoriesSet.add(cat));
+        }
+      });
+      
+      const container = document.getElementById("category-filters");
+      if (!container) return;
+      container.innerHTML = "";
+      
+      Array.from(categoriesSet).forEach(cat => {
+        const isActive = cat === appState.selectedCategory;
+        container.innerHTML += `
+          <button onclick="selectCategory('${cat}')" class="cat-filter-btn px-4 py-2 rounded-full flex-shrink-0 cursor-pointer transition-colors ${isActive ? 'bg-[#2d6a4f] text-white' : 'bg-[#0d1410] text-[#8aaa96] hover:text-white'}">${cat}</button>
+        `;
+      });
+    }
+
+    function selectCategory(cat) {
+      appState.selectedCategory = cat;
+      renderCategoryFilters();
+      renderBooksGrid();
+    }
+
+    function renderBooksGrid(filteredList = null) {
+      const container = document.getElementById("books-grid");
+      if (!container) return;
+      
+      container.innerHTML = "";
+      
+      let list = filteredList || APP_DATABASE.wo;
+      if (!filteredList && appState.selectedCategory !== 'Todos') {
+        list = APP_DATABASE.wo.filter(book => book.categories && book.categories.includes(appState.selectedCategory));
+      }
+      
+      if (list.length === 0) {
+        container.innerHTML = `<div class="col-span-2 text-xs text-[#4a6b57] text-center py-8">Nenhum livro encontrado.</div>`;
+        return;
+      }
+      
+      list.forEach(book => {
+        const bookProgressList = appState.completedChapters[book.id] || [];
+        const percent = Math.round((bookProgressList.length / book.chaptersCount) * 100);
+        
+        container.innerHTML += `
+          <button onclick="openBook('${book.id}')" class="bf-card p-3 flex flex-col text-left cursor-pointer transition-transform hover:scale-[1.02] focus:scale-[1.02] duration-200">
+            <div class="relative w-full aspect-[2/3] rounded-xl overflow-hidden shadow border border-[rgba(82,183,136,0.1)]">
+              <img src="${book.coverImage}" alt="${book.title}" class="w-full h-full object-cover">
+            </div>
+            <h4 class="text-xs font-bold text-white mt-3 truncate font-serif leading-tight">${book.title}</h4>
+            <span class="text-[10px] text-[#8aaa96] truncate mt-0.5">${book.author}</span>
+            
+            <div class="flex items-center justify-between text-[9px] font-bold text-[#52b788] mt-2.5">
+              <span>${bookProgressList.length}/${book.chaptersCount} cap</span>
+              <span>${percent}%</span>
+            </div>
+            
+            <div class="w-full h-1 bg-[rgba(255,255,255,0.06)] rounded-full overflow-hidden mt-1.5">
+              <div class="bg-[#52b788] h-full" style="width: ${percent}%"></div>
+            </div>
+          </button>
+        `;
+      });
+      lucide.createIcons();
+    }
+
+    function filterBooks() {
+      const searchVal = document.getElementById("search-books").value.toLowerCase().trim();
+      if (searchVal === "") {
+        renderBooksGrid();
+        return;
+      }
+      
+      const filtered = APP_DATABASE.wo.filter(book => 
+        book.title.toLowerCase().includes(searchVal) || 
+        book.author.toLowerCase().includes(searchVal) ||
+        (book.about && book.about.toLowerCase().includes(searchVal))
+      );
+      renderBooksGrid(filtered);
+    }
+
+    // Book Details Screen
+    function openBook(bookId) {
+      const book = APP_DATABASE.wo.find(b => b.id === bookId);
+      appState.currentBook = book;
+      
+      document.getElementById("book-detail-cover").src = book.coverImage;
+      document.getElementById("book-detail-title").innerText = book.title;
+      document.getElementById("book-detail-author").innerText = book.author;
+      document.getElementById("book-detail-rating").innerText = book.rating;
+      document.getElementById("book-detail-rating-count").innerText = `(${book.ratingCount} avaliações)`;
+      document.getElementById("book-detail-time").innerText = `${book.readingTime} de leitura`;
+      document.getElementById("book-detail-about").innerText = book.about;
+      
+      // Takeaways
+      const takeawaysList = document.getElementById("book-detail-takeaways");
+      takeawaysList.innerHTML = book.keyTakeaways.map(t => `
+        <li class="flex gap-2 items-start">
+          <i data-lucide="check-circle" class="w-3.5 h-3.5 text-[#52b788] flex-shrink-0 mt-0.5"></i>
+          <span>${t}</span>
+        </li>
+      `).join('');
+      
+      // Chapters list
+      const chaptersContainer = document.getElementById("book-chapters-list");
+      chaptersContainer.innerHTML = "";
+      
+      const bookProgressList = appState.completedChapters[book.id] || [];
+      
+      book.chapters.forEach((chap, idx) => {
+        const isCompleted = bookProgressList.includes(chap.id);
+        
+        chaptersContainer.innerHTML += `
+          <button onclick="openChapter(${chap.id})" class="flex justify-between items-center py-3 px-4 rounded-xl border border-[rgba(82,183,136,0.12)] bg-[#0d1410] hover:bg-[rgba(82,183,136,0.04)] text-left cursor-pointer transition-colors w-full">
+            <span class="inline-flex items-center gap-3 text-xs text-[#f0f4f1] font-semibold max-w-[80%]">
+              <span class="w-6 h-6 rounded-full bg-[rgba(82,183,136,0.1)] text-[#52b788] font-bold flex items-center justify-center text-[10.5px] flex-shrink-0">${chap.id}</span>
+              <span class="${isCompleted ? 'line-through text-[#4a6b57]' : ''} truncate">${chap.title}</span>
+            </span>
+            ${isCompleted 
+              ? `<i data-lucide="check" class="w-4 h-4 text-[#52b788]"></i>` 
+              : `<i data-lucide="play-circle" class="w-4 h-4 text-[#4a6b57]"></i>`
+            }
+          </button>
+        `;
+      });
+      
+      document.getElementById("screen-book").classList.remove("hidden");
+      lucide.createIcons();
+    }
+
+    function closeBook() {
+      document.getElementById("screen-book").classList.add("hidden");
+      renderBooksGrid();
+    }
+
+    // Book Chapter Reader overlay
+    function openChapter(chapterId) {
+      const book = appState.currentBook;
+      const chapter = book.chapters.find(c => c.id === chapterId);
+      appState.currentChapter = chapter;
+      
+      document.getElementById("chapter-header-book").innerText = book.title.toUpperCase();
+      document.getElementById("chapter-title").innerText = chapter.title;
+      
+      const bodyContainer = document.getElementById("chapter-content-body");
+      // Format chapter paragraphs
+      const paras = chapter.content.split('\n\n').filter(Boolean);
+      bodyContainer.innerHTML = paras.map(p => `<p class="m-0">${p}</p>`).join('');
+      
+      const bookProgressList = appState.completedChapters[book.id] || [];
+      const isCompleted = bookProgressList.includes(chapterId);
+      const btnComplete = document.getElementById("btn-complete-chapter");
+      if (isCompleted) {
+        btnComplete.innerHTML = `Capítulo Concluído <i data-lucide="check" class="w-5 h-5 text-white"></i>`;
+        btnComplete.classList.replace("bg-[#2d6a4f]", "bg-[#4a6b57]");
+      } else {
+        btnComplete.innerHTML = `Concluir Capítulo <i data-lucide="check" class="w-5 h-5"></i>`;
+        btnComplete.classList.replace("bg-[#4a6b57]", "bg-[#2d6a4f]");
+      }
+      
+      resetAudioEngine();
+      document.getElementById("screen-chapter").classList.remove("hidden");
+      lucide.createIcons();
+    }
+
+    function closeChapter() {
+      resetAudioEngine();
+      document.getElementById("screen-chapter").classList.add("hidden");
+      openBook(appState.currentBook.id); // reload book detail chapters progress
+    }
+
+    function markChapterComplete() {
+      const book = appState.currentBook;
+      const chapId = appState.currentChapter.id;
+      
+      if (!appState.completedChapters[book.id]) {
+        appState.completedChapters[book.id] = [];
+      }
+      
+      if (!appState.completedChapters[book.id].includes(chapId)) {
+        appState.completedChapters[book.id].push(chapId);
+        localStorage.setItem("betfree_completed_chapters", JSON.stringify(appState.completedChapters));
+      }
+      closeChapter();
+    }
+
+    // Unified Audio play/pause engines for Lessons and Chapters
     function resetAudioEngine() {
-      // Clear progress
+      // 1. Reset Lesson Audio elements
       document.getElementById("audio-progress-bar").style.width = "0%";
       document.getElementById("audio-timer").innerText = "00:00";
+      document.getElementById("icon-play-audio").setAttribute("data-lucide", "play");
       
-      const playIcon = document.getElementById("icon-play-audio");
-      playIcon.setAttribute("data-lucide", "play");
+      // 2. Reset Chapter Audio elements
+      document.getElementById("chapter-audio-progress").style.width = "0%";
+      document.getElementById("chapter-audio-timer").innerText = "00:00";
+      document.getElementById("icon-play-chapter-audio").setAttribute("data-lucide", "play");
+      
       appState.isPlayingAudio = false;
       
-      // Clear speech
+      // Speech cancel
       if (appState.speechSynth) {
         appState.speechSynth.cancel();
       }
-      
       if (appState.audioTimerInterval) {
         clearInterval(appState.audioTimerInterval);
       }
+      lucide.createIcons();
     }
 
+    // Toggle lesson speech synthesis
     function toggleAudio() {
       const playIcon = document.getElementById("icon-play-audio");
       
       if (appState.isPlayingAudio) {
-        // PAUSE
         appState.speechSynth.pause();
         appState.isPlayingAudio = false;
         playIcon.setAttribute("data-lucide", "play");
@@ -1413,7 +3858,6 @@
           clearInterval(appState.audioTimerInterval);
         }
       } else {
-        // PLAY/RESUME
         const speechSupported = 'speechSynthesis' in window;
         if (!speechSupported) {
           alert("O seu dispositivo não suporta áudio nativo de lições.");
@@ -1423,32 +3867,23 @@
         if (appState.speechSynth.paused) {
           appState.speechSynth.resume();
         } else {
-          // New Speech
           appState.speechSynth.cancel();
-          
           const fullTextToRead = appState.currentLesson.contentList.join('. ');
           appState.speechUtterance = new SpeechSynthesisUtterance(fullTextToRead);
           appState.speechUtterance.lang = "pt-BR";
           appState.speechUtterance.rate = 1.0;
           
-          // Get Portuguese voices if available
           const voices = appState.speechSynth.getVoices();
           const ptVoice = voices.find(v => v.lang.startsWith("pt"));
-          if (ptVoice) {
-            appState.speechUtterance.voice = ptVoice;
-          }
+          if (ptVoice) appState.speechUtterance.voice = ptVoice;
           
-          appState.speechUtterance.onend = () => {
-            resetAudioEngine();
-          };
-          
+          appState.speechUtterance.onend = () => resetAudioEngine();
           appState.speechSynth.speak(appState.speechUtterance);
         }
         
         appState.isPlayingAudio = true;
         playIcon.setAttribute("data-lucide", "pause");
         
-        // Simulate timer tick
         let tickSeconds = 0;
         appState.audioTimerInterval = setInterval(() => {
           tickSeconds++;
@@ -1456,10 +3891,63 @@
           const secStr = String(tickSeconds % 60).padStart(2, '0');
           document.getElementById("audio-timer").innerText = `${minStr}:${secStr}`;
           
-          // Move progress bar (estimate reading speed at 15 chars/sec)
           const totalChars = appState.currentLesson.contentList.join('. ').length;
           const readPct = Math.min(100, Math.round(((tickSeconds * 15) / totalChars) * 100));
           document.getElementById("audio-progress-bar").style.width = `${readPct}%`;
+        }, 1000);
+      }
+      lucide.createIcons();
+    }
+
+    // Toggle chapter speech synthesis
+    function toggleChapterAudio() {
+      const playIcon = document.getElementById("icon-play-chapter-audio");
+      
+      if (appState.isPlayingAudio) {
+        appState.speechSynth.pause();
+        appState.isPlayingAudio = false;
+        playIcon.setAttribute("data-lucide", "play");
+        
+        if (appState.audioTimerInterval) {
+          clearInterval(appState.audioTimerInterval);
+        }
+      } else {
+        const speechSupported = 'speechSynthesis' in window;
+        if (!speechSupported) {
+          alert("O seu dispositivo não suporta áudio nativo de lições.");
+          return;
+        }
+
+        if (appState.speechSynth.paused) {
+          appState.speechSynth.resume();
+        } else {
+          appState.speechSynth.cancel();
+          const fullTextToRead = appState.currentChapter.content;
+          appState.speechUtterance = new SpeechSynthesisUtterance(fullTextToRead);
+          appState.speechUtterance.lang = "pt-BR";
+          appState.speechUtterance.rate = 1.0;
+          
+          const voices = appState.speechSynth.getVoices();
+          const ptVoice = voices.find(v => v.lang.startsWith("pt"));
+          if (ptVoice) appState.speechUtterance.voice = ptVoice;
+          
+          appState.speechUtterance.onend = () => resetAudioEngine();
+          appState.speechSynth.speak(appState.speechUtterance);
+        }
+        
+        appState.isPlayingAudio = true;
+        playIcon.setAttribute("data-lucide", "pause");
+        
+        let tickSeconds = 0;
+        appState.audioTimerInterval = setInterval(() => {
+          tickSeconds++;
+          const minStr = String(Math.floor(tickSeconds / 60)).padStart(2, '0');
+          const secStr = String(tickSeconds % 60).padStart(2, '0');
+          document.getElementById("chapter-audio-timer").innerText = `${minStr}:${secStr}`;
+          
+          const totalChars = appState.currentChapter.content.length;
+          const readPct = Math.min(100, Math.round(((tickSeconds * 15) / totalChars) * 100));
+          document.getElementById("chapter-audio-progress").style.width = `${readPct}%`;
         }, 1000);
       }
       lucide.createIcons();
@@ -1489,12 +3977,10 @@
         text: txt
       };
       
-      appState.diaryLogs.unshift(newEntry); // add to top
+      appState.diaryLogs.unshift(newEntry);
       localStorage.setItem("betfree_diary_logs", JSON.stringify(appState.diaryLogs));
       
-      // Clear input
       document.getElementById("diario-input").value = "";
-      
       renderDiaryLogs();
     }
 
