@@ -298,7 +298,7 @@
     </section>
 
     <!-- LESSON DETAIL VIEW SCREEN -->
-    <div id="screen-lesson" class="absolute inset-0 bg-[#111a14] z-30 flex flex-col hidden bf-fade">
+    <div id="screen-lesson" class="absolute inset-0 bg-[#111a14] z-50 flex flex-col hidden bf-fade">
       <!-- Lesson Header -->
       <header class="p-5 flex justify-between items-center bg-[#0d1410] border-b border-[rgba(82,183,136,0.08)] sticky top-0 z-40">
         <button onclick="closeLesson()" class="w-8 h-8 rounded-full hover:bg-[rgba(255,255,255,0.05)] flex items-center justify-center text-[#8aaa96] cursor-pointer">
@@ -350,7 +350,7 @@
     </div>
 
     <!-- BOOK DETAIL SCREEN -->
-    <div id="screen-book" class="absolute inset-0 bg-[#111a14] z-30 flex flex-col hidden bf-fade">
+    <div id="screen-book" class="absolute inset-0 bg-[#111a14] z-50 flex flex-col hidden bf-fade">
       <header class="p-5 flex justify-between items-center bg-[#0d1410] border-b border-[rgba(82,183,136,0.08)] sticky top-0 z-40">
         <button onclick="closeBook()" class="w-8 h-8 rounded-full hover:bg-[rgba(255,255,255,0.05)] flex items-center justify-center text-[#8aaa96] cursor-pointer">
           <i data-lucide="arrow-left" class="w-5 h-5"></i>
@@ -399,7 +399,7 @@
     </div>
 
     <!-- BOOK CHAPTER VIEW SCREEN -->
-    <div id="screen-chapter" class="absolute inset-0 bg-[#111a14] z-35 flex flex-col hidden bf-fade">
+    <div id="screen-chapter" class="absolute inset-0 bg-[#111a14] z-50 flex flex-col hidden bf-fade">
       <header class="p-5 flex justify-between items-center bg-[#0d1410] border-b border-[rgba(82,183,136,0.08)] sticky top-0 z-40">
         <button onclick="closeChapter()" class="w-8 h-8 rounded-full hover:bg-[rgba(255,255,255,0.05)] flex items-center justify-center text-[#8aaa96] cursor-pointer">
           <i data-lucide="arrow-left" class="w-5 h-5"></i>
@@ -3511,7 +3511,7 @@
       container.innerHTML = "";
       
       APP_DATABASE.So.forEach((module) => {
-        const isModuleUnlocked = module.id === 0 || isPreviousModuleCompleted(module.id);
+        const isModuleUnlocked = true;
         const sectionsList = APP_DATABASE.Gd[module.id] || [];
         const completedInSection = sectionsList.filter(s => appState.completedLessons.includes(s.id)).length;
         const progressPct = sectionsList.length > 0 ? Math.round((completedInSection / sectionsList.length) * 100) : 0;
