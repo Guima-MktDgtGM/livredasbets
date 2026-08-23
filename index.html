@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Livre das Bets — Descubra seu Perfil de Recuperação</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: #050807;
+      color: #f0f4f1;
+    }
+    
+    .bf-hero-bg {
+      background-image: linear-gradient(to bottom, rgba(10,15,13,0.7), rgba(10,15,13,0.95)), url('https://res.cloudinary.com/dtjztopau/image/upload/v1781056715/ChatGPT_Image_9_de_jun._de_2026_22_57_47_gatqlu.png');
+    }
+    
+    @media (max-width: 640px) {
+      .bf-hero-bg {
+        background-image: linear-gradient(to bottom, rgba(10,15,13,0.7), rgba(10,15,13,0.95)), url('https://res.cloudinary.com/dtjztopau/image/upload/v1781056953/ChatGPT_Image_9_de_jun._de_2026_23_02_07_bsruhd.png');
+      }
+    }
+
+    @keyframes bfFadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .bf-fade {
+      animation: bfFadeUp 0.35s ease-out forwards;
+    }
+    
+    .bf-btn {
+      width: 100%;
+      height: 56px;
+      background: #2d6a4f;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: filter .2s, transform .2s;
+    }
+    
+    .bf-btn:hover {
+      filter: brightness(1.08);
+    }
+    
+    .bf-btn:active {
+      transform: scale(0.98);
+    }
+    
+    .bf-cta-pulse {
+      position: relative;
+      overflow: visible;
+      isolation: isolate;
+      border-radius: 999px !important;
+      animation: bfCtaBreath 2.4s ease-in-out infinite !important;
+      transform-origin: center;
+      will-change: transform, filter, box-shadow;
+    }
+    
+    .bf-cta-pulse::before {
+      content: "";
+      position: absolute;
+      inset: -6px;
+      border-radius: inherit;
+      border: 1px solid rgba(82,183,136,.45);
+      background: rgba(82,183,136,.10);
+      z-index: -1;
+      animation: bfCtaHalo 2.4s ease-in-out infinite;
+      pointer-events: none;
+    }
+    
+    .bf-cta-pulse::after {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 -75%;
+      width: 62%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.36), transparent);
+      animation: bfCtaShine 2.4s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    @keyframes bfCtaBreath {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 10px 30px rgba(82,183,136,.45), inset 0 1px 0 rgba(255,255,255,.25);
+      }
+      50% {
+        transform: scale(1.035);
+        filter: brightness(1.08);
+        box-shadow: 0 14px 44px rgba(82,183,136,.7), inset 0 1px 0 rgba(255,255,255,.3);
+      }
+    }
+    
+    @keyframes bfCtaHalo {
+      0%, 100% { opacity: .06; transform: scale(.98); }
+      50% { opacity: .24; transform: scale(1.06); }
+    }
+    
+    @keyframes bfCtaShine {
+      0% { left: -75%; opacity: 0; }
+      18% { opacity: 1; }
+      56%, 100% { left: 125%; opacity: 0; }
+    }
+    
+    .bf-card {
+      background: #111a14;
+      border: 1px solid rgba(82, 183, 136, 0.15);
+      border-radius: 14px;
+      box-shadow: 0 0 40px rgba(0,0,0,0.4);
+    }
+    
+    input, textarea {
+      background: #111a14;
+      color: #f0f4f1;
+      border: 1px solid rgba(82, 183, 136, 0.15);
+    }
+    
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #52b788;
+    }
+    
+    ::placeholder {
+      color: #4a6b57;
+    }
+
+    @keyframes avisoPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 10px 30px rgba(34,197,94,.45); }
+      50% { transform: scale(1.04); box-shadow: 0 16px 44px rgba(34,197,94,.75); }
+    }
+    
+    .aviso-btn {
+      animation: avisoPulse 1.8s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="bg-[#0a0f0d]">
+  <div id="app" class="min-h-screen">
+    
+    <!-- ==================== SCREEN 1: HERO ==================== -->
+    <section id="screen-hero" class="bf-hero-bg min-h-screen flex flex-col items-center justify-center">
+      <div class="bf-fade w-full max-w-[460px] px-5 py-12 flex flex-col items-center text-center gap-[22px]">
+        <div class="flex flex-col items-center gap-[3px]">
+          <span class="text-[22px] font-black text-[#52b788] tracking-tight leading-none">Livre das Bets</span>
+        </div>
+        
+        <div class="w-full flex flex-col gap-3 mt-1">
+          <h2 class="text-2xl font-black text-white leading-tight m-0 tracking-tight">
+            Existe um padrão <span class="text-[#ef4444]">invisível</span> por trás de toda <span class="text-[#ef4444]">recaída em apostas</span>.
+          </h2>
+          <p class="text-white text-sm font-bold leading-normal m-0">
+            Dr. Leonardo explica por que a maioria das pessoas tenta parar da forma errada, e como identificar em qual estágio desse ciclo você está.
+          </p>
+          <p class="text-[#8aaa96] text-[13.5px] leading-relaxed m-0">
+            Quanto mais cedo você interromper esse ciclo, menor será o preço que ele vai cobrar da sua vida.
+          </p>
+          
+          <!-- Vturb Hero Video Wrapper -->
+          <div class="w-full rounded-[14px] overflow-hidden border border-[rgba(82,183,136,0.15)] bg-black shadow-lg">
+            <div id="vid_6a3c0631d4e3c679becce896" style="position:relative;width:100%;padding: 56.25% 0 0;">
+              <img id="thumb_6a3c0631d4e3c679becce896" src="https://images.converteai.net/1f39e08e-5223-49dd-846c-414dea98ee7e/players/6a3c0631d4e3c679becce896/thumbnail.jpg" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;">
+              <div id="backdrop_6a3c0631d4e3c679becce896" style="position:absolute;top:0;left:0;width:100%;height:100%;-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);"></div>
+            </div>
+          </div>
+        </div>
+        <!-- O botão de CTA será gerado e controlado diretamente pelo painel da Vturb -->
+
+        
+        <!-- Social Proof Grid -->
+        <div class="grid grid-cols-2 gap-[10px] w-full max-w-[360px]">
+          <div class="flex items-center gap-2 bg-[#111a14] border border-[rgba(82,183,136,0.15)] rounded-lg p-[9px_11px]">
+            <i data-lucide="lock" class="w-[14px] h-[14px] text-[#52b788] flex-shrink-0"></i>
+            <span class="text-[11.5px] text-[#8aaa96] text-left leading-tight">100% confidencial</span>
+          </div>
+          <div class="flex items-center gap-2 bg-[#111a14] border border-[rgba(82,183,136,0.15)] rounded-lg p-[9px_11px]">
+            <i data-lucide="clock" class="w-[14px] h-[14px] text-[#52b788] flex-shrink-0"></i>
+            <span class="text-[11.5px] text-[#8aaa96] text-left leading-tight">Resultado em 3 min</span>
+          </div>
+          <div class="flex items-center gap-2 bg-[#111a14] border border-[rgba(82,183,136,0.15)] rounded-lg p-[9px_11px]">
+            <i data-lucide="users" class="w-[14px] h-[14px] text-[#52b788] flex-shrink-0"></i>
+            <span class="text-[11.5px] text-[#8aaa96] text-left leading-tight">+47 mil avaliações</span>
+          </div>
+          <div class="flex items-center gap-2 bg-[#111a14] border border-[rgba(82,183,136,0.15)] rounded-lg p-[9px_11px]">
+            <i data-lucide="star" class="w-[14px] h-[14px] text-[#52b788] flex-shrink-0"></i>
+            <span class="text-[11.5px] text-[#8aaa96] text-left leading-tight">Aprovado por psicólogos</span>
+          </div>
+        </div>
+        
+        <p class="text-[11px] text-[#4a6b57] inline-flex items-center gap-[6px] m-0">
+          <i data-lucide="shield-check" class="w-3 h-3"></i> Confidencial · Anônimo · Resultado privado
+        </p>
+      </div>
+    </section>
+
+    <!-- ==================== SCREEN 2: QUIZ ==================== -->
+    <section id="screen-quiz" class="hidden min-h-screen flex flex-col">
+      <!-- Sticky Progress Bar Header -->
+      <div class="sticky top-0 z-10 bg-[#0a0f0d] px-5 py-[12px] pb-[8px] w-full border-none">
+        <div class="w-full max-w-[480px] mx-auto">
+          <div class="h-1 bg-[#111a14] rounded-full overflow-hidden">
+            <div id="quiz-progress-bar" class="h-full bg-[#52b788] rounded-full" style="width: 0%; transition: width 0.3s;"></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Quiz Frame -->
+      <div class="w-full max-w-[480px] mx-auto flex-1 flex flex-col justify-between">
+        <div id="quiz-step-content" class="bf-fade px-[22px] py-5">
+          <!-- Step HTML gets injected here dynamically -->
+        </div>
+        
+        <!-- Back Button Block -->
+        <div id="quiz-back-container" class="px-[22px] pb-8 flex justify-start">
+          <button id="btn-back" onclick="previousStep()" class="bg-transparent border border-[rgba(82,183,136,0.15)] text-[#8aaa96] cursor-pointer px-[18px] py-[10px] rounded-lg inline-flex items-center gap-2 text-sm font-semibold">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i> Voltar
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SCREEN 3: EMAIL CAPTURE ==================== -->
+    <section id="screen-email" class="hidden min-h-screen flex flex-col justify-center items-center">
+      <div class="bf-fade w-full max-w-[480px] px-[22px] py-10 flex flex-col gap-[18px]">
+        <div class="inline-flex items-center gap-2">
+          <i data-lucide="check" class="w-4 h-4 text-[#52b788]"></i>
+          <span class="text-[#52b788] text-[11px] font-bold uppercase tracking-[0.14em]">Quase pronto</span>
+        </div>
+        
+        <h2 class="text-2xl font-black text-white leading-tight m-0">Para onde enviamos seu plano personalizado?</h2>
+        <p class="text-[#8aaa96] text-[14.5px] leading-normal m-0">Insira seu e-mail para salvar seus resultados e começar.</p>
+        
+        <div class="relative w-full">
+          <i data-lucide="mail" class="w-[18px] h-[18px] text-[#4a6b57] absolute left-[14px] top-1/2 -translate-y-1/2"></i>
+          <input type="email" id="input-email" placeholder="seu@email.com" class="w-full py-[14px] pr-[14px] pl-[44px] rounded-xl text-[15px] font-medium" />
+        </div>
+        
+        <div id="email-error" class="hidden text-[#e53935] text-xs font-semibold">Por favor, insira um e-mail válido.</div>
+        
+        <button onclick="submitEmail()" class="bf-btn bg-[#2d6a4f] text-white font-bold rounded-xl mt-2">
+          Continuar
+          <i data-lucide="arrow-right" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== SCREEN 4: NAME CAPTURE ==================== -->
+    <section id="screen-name" class="hidden min-h-screen flex flex-col justify-center items-center">
+      <div class="bf-fade w-full max-w-[480px] px-[22px] py-10 flex flex-col gap-[18px]">
+        <h2 class="text-2xl font-black text-white leading-tight m-0">Como devemos te chamar?</h2>
+        <p class="text-[#8aaa96] text-[14.5px] leading-normal m-0">Usaremos seu nome para personalizar seu plano.</p>
+        
+        <div class="relative w-full">
+          <i data-lucide="user" class="w-[18px] h-[18px] text-[#4a6b57] absolute left-[14px] top-1/2 -translate-y-1/2"></i>
+          <input type="text" id="input-name" placeholder="Seu primeiro nome" class="w-full py-[14px] pr-[14px] pl-[44px] rounded-xl text-[15px] font-medium" />
+        </div>
+        
+        <div id="name-error" class="hidden text-[#e53935] text-xs font-semibold">Por favor, preencha o seu nome.</div>
+        
+        <button onclick="submitName()" class="bf-btn bg-[#2d6a4f] text-white font-bold rounded-xl mt-2">
+          Continuar
+          <i data-lucide="arrow-right" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== SCREEN 5: LOADING ==================== -->
+    <section id="screen-loading" class="hidden min-h-screen flex flex-col justify-center items-center">
+      <div class="bf-fade w-full max-w-[480px] px-[22px] py-[60px] flex flex-col items-center text-center justify-center min-h-[calc(100vh-40px)]">
+        <div class="text-[28px] font-black text-[#52b788] mb-2 leading-none">Livre das Bets</div>
+        <div class="text-sm text-[#8aaa96] mb-7">
+          Preparando seu plano, <span id="loading-username" class="text-white font-bold">...</span>
+        </div>
+        
+        <!-- Circular Progress Indicator -->
+        <div class="relative w-[120px] h-[120px] mb-8">
+          <svg class="w-[120px] h-[120px] -rotate-90" viewBox="0 0 100 100">
+            <!-- Background track -->
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#111a14" stroke-width="6"></circle>
+            <!-- Progress track -->
+            <circle id="loading-circle" cx="50" cy="50" r="45" fill="none" stroke="#52b788" stroke-width="6" stroke-dasharray="283" stroke-dashoffset="283" stroke-linecap="round" style="transition: stroke-dashoffset 0.05s linear;"></circle>
+          </svg>
+          <div id="loading-percentage" class="absolute inset-0 flex items-center justify-center text-xl font-bold text-white">0%</div>
+        </div>
+        
+        <div id="loading-status-text" class="text-sm text-[#f0f4f1] font-semibold min-h-[24px]">Analisando suas respostas…</div>
+      </div>
+    </section>
+
+    <!-- ==================== SCREEN 6: AVISO ==================== -->
+    <section id="screen-aviso" class="hidden min-h-screen flex items-center justify-center p-[24px_18px] bg-[#111111]">
+      <div class="w-full max-w-[460px] bg-[#161616] border border-[#2a2a2a] rounded-2xl p-7 text-center shadow-2xl">
+        <div class="text-6xl mb-3 leading-none">⚠️</div>
+        <h1 class="text-2xl font-black tracking-wide mb-[18px] text-white">AVISO IMPORTANTE</h1>
+        
+        <p class="text-[#d8d8d8] text-[15.5px] leading-relaxed mb-[14px]">
+          As casas de apostas não querem que este tipo de informação se espalhe. Já enfrentamos tentativas de dificultar o acesso a este método e, por isso, não sabemos por quanto tempo ele continuará disponível.
+        </p>
+        <p class="text-[#d8d8d8] text-[15.5px] leading-relaxed mb-[18px]">
+          Se você recebeu o seu diagnóstico, recomendamos que veja o seu plano agora. Adiar essa decisão pode significar perder o acesso a uma oportunidade de recuperar o controle da sua vida.
+        </p>
+        <p class="text-white text-[14.5px] leading-normal font-black mb-[22px]">
+          Você chegou até aqui por um motivo. Não deixe para depois.
+        </p>
+        
+        <button onclick="showResultScreen()" class="aviso-btn w-full min-h-[58px] bg-[#22C55E] text-white border-none rounded-full text-[15.5px] font-black tracking-wide uppercase cursor-pointer py-[14px] px-[18px] flex items-center justify-center gap-2">
+          VER O MEU PLANO AGORA
+        </button>
+        <div class="mt-4 text-xs text-[#9a9a9a]">Acesso imediato • Plano personalizado • Resultado privado</div>
+      </div>
+    </section>
+
+    <!-- ==================== SCREEN 7: RESULT ==================== -->
+    <section id="screen-result" class="hidden min-h-screen flex flex-col bg-[#0a0f0d]">
+      <div class="w-full max-w-[480px] mx-auto">
+        
+        <!-- Header Banner -->
+        <div class="bg-gradient-to-b from-[#050807] to-[#0a0f0d] p-[28px_22px_20px]">
+          <div class="text-[11px] tracking-[0.18em] text-[#52b788] font-bold mb-3 uppercase">
+            <span id="result-username">VOCÊ</span> · Resultado da sua avaliação
+          </div>
+          <h1 class="text-3xl font-black leading-[1.1] m-0 text-white tracking-tight">
+            Seu diagnóstico revelou <span class="text-[#52b788]">algo importante</span>.
+          </h1>
+          <p class="mt-4 text-[15px] leading-relaxed text-[#8aaa96]">
+            No vídeo abaixo, o psicólogo Leonardo Teixeira explica o que esse resultado significa e mostra como esse ciclo pode ser interrompido.
+          </p>
+          <p class="mt-[10px] text-[15px] leading-relaxed text-[#f0f4f1]">
+            Quanto mais cedo você agir, menor o preço que esse ciclo vai cobrar.
+          </p>
+        </div>
+        
+        <!-- Video 2 Frame -->
+        <div class="p-[8px_22px_32px] bg-[#0a0f0d]">
+          <div class="w-full rounded-xl overflow-hidden mb-6 bg-black border border-[rgba(82,183,136,0.15)] shadow-lg">
+            <div id="vid_6a3c062c1e3ac636c8efa616" style="position:relative;width:100%;padding: 56.25% 0 0;">
+              <img id="thumb_6a3c062c1e3ac636c8efa616" src="https://images.converteai.net/1f39e08e-5223-49dd-846c-414dea98ee7e/players/6a3c062c1e3ac636c8efa616/thumbnail.jpg" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;">
+              <div id="backdrop_6a3c062c1e3ac636c8efa616" style="position:absolute;top:0;left:0;width:100%;height:100%;-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);"></div>
+            </div>
+          </div>
+          <p class="mt-[14px] text-sm leading-normal text-[#fbbf24] font-semibold text-center">
+            ⚠️ Assista ao vídeo antes de conhecer seu plano completo.
+          </p>
+        </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ==================== FUNNEL JAVASCRIPT ==================== -->
+  <script>
+    // Theme Colors / Config constants from index-DHKUsaev.js
+    const colors = {
+      bg: "#0a0f0d",
+      card: "#111a14",
+      cardHover: "#162018",
+      green: "#2d6a4f",
+      light: "#52b788",
+      glow: "rgba(82, 183, 136, 0.15)",
+      text: "#f0f4f1",
+      text2: "#8aaa96",
+      muted: "#4a6b57",
+      border: "rgba(82, 183, 136, 0.15)",
+      danger: "#e53935",
+      amber: "#fbbf24"
+    };
+
+    // Vturb scripts dynamic loading helper
+    function loadVturbScript(videoId) {
+      const scriptUrl = `https://scripts.converteai.net/1f39e08e-5223-49dd-846c-414dea98ee7e/players/${videoId}/v4/player.js`;
+      if (document.querySelector(`script[src="${scriptUrl}"]`)) return;
+      const s = document.createElement("script");
+      s.src = scriptUrl;
+      s.async = true;
+      document.head.appendChild(s);
+    }
+
+    // Hero video starts immediately
+    document.addEventListener("DOMContentLoaded", () => {
+      loadVturbScript("6a3c0631d4e3c679becce896");
+      
+      // Initialize Lucide icons
+      lucide.createIcons();
+    });
+
+    // Funnel Database / State
+    const quizState = {
+      currentStepIndex: 0,
+      answers: {},
+      score: 0,
+      gender: null,
+      email: "",
+      name: "",
+      riskScore: 78,
+      profile: "severo"
+    };
+
+    // The entire multi-step questions configuration (ke)
+    const steps = [
+      { type: "intro-industry" },
+      { type: "intro-news" },
+      { 
+        type: "edu", 
+        title: "O que está acontecendo no seu cérebro.", 
+        body: "Seu cérebro foi reprogramado para perseguir a <strong>emoção antes da aposta</strong>. É assim que o vício funciona — e por isso só querer parar não resolve.", 
+        card: "Isso não é um defeito de caráter. É neurociência — e essas plataformas a usam para te manter apostando.", 
+        chart: "dopa1" 
+      },
+      { type: "gender", eyebrow: "Só mais um dado rápido de perfil" },
+      { 
+        type: "q", 
+        id: "frequencia", 
+        label: "Pergunta 1", 
+        q: "Com que frequência você aposta?", 
+        opts: ["Todo dia", "Algumas vezes por semana", "Fico semanas sem apostar, aí vou fundo de vez", "Raramente"], 
+        scores: [4, 3, 2, 1] 
+      },
+      { type: "card-brasileiros" },
+      { type: "stakes" },
+      { 
+        type: "q", 
+        id: "chaselosses", 
+        q: "Quando você perde, você tenta recuperar as perdas apostando mais?", 
+        opts: ["Quase sempre", "Às vezes", "Nunca"], 
+        scores: [3, 2, 1] 
+      },
+      { 
+        type: "q", 
+        id: "esconde", 
+        q: "Você esconde suas apostas da família ou amigos?", 
+        opts: ["Sim, sempre", "Às vezes", "Raramente", "Nunca — eles sabem de tudo"], 
+        scores: [4, 3, 2, 1] 
+      },
+      { type: "card-cortex" },
+      { 
+        type: "q", 
+        id: "ansiedade", 
+        q: "Você se sente inquieto, irritado ou entediado quando não pode apostar?", 
+        opts: ["Sim", "Às vezes", "Não"], 
+        scores: [3, 2, 1] 
+      },
+      { 
+        type: "edu", 
+        title: "Por que fica cada vez mais difícil parar.", 
+        body: "No começo, uma aposta de vez em quando já dava emoção. Com o tempo, três coisas acontecem quase sem querer:<br /><br />1. Você aposta <strong>mais vezes</strong>.<br />2. Você precisa apostar <strong>valores maiores</strong> para sentir a mesma adrenalina.<br />3. Você <strong>promete parar</strong>, fica firme alguns dias, e acaba voltando.<br /><br />Isso não é falta de caráter. É como o vício funciona.", 
+        card: "Quem tenta parar só na força de vontade quase sempre volta. Com um plano simples, sair desse ciclo fica possível.", 
+        chart: "dopa2" 
+      },
+      { 
+        type: "q", 
+        id: "usouContasBasicas", 
+        q: "Você já usou dinheiro de contas, aluguel ou poupança para apostar?", 
+        opts: ["Sim", "Quase isso", "Não"], 
+        scores: [4, 2, 1] 
+      },
+      { 
+        type: "q", 
+        id: "divida", 
+        q: "Isso resultou in alguma dívida?", 
+        opts: ["Sim, dívida significativa", "Sim, dívida administrável", "Não criei dívida, mas gastei minhas economias", "Nenhum impacto financeiro"], 
+        scores: [4, 3, 2, 1] 
+      },
+      { type: "finproj" },
+      { type: "body" },
+      { type: "card-timeline" },
+      { type: "quitfor" },
+      { 
+        type: "q", 
+        id: "tentouParar", 
+        q: "Você já tentou parar antes?", 
+        opts: ["Sim, muitas vezes", "Uma ou duas vezes", "Não, é a primeira vez"], 
+        scores: [3, 2, 1] 
+      },
+      { 
+        type: "q", 
+        id: "porqueNaoFuncinou", 
+        q: "Por que você acha que não funcionou?", 
+        multi: true, 
+        opts: ["Dependi só da força de vontade — e ela falhou", "Um momento de estresse ou recaída me jogou de volta", "Não tinha nenhum plano estruturado para seguir", "Não sabia que existia algo específico para isso", "O ambiente ao redor não ajudou — pessoas, situações, gatilhos", "Nunca tentei de verdade ainda"], 
+        scores: [2, 3, 3, 2, 3, 1] 
+      },
+      { 
+        type: "scale", 
+        id: "pronto", 
+        q: "Em uma escala de 1 a 5, o quanto você está pronto para parar?", 
+        lo: "1 — Não estou pronto", 
+        hi: "5 — Completamente pronto" 
+      },
+      { 
+        type: "textarea", 
+        id: "roubou", 
+        q: "Além do dinheiro, o que as apostas roubaram de você?", 
+        sub: "Reserve um momento. O que você sente mais falta?" 
+      },
+      { type: "analyzing" },
+      { type: "risk" },
+      { type: "compromisso" }
+    ];
+
+    // Navigation and screen manipulation
+    function showScreen(screenId) {
+      document.querySelectorAll("section").forEach(s => s.classList.add("hidden"));
+      document.getElementById(screenId).classList.remove("hidden");
+      window.scrollTo(0, 0);
+    }
+
+    function startQuiz() {
+      showScreen("screen-quiz");
+      quizState.currentStepIndex = 0;
+      renderCurrentStep();
+    }
+
+    function renderCurrentStep() {
+      const step = steps[quizState.currentStepIndex];
+      const container = document.getElementById("quiz-step-content");
+      
+      // Calculate progress percentage
+      const totalSteps = steps.length;
+      const progressPercent = Math.round(((quizState.currentStepIndex + 1) / totalSteps) * 100);
+      document.getElementById("quiz-progress-bar").style.width = `${progressPercent}%`;
+
+      // Back button visibility
+      const btnBack = document.getElementById("btn-back");
+      if (quizState.currentStepIndex === 0) {
+        btnBack.classList.add("hidden");
+      } else {
+        btnBack.classList.remove("hidden");
+      }
+
+      // Render step according to its type
+      let html = "";
+      
+      switch (step.type) {
+        case "intro-industry":
+          html = `
+            <div class="flex flex-col gap-[22px]">
+              <div class="inline-flex items-center gap-2">
+                <i data-lucide="alert-circle" class="w-[18px] h-[18px] text-[#fbbf24]"></i>
+                <span class="text-[#fbbf24] text-xs font-bold uppercase tracking-[0.12em]">O que ninguém te conta</span>
+              </div>
+              <h2 class="text-2xl font-black leading-tight m-0 text-white">Você enfrenta uma indústria de <span class="text-[#52b788]">R$ 150 bilhões</span></h2>
+              <p class="text-[#8aaa96] text-[15.5px] leading-relaxed m-0">Essas empresas contratam doutores em psicologia, neurocientistas e engenheiros de IA — com um único objetivo: fazer você voltar a apostar.</p>
+              
+              <div class="flex flex-col gap-3">
+                <div class="bf-card flex gap-3.5 p-4">
+                  <div class="w-10 h-10 rounded-lg bg-[rgba(82,183,136,0.15)] flex items-center justify-center flex-shrink-0">
+                    <i data-lucide="settings" class="w-[18px] h-[18px] text-[#52b788]"></i>
+                  </div>
+                  <div>
+                    <div class="font-bold text-white text-[14.5px]">Engenharia do vício</div>
+                    <div class="text-[#8aaa96] text-[13.5px] mt-1 leading-relaxed">Algoritmos que identificam seu ponto de fraqueza e exploram no momento certo</div>
+                  </div>
+                </div>
+                <div class="bf-card flex gap-3.5 p-4">
+                  <div class="w-10 h-10 rounded-lg bg-[rgba(82,183,136,0.15)] flex items-center justify-center flex-shrink-0">
+                    <i data-lucide="bell" class="w-[18px] h-[18px] text-[#52b788]"></i>
+                  </div>
+                  <div>
+                    <div class="font-bold text-white text-[14.5px]">Notificações predatórias</div>
+                    <div class="text-[#8aaa96] text-[13.5px] mt-1 leading-relaxed">Disparadas nos momentos de maior vulnerabilidade emocional</div>
+                  </div>
+                </div>
+                <div class="bf-card flex gap-3.5 p-4">
+                  <div class="w-10 h-10 rounded-lg bg-[rgba(82,183,136,0.15)] flex items-center justify-center flex-shrink-0">
+                    <i data-lucide="dices" class="w-[18px] h-[18px] text-[#52b788]"></i>
+                  </div>
+                  <div>
+                    <div class="font-bold text-white text-[14.5px]">Ilusão de controle</div>
+                    <div class="text-[#8aaa96] text-[13.5px] mt-1 leading-relaxed">Feitas para parecer habilidade — mas é tudo estatística contra você</div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="bg-[rgba(82,183,136,0.15)] border border-[rgba(82,183,136,0.35)] rounded-xl p-4">
+                <p class="text-[#52b788] text-[13.5px] text-center m-0 leading-relaxed">
+                  Vamos te equipar com as mesmas ferramentas baseadas em ciência — desta vez trabalhando <strong>a seu favor</strong>.
+                </p>
+              </div>
+              
+              <button onclick="nextStep()" class="bf-btn bg-[#2d6a4f] text-white font-bold rounded-xl">
+                Entender meu perfil
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+              </button>
+            </div>
+          `;
+          break;
+          
+        case "intro-news":
+          html = `
+            <div class="flex flex-col gap-[18px]">
+              <div class="inline-flex items-center gap-2">
+                <i data-lucide="newspaper" class="w-4 h-4 text-[#8aaa96]"></i>
+                <span class="text-[#8aaa96] text-xs font-semibold uppercase tracking-[0.14em]">Notícias</span>
+              </div>
+              <h2 class="text-2xl font-black leading-tight m-0 text-white">Eles usam rostos que você conhece. <span class="text-[#f87171]">De propósito.</span></h2>
+              
+              <!-- Neymar News Box -->
+              <div class="bg-[#0d1117] border border-[rgba(82,183,136,0.2)] rounded-xl overflow-hidden">
+                <div class="relative h-[200px] overflow-hidden">
+                  <img src="https://livredasbets.com/__l5e/assets-v1/ec9048de-611e-420c-a50f-9d66d0fd2d00/neymar.png" alt="" class="w-full h-full object-cover object-top" />
+                </div>
+                <div class="p-4">
+                  <span class="inline-block bg-[#dc2626] text-white text-[11px] font-bold px-[10px] py-[4px] rounded-md tracking-wider mb-2.5">CPI DAS BETS</span>
+                  <div class="text-[11.5px] text-[#4a6b57] mb-2">Senado Federal · Outubro 2024</div>
+                  <div class="text-white font-bold text-[15px] leading-snug">Neymar convocado para depor no Senado sobre pagamentos de plataformas de apostas</div>
+                </div>
+              </div>
+              
+              <!-- Virginia News Box -->
+              <div class="bg-[#0d1117] border border-[rgba(82,183,136,0.2)] rounded-xl overflow-hidden">
+                <div class="relative h-[200px] overflow-hidden">
+                  <img src="https://livredasbets.com/__l5e/assets-v1/e185e613-b2dc-40fd-9357-4f45d8bc9149/virginia.png" alt="" class="w-full h-full object-cover object-top" />
+                </div>
+                <div class="p-4">
+                  <span class="inline-block bg-[#f97316] text-white text-[11px] font-bold px-[10px] py-[4px] rounded-md tracking-wider mb-2.5">INVESTIGAÇÃO</span>
+                  <div class="text-[11.5px] text-[#4a6b57] mb-2">Agências de Notícias · 2024</div>
+                  <div class="text-white font-bold text-[15px] leading-snug">Virginia recebia R$ 30 para cada R$ 100 perdidos por seus seguidores em apostas</div>
+                </div>
+              </div>
+
+              <!-- Warning Red Card -->
+              <div class="bg-[rgba(127,29,29,0.25)] border border-[rgba(220,38,38,0.35)] rounded-xl p-4 flex gap-3 text-left">
+                <i data-lucide="alert-triangle" class="w-5 h-5 text-[#f87171] flex-shrink-0 mt-0.5"></i>
+                <div>
+                  <div class="text-[#fca5a5] font-bold text-sm leading-tight">39 milhões de brasileiros apostam</div>
+                  <div class="text-[rgba(252,165,165,0.75)] text-xs mt-1 leading-relaxed">
+                    7,5 milhões comprometem dinheiro de contas básicas — luz, água, aluguel e comida — para apostar.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Reassuring bottom text -->
+              <p class="text-[#8aaa96] text-[13.5px] text-center leading-relaxed m-0 mt-1">
+                Você não foi fraco. Você foi o alvo de uma <strong class="text-white font-bold">campanha milionária</strong> feita por especialistas.
+              </p>
+              
+              <button onclick="nextStep()" class="bf-btn bg-[#2d6a4f] text-white font-bold rounded-xl mt-2">
+                Continuar
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+              </button>
+            </div>
+          `;
+          break;
+          
+        case "edu":
+          html = `
+            <div class="flex flex-col gap-[18px]">
+              <h2 class="text-2xl font-black text-white leading-tight m-0">${step.title}</h2>
+              <p class="text-[#8aaa96] text-[15px] leading-relaxed m-0">${step.body}</p>
+              
+              <!-- Dynamic Chart Render -->
+              ${step.chart === 'dopa1' ? renderDopa1Chart() : renderDopa2Chart()}
+              
+              <div class="bg-[rgba(82,183,136,0.15)] border border-[rgba(82,183,136,0.35)] rounded-xl p-4">
+                <p class="text-[#52b788] text-[13.5px] m-0 leading-relaxed">${step.card}</p>
+              </div>
+              
+              <button onclick="nextStep()" class="bf-btn bg-[#2d6a4f] text-white font-bold rounded-xl mt-2">
+                Continuar
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+              </button>
+            </div>
+          `;
+          break;
+          
+        case "gender":
+          html = `
+            <div class="flex flex-col gap-[18px]">
+              <div class="flex flex-col">
+                <div class="text-xs text-[#8aaa96] mb-2 font-medium">${step.eyebrow}</div>
+                <div class="inline-flex items-center gap-2 mb-3">
+                  <div class="w-[3px] h-[18px] bg-[#52b788] rounded-full"></div>
+                  <span class="text-[#52b788] text-[11px] font-bold uppercase tracking-[0.14em]">Pergunta</span>
+                </div>
+                <h2 class="text-2xl font-black text-white leading-tight m-0">Só pra personalizar o programa, como você se identifica?</h2>
+              </div>
+              
+              <div class="flex gap-3 py-3">
+                <button onclick="selectGender('m')" class="flex-1 py-[22px] px-3 rounded-xl border border-[rgba(82,183,136,0.15)] bg-[#111a14] text-white font-semibold flex flex-col items-center gap-2.5 hover:border-[#52b788] transition-all">
+                  <i data-lucide="user" class="w-8 h-8 text-[#52b788]"></i>
+                  <span class="text-[14px]">Masculino</span>
+                </button>
+                <button onclick="selectGender('f')" class="flex-1 py-[22px] px-3 rounded-xl border border-[rgba(82,183,136,0.15)] bg-[#111a14] text-white font-semibold flex flex-col items-center gap-2.5 hover:border-[#52b788] transition-all">
+                  <i data-lucide="user" class="w-8 h-8 text-[#52b788]"></i>
+                  <span class="text-[14px]">Feminino</span>
+                </button>
+              </div>
+              
+              <button onclick="selectGender('n')" class="w-full bg-transparent text-[#8aaa96] border border-[rgba(82,183,136,0.15)] py-[14px] rounded-xl text-sm font-semibold hover:border-[#52b788] transition-all">
+                Prefiro não responder
+              </button>
+            </div>
+          `;
+          break;
+          
+        case "q":
+          html = `
+            <div class="flex flex-col gap-[18px]">
+              <div class="flex flex-col">
+                <div class="inline-flex items-center gap-2 mb-3">
+                  <div class="w-[3px] h-[18px] bg-[#52b788] rounded-full"></div>
+                  <span class="text-[#52b788] text-[11px] font-bold uppercase tracking-[0.14em]">${step.label || 'Pergunta'}</span>
+                </div>
+                <h2 class="text-2xl font-black text-white leading-tight m-0">${step.q}</h2>
+              </div>
+              
+              <div class="flex flex-col gap-2.5">
+                ${step.opts.map((opt, idx) => `
+                  <button onclick="selectOption(${idx})" class="w-full text-left p-4 rounded-xl border border-[rgba(82,183,136,0.15)] bg-[#111a14] hover:bg-[#162018] text-[#8aaa96] hover:text-white flex items-center gap-3 transition-all">
+                    <div class="w-5 h-5 rounded-full border-2 border-[#4a6b57] flex items-center justify-center flex-shrink-0"></div>
+                    <span class="text-sm font-medium leading-normal">${opt}</span>
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+          `;
+          break;
+          
+        case "card-brasileiros":
+          html = `
+            <div class="flex flex-col gap-[18px]">
+              <div class="inline-flex items-center gap-2">
+                <i data-lucide="alert-triangle" class="w-[18px] h-[18px] text-[#fbbf24]"></i>
+                <span class="text-[#fbbf24] text-xs font-bold uppercase tracking-[0.12em]">Você não está sozinho nisto</span>
+              </div>
+              
+              <h2 class="text-2xl font-black text-white leading-tight m-0">O que está acontecendo com você acontece com <span class="text-[#52b788]">milhões de brasileiros.</span></h2>
+              
+              <div class="grid grid-cols-3 gap-2.5">
+                <div class="bf-card p-3.5 text-center flex flex-col justify-center min-h-[110px]">
+                  <div id="count-brasileiros-1" class="text-xl font-black text-[#52b788] leading-none">0 mi</div>
+                  <div class="text-[#8aaa96] text-[10.5px] mt-1.5 leading-normal">de brasileiros usam plataformas de apostas online</div>
+                </div>
+                <div class="bf-card p-3.5 text-center flex flex-col justify-center min-h-[110px]">
+                  <div id="count-brasileiros-2" class="text-xl font-black text-[#52b788] leading-none">0 mi</div>
+                  <div class="text-[#8aaa96] text-[10.5px] mt-1.5 leading-normal">comprometem dinheiro de conta, aluguel ou comida</div>
+                </div>
+                <div class="bf-card p-3.5 text-center flex flex-col justify-center min-h-[110px]">
+                  <div id="count-brasileiros-3" class="text-xl font-black text-[#52b788] leading-none">R$ 0 bi</div>
+                  <div class="text-[#8aaa96] text-[10.5px] mt-1.5 leading-normal">movimentados pela indústria por ano no Brasil</div>
+                </div>
+              </div>
+              
+              <div class="text-[10px] text-[#4a6b57] mt-[-6px]">Banco Central do Brasil, 2025</div>
+              
+              <p class="text-[#8aaa96] text-[14.5px] leading-relaxed m-0">
+                O valor enviado às bets mensalmente supera o repasse total do Bolsa Família. Isso não é fraqueza de caráter — é uma <strong class="text-white font-bold">indústria de R$ 150 bilhões</strong> projetada por especialistas para te manter dentro.
+              </p>
+              
+              <button onclick="nextStep()" class="bf-btn bg-[#2d6a4f] text-white font-bold rounded-xl mt-2">
+                Continuar
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+              </button>
+            </div>
+          `;
+          break;
+          
+        case "stakes":
+          {
+            const perdasList = quizState.answers['perdasReais'] || [];
+            const hasSelections = perdasList.length > 0;
+            
+            html = `
+              <div class="flex flex-col gap-[22px]">
+                <div class="inline-flex items-center gap-2">
+                  <i data-lucide="heart" class="w-[18px] h-[18px] text-[#f87171]"></i>
+                  <span class="text-[#f87171] text-xs font-bold uppercase tracking-[0.12em]">O que está em jogo</span>
+                </div>
+                
+                <h2 class="text-2xl font-black leading-tight m-0 text-white">Isso não é só sobre dinheiro.<br><span class="text-[#f87171]">É sobre o que você está perdendo.</span></h2>
+                
+                <!-- 4 Stories Cards -->
+                <div class="flex flex-col gap-3">
+                  <!-- Card 1 -->
+                  <div class="bf-card p-4 flex flex-col gap-3">
+                    <div class="flex items-center gap-3">
+                      <div class="w-14 h-14 rounded-full overflow-hidden flex-shrink-0">
+                        <img src="https://livredasbets.com/__l5e/assets-v1/7448e8c0-71ec-4fbb-b0a8-81319de05461/depoimento-mae-apostadora.jpg" alt="" class="w-full h-full object-cover">
+                      </div>
+                      <div>
+                        <div class="flex items-center gap-1.5 mb-1">
+                          <i data-lucide="home" class="w-3.5 h-3.5 text-[#f87171]"></i>
+                          <span class="text-[#f87171] text-[11px] font-bold uppercase tracking-wider">PERDEU A CASA</span>
+                        </div>
+                        <div class="text-[#8aaa96] text-[11.5px]">Mãe de apostadora, 58 anos · São Paulo</div>
+                      </div>
+                    </div>
+                    <p class="text-[#8aaa96] text-[13.5px] leading-relaxed italic m-0">
+                      "Minha filha devia tanto a agiotas que tivemos que colocar o único apartamento da família como garantia. Depois vieram as motos, os empréstimos… Hoje vivemos com medo e sem perspectiva."
+                    </p>
+                  </div>
+                  
+                  <!-- Card 2 -->
+                  <div class="bf-card p-4 flex flex-col gap-3">
+                    <div class="flex items-center gap-3">
+                      <div class="w-14 h-14 rounded-full overflow-hidden flex-shrink-0">
+                        <img src="https://livredasbets.com/__l5e/assets-v1/d588dcc1-be19-48f9-8af0-0f79ded695ce/depoimento-ex-esposa.jpg" alt="" class="w-full h-full object-cover">
+                      </div>
+                      <div>
+                        <div class="flex items-center gap-1.5 mb-1">
+                          <i data-lucide="heart" class="w-3.5 h-3.5 text-[#f87171]"></i>
+                          <span class="text-[#f87171] text-[11px] font-bold uppercase tracking-wider">PERDEU A FAMÍLIA</span>
+                        </div>
+                        <div class="text-[#8aaa96] text-[11.5px]">Ex-esposa de apostador · Belo Horizonte</div>
+                      </div>
+                    </div>
+                    <p class="text-[#8aaa96] text-[13.5px] leading-relaxed italic m-0">
+                      "Foram 10 anos de casamento, uma filha, família estruturada. Até o dia que vi minha conta de luz cortada sem entender o porquê. Agiotas batendo na minha porta. Ele ainda não aceita que tem um problema."
+                    </p>
+                  </div>
+
+                  <!-- Card 3 -->
+                  <div class="bf-card p-4 flex flex-col gap-3">
+                    <div class="flex items-center gap-3">
+                      <div class="w-14 h-14 rounded-full overflow-hidden flex-shrink-0">
+                        <img src="https://livredasbets.com/__l5e/assets-v1/5d01693a-57c7-4bab-a0db-1100fb788c38/depoimento-sobrinho.jpg" alt="" class="w-full h-full object-cover">
+                      </div>
+                      <div>
+                        <div class="flex items-center gap-1.5 mb-1">
+                          <i data-lucide="car" class="w-3.5 h-3.5 text-[#f87171]"></i>
+                          <span class="text-[#f87171] text-[11px] font-bold uppercase tracking-wider">PERDEU O PATRIMÔNIO</span>
+                        </div>
+                        <div class="text-[#8aaa96] text-[11.5px]">Sobrinho de apostador · Rio de Janeiro</div>
+                      </div>
+                    </div>
+                    <p class="text-[#8aaa96] text-[13.5px] leading-relaxed italic m-0">
+                      "Meu tio tinha um carro quitado. Pegou empréstimo com o carro como garantia e perdeu tudo em apostas. Em semanas, perdeu o que levou anos para conquistar."
+                    </p>
+                  </div>
+
+                  <!-- Card 4 -->
+                  <div class="bf-card p-4 flex flex-col gap-3">
+                    <div class="flex items-center gap-3">
+                      <div class="w-14 h-14 rounded-full overflow-hidden flex-shrink-0">
+                        <img src="https://livredasbets.com/__l5e/assets-v1/d057f62f-98c9-4e57-9da5-f3163441bfd2/depoimento-apostador-recuperacao.jpg" alt="" class="w-full h-full object-cover">
+                      </div>
+                      <div>
+                        <div class="flex items-center gap-1.5 mb-1">
+                          <i data-lucide="briefcase" class="w-3.5 h-3.5 text-[#f87171]"></i>
+                          <span class="text-[#f87171] text-[11px] font-bold uppercase tracking-wider">PERDEU O TRABALHO</span>
+                        </div>
+                        <div class="text-[#8aaa96] text-[11.5px]">Apostador em recuperação, 34 anos · Curitiba</div>
+                      </div>
+                    </div>
+                    <p class="text-[#8aaa96] text-[13.5px] leading-relaxed italic m-0">
+                      "Trabalhava a semana toda e no fim de semana perdia tudo no jogo. Tentava recuperar por 24 horas seguidas. Por meses, ninguém sabia."
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Warning Stats Card -->
+                <div class="bg-[rgba(127,29,29,0.18)] border border-[rgba(220,38,38,0.3)] rounded-xl p-5 text-center">
+                  <div class="text-4xl font-black text-[#f87171] mb-1">7,5 mi</div>
+                  <div class="text-[#8aaa96] text-[13.5px] leading-normal">de brasileiros já comprometeram dinheiro essencial da família para apostar</div>
+                </div>
+
+                <!-- Checklist Header -->
+                <div class="pt-2">
+                  <h3 class="text-lg font-black text-white leading-tight mb-1">Qual dessas perdas você já sentiu de perto?</h3>
+                  <p class="text-[#8aaa96] text-xs">Pode marcar mais de uma</p>
+                </div>
+
+                <!-- Checkbox List -->
+                <div class="flex flex-col gap-2.5">
+                  ${[
+                    "Dinheiro que eu não tinha — usei contas ou fiz dívida",
+                    "Sono e saúde — insônia, ansiedade, mal-estar físico",
+                    "Um relacionamento importante — parceiro, família, amigos",
+                    "Autoconfiança — não me reconheço mais",
+                    "Presença — estava lá mas mentalmente não estava",
+                    "Ainda não perdi nada concreto"
+                  ].map((opt, idx) => {
+                    const selected = perdasList.includes(idx);
+                    return `
+                      <button onclick="toggleStakesOption(${idx})" class="w-full text-left p-4 rounded-xl border ${selected ? 'border-[#52b788] bg-[rgba(45,106,79,0.22)] text-white' : 'border-[rgba(82,183,136,0.15)] bg-[#111a14] text-[#8aaa96]'} flex items-center gap-3 transition-all">
+                        <div class="w-5 h-5 rounded-md border-2 ${selected ? 'border-[#52b788] bg-[#52b788]' : 'border-[#4a6b57] bg-transparent'} flex items-center justify-center flex-shrink-0">
+                          ${selected ? '<i data-lucide="check" class="w-3 h-3 text-[#0a0f0d] stroke-[4]"></i>' : ''}
+                        </div>
+                        <span class="text-sm font-medium leading-normal">${opt}</span>
+                      </button>
+                    `;
+                  }).join('')}
+                </div>
+
+                <button id="btn-stakes-continue" onclick="submitStakes()" class="bf-btn bg-[#2d6a4f] text-white font-bold rounded-xl mt-2 ${hasSelections ? '' : 'opacity-50'}" ${hasSelections ? '' : 'disabled'}>
+                  Continuar
+                  <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </button>
+              </div>
+            `;
+          }
+          break;
+          
+        case "card-cortex":
+          html = `
+            <div class="flex flex-col gap-[18px]">
+              <div class="inline-flex items-center gap-2">
+                <i data-lucide="brain" class="w-[18px] h-[18px] text-[#52b788]"></i>
+                <span class="text-[#52b788] text-[11px] font-bold uppercase tracking-[0.14em]">Neurociência</span>
+              </div>
+              
+              <h2 class="text-2xl font-black text-white leading-tight m-0">Quanto mais você tenta resistir, mais forte fica o impulso. <span class="text-[#52b788]">Isso tem explicação.</span></h2>
+              
+              <p class="text-[#8aaa96] text-[14.5px] leading-relaxed m-0">
+                O <strong>córtex pré-frontal</strong> — a parte do cérebro responsável pelo julgamento e controle de impulsos — é parcialmente desativado pelo ciclo compulsivo. Quando o gatilho dispara, a amígdala assume o controle antes que o raciocínio consciente consiga intervir.
+              </p>
+              
+              <div class="bg-[rgba(82,183,136,0.15)] border border-[rgba(82,183,136,0.35)] rounded-xl p-4">
+                <p class="text-[#52b788] text-[13.5px] m-0 leading-relaxed italic text-center">
+                  "É como tentar segurar água com as mãos. O problema não é motivação — é que a estrutura que gera motivação foi alterada."
+                </p>
+              </div>
+              
+              <button onclick="nextStep()" class="bf-btn bg-[#2d6a4f] text-white font-bold rounded-xl mt-2">
+                Continuar
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+              </button>
+            </div>
+          `;
+          break;
+          
+        case "finproj":
+          html = renderFinancialProjection();
+          break;
+          
+        case "body":
+          html = `
+            <div class="flex flex-col gap-[18px]">
+              <h2 class="text-2xl font-black text-white leading-tight m-0">O que as apostas fazem ao seu corpo.</h2>
+              <p class="text-[#8aaa96] text-[14.5px] leading-relaxed m-0">O estresse das apostas desencadeia mudanças físicas reais. A boa notícia: todas são reversíveis.</p>
+              
+              <div class="flex flex-col gap-2.5">
+                <div class="bf-card p-3.5 flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-lg bg-[rgba(82,183,136,0.15)] flex items-center justify-center">
+                    <i data-lucide="zap" class="w-4 h-4 text-[#52b788]"></i>
+                  </div>
+                  <span class="text-[#f0f4f1] text-sm">Níveis de testosterona caem</span>
+                </div>
+                <div class="bf-card p-3.5 flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-lg bg-[rgba(82,183,136,0.15)] flex items-center justify-center">
+                    <i data-lucide="moon" class="w-4 h-4 text-[#52b788]"></i>
+                  </div>
+                  <span class="text-[#f0f4f1] text-sm">Qualidade do sono cai</span>
+                </div>
+                <div class="bf-card p-3.5 flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-lg bg-[rgba(82,183,136,0.15)] flex items-center justify-center">
+                    <i data-lucide="smile" class="w-4 h-4 text-[#52b788]"></i>
+                  </div>
+                  <span class="text-[#f0f4f1] text-sm">Humor e motivação diminuem</span>
+                </div>
+                <div class="bf-card p-3.5 flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-lg bg-[rgba(82,183,136,0.15)] flex items-center justify-center">
+                    <i data-lucide="activity" class="w-4 h-4 text-[#52b788]"></i>
+                  </div>
+                  <span class="text-[#f0f4f1] text-sm">Foco e clareza mental sofrem</span>
+                </div>
+              </div>
+              
+              <div class="bg-[rgba(82,183,136,0.15)] border border-[rgba(82,183,136,0.35)] rounded-xl p-4 text-[#52b788] text-[13.5px] leading-relaxed text-center">
+                Cortisol elevado · Amígdala estressada · Córtex pré-frontal inativo. Tudo isso é reversível.
+              </div>
+              
+              <button onclick="nextStep()" class="bf-btn bg-[#2d6a4f] text-white font-bold rounded-xl mt-2">
+                Continuar
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+              </button>
+            </div>
+          `;
+          break;
+          
+        case "card-timeline":
+          html = `
+            <div class="flex flex-col gap-[18px]">
+              <div class="inline-flex items-center gap-2">
+                <i data-lucide="refresh-cw" class="w-[18px] h-[18px] text-[#52b788]"></i>
+                <span class="text-[#52b788] text-xs font-bold uppercase tracking-[0.12em]">Recuperação</span>
+              </div>
+              
+              <h2 class="text-2xl font-black text-white leading-tight m-0">O que acontece quando o cérebro começa a se recuperar.</h2>
+              <p class="text-[#8aaa96] text-[13.5px] leading-relaxed m-0">Com a intervenção certa — não só força de vontade.</p>
+              
+              <!-- Brain recovery banner image -->
+              <img src="Imagens/cerebro-recuperacao.png" alt="Recuperação do cérebro nos dias 7, 30 e 90" class="w-full h-auto rounded-xl block border border-[rgba(82,183,136,0.15)] shadow-md">
+              
+              <!-- Separated Day Cards -->
+              <div class="flex flex-col gap-3">
+                <!-- Day 7 Card -->
+                <div class="bf-card p-4 flex flex-col gap-2">
+                  <div class="flex items-center gap-2.5">
+                    <span class="bg-[rgba(82,183,136,0.15)] text-[#52b788] font-bold text-[10.5px] px-2.5 py-1 rounded tracking-[0.08em]">DIA 7</span>
+                    <h4 class="text-white font-bold text-sm">O freio volta</h4>
+                  </div>
+                  <p class="text-[#8aaa96] text-[13px] leading-relaxed">O córtex pré-frontal começa a recuperar função. Você passa a pausar antes de agir por impulso.</p>
+                </div>
+                
+                <!-- Day 30 Card -->
+                <div class="bf-card p-4 flex flex-col gap-2">
+                  <div class="flex items-center gap-2.5">
+                    <span class="bg-[rgba(82,183,136,0.15)] text-[#52b788] font-bold text-[10.5px] px-2.5 py-1 rounded tracking-[0.08em]">DIA 30</span>
+                    <h4 class="text-white font-bold text-sm">O prazer volta</h4>
+                  </div>
+                  <p class="text-[#8aaa96] text-[13px] leading-relaxed">Receptores de dopamina começam a se normalizar. Coisas simples voltam a gerar satisfação real.</p>
+                </div>
+                
+                <!-- Day 90 Card -->
+                <div class="bf-card p-4 flex flex-col gap-2">
+                  <div class="flex items-center gap-2.5">
+                    <span class="bg-[rgba(82,183,136,0.15)] text-[#52b788] font-bold text-[10.5px] px-2.5 py-1 rounded tracking-[0.08em]">DIA 90</span>
+                    <h4 class="text-white font-bold text-sm">O cérebro se reorganiza</h4>
+                  </div>
+                  <p class="text-[#8aaa96] text-[13px] leading-relaxed">Estudos de neuroimagem mostram redução significativa das respostas compulsivas. A fissura perde força.</p>
+                </div>
+              </div>
+              
+              <!-- Sources -->
+              <div class="text-[10px] text-[#4a6b57] leading-relaxed">
+                Potenza et al. (2019). Neuron. · Bechara, A. (2005). Nature Neuroscience.
+              </div>
+              
+              <!-- Recovery testimonial card -->
+              <div class="bf-card p-4 flex flex-col gap-3">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-8 h-8 rounded-full bg-[rgba(82,183,136,0.15)] flex items-center justify-center">
+                    <i data-lucide="check-circle" class="w-4 h-4 text-[#52b788] stroke-[3]"></i>
+                  </div>
+                  <span class="text-[#52b788] text-xs font-bold uppercase tracking-wider">Em recuperação há 14 meses</span>
+                </div>
+                <p class="text-white text-[13.5px] leading-relaxed italic font-medium">
+                  "Vou passar os próximos 9 anos pagando os empréstimos que fiz para jogar. Mas pelo menos estou pagando — e não apostando mais."
+                </p>
+                <div class="text-[10.5px] text-[#4a6b57]">R.S., 41 anos · São Paulo</div>
+              </div>
+              
+              <button onclick="nextStep()" class="bf-btn bg-[#2d6a4f] text-white font-bold rounded-xl mt-2">
+                Continuar
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+              </button>
+            </div>
+          `;
+          break;
+          
+        case "quitfor":
+          html = `
+            <div class="flex flex-col gap-[18px]">
+              <div class="flex flex-col">
+                <div class="inline-flex items-center gap-2 mb-3">
+                  <div class="w-[3px] h-[18px] bg-[#52b788] rounded-full"></div>
+                  <span class="text-[#52b788] text-[11px] font-bold uppercase tracking-[0.14em]">Pergunta</span>
+                </div>
+                <h2 class="text-2xl font-black text-white leading-tight m-0">Quem é a pessoa mais importante que você quer de volta?</h2>
+              </div>
+              
+              <div class="flex flex-col gap-2.5">
+                ${["Meu Parceiro(a) / Cônjuge", "Meus Filhos", "Meus Pais / Família", "Eu Mesmo / Minha Paz"].map((opt, idx) => `
+                  <button onclick="selectQuitFor(${idx}, '${opt}')" class="w-full text-left p-4 rounded-xl border border-[rgba(82,183,136,0.15)] bg-[#111a14] hover:bg-[#162018] text-[#8aaa96] hover:text-white flex items-center gap-3 transition-all">
+                    <div class="w-5 h-5 rounded-full border-2 border-[#4a6b57] flex items-center justify-center flex-shrink-0"></div>
+                    <span class="text-sm font-medium leading-normal">${opt}</span>
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+          `;
+          break;
+          
+        case "scale":
+          html = `
+            <div class="flex flex-col gap-[18px]">
+              <div class="flex flex-col">
+                <div class="inline-flex items-center gap-2 mb-3">
+                  <div class="w-[3px] h-[18px] bg-[#52b788] rounded-full"></div>
+                  <span class="text-[#52b788] text-[11px] font-bold uppercase tracking-[0.14em]">Pergunta</span>
+                </div>
+                <h2 class="text-2xl font-black text-white leading-tight m-0">${step.q}</h2>
+              </div>
+              
+              <div class="flex gap-2 justify-between py-5">
+                ${[1, 2, 3, 4, 5].map(val => `
+                  <button onclick="selectScale(${val})" class="flex-1 h-14 rounded-xl border border-[rgba(82,183,136,0.15)] bg-[#111a14] hover:bg-[#2d6a4f] text-[#8aaa96] hover:text-white font-bold text-lg transition-all">
+                    ${val}
+                  </button>
+                `).join('')}
+              </div>
+              
+              <div class="flex justify-between text-xs text-[#4a6b57]">
+                <span>${step.lo}</span>
+                <span>${step.hi}</span>
+              </div>
+            </div>
+          `;
+          break;
+          
+        case "textarea":
+          html = `
+            <div class="flex flex-col gap-[18px]">
+              <div class="flex flex-col">
+                <div class="inline-flex items-center gap-2 mb-3">
+                  <div class="w-[3px] h-[18px] bg-[#52b788] rounded-full"></div>
+                  <span class="text-[#52b788] text-[11px] font-bold uppercase tracking-[0.14em]">Pergunta</span>
+                </div>
+                <h2 class="text-2xl font-black text-white leading-tight m-0">${step.q}</h2>
+                <p class="text-[#8aaa96] text-sm mt-1">${step.sub}</p>
+              </div>
+              
+              <div class="flex flex-col gap-3">
+                <textarea id="textarea-input" maxlength="300" placeholder="Minha paz de espírito..." class="w-full min-h-[120px] p-3.5 rounded-xl text-[15px] resize-none" oninput="updateTextareaCounter()"></textarea>
+                <div class="text-right text-xs text-[#4a6b57]" id="textarea-counter">0/300</div>
+                
+                <button onclick="submitTextarea()" class="bf-btn bg-[#2d6a4f] text-white font-bold rounded-xl">
+                  Continuar
+                  <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </button>
+                
+                <button onclick="nextStep()" class="bg-transparent text-[#4a6b57] border-none text-[13px] py-2 cursor-pointer hover:underline">
+                  Pular
+                </button>
+              </div>
+            </div>
+          `;
+          break;
+          
+        case "analyzing":
+          html = `
+            <div class="flex flex-col gap-6 py-6 text-center">
+              <h2 class="text-2xl font-black text-white leading-tight m-0">Analisando suas respostas…</h2>
+              <p class="text-[#8aaa96] text-sm leading-relaxed mb-4">
+                Identificando os padrões específicos que influenciam seu comportamento.
+              </p>
+              
+              <div id="analyzing-items-container" class="w-full flex flex-col gap-2.5">
+                <!-- Items will be animated and inserted dynamically here -->
+              </div>
+            </div>
+          `;
+          break;
+          
+        case "risk":
+          {
+            const score = quizState.score || 25;
+            let riskScore = Math.min(97, Math.round((score / 44) * 100) + 55);
+            if (riskScore < 78) riskScore = 78;
+            
+            const slPct = Math.round(((riskScore - 78) / (97 - 78)) * 30) + 65; 
+            
+            const gatilho = "Estresse & Ansiedade";
+            
+            const freqIdx = quizState.answers['frequencia'] !== undefined ? quizState.answers['frequencia'] : 0;
+            const padrao = [
+              "Apostador Diário",
+              "Apostador Frequente",
+              "Apostador Binge",
+              "Apostador Ocasional"
+            ][freqIdx] || "Apostador Diário";
+            
+            const dividaIdx = quizState.answers['divida'] !== undefined ? quizState.answers['divida'] : 1;
+            const perda = {
+              0: "até R$1.000",
+              1: "até R$5.000",
+              2: "até R$15.000",
+              3: "acima de R$30.000"
+            }[dividaIdx] || "até R$5.000";
+
+            html = `
+              <div class="flex flex-col gap-[18px]">
+                <h2 class="text-2xl font-black text-white leading-tight m-0">Sua Avaliação de Risco</h2>
+                
+                <!-- Risk Gauge Card -->
+                <div class="bf-card p-[22px] text-center flex flex-col gap-4">
+                  <div class="text-5xl font-black text-[#f87171] leading-none">${riskScore}</div>
+                  <div class="text-xs font-bold text-[#f87171] tracking-[0.06em] uppercase">NÍVEL ALTO</div>
+                  
+                  <!-- Slider scale bar -->
+                  <div class="relative w-full h-1.5 bg-[rgba(255,255,255,0.08)] rounded-full mt-2">
+                    <div style="left: ${slPct}%" class="absolute top-[-3px] translate-x-[-50%] w-3.5 h-3.5 rounded-full bg-[#f87171] shadow-[0_0_12px_#f87171]"></div>
+                  </div>
+                  
+                  <div class="flex justify-between text-[10.5px] text-[#4a6b57]">
+                    <span>Baixo</span>
+                    <span>Normal</span>
+                    <span>Médio</span>
+                    <span>Alto</span>
+                  </div>
+                </div>
+                
+                <!-- Red Alert Box -->
+                <div class="bf-card p-4 bg-[rgba(248,113,113,0.1)] border border-[rgba(248,113,113,0.25)] rounded-xl">
+                  <div class="text-[#f87171] text-xs font-bold">Nível ALTO</div>
+                  <p class="text-[#f0f4f1] text-[13.5px] mt-1.5 leading-relaxed">
+                    Indica estresse financeiro crescente, relacionamentos abalados, ansiedade e dificuldade em controlar impulsos.
+                  </p>
+                </div>
+                
+                <!-- Highlights List Card -->
+                <div class="bf-card p-[4px_18px] flex flex-col">
+                  <!-- Row 1 -->
+                  <div class="flex justify-between items-center py-3.5 border-b border-[rgba(82,183,136,0.15)]">
+                    <span class="inline-flex items-center gap-2 text-[#8aaa96] text-[13px]">
+                      <i data-lucide="zap" class="w-3.5 h-3.5 text-[#52b788]"></i>
+                      Gatilho Principal
+                    </span>
+                    <span class="text-white text-[13px] font-semibold">${gatilho}</span>
+                  </div>
+                  
+                  <!-- Row 2 -->
+                  <div class="flex justify-between items-center py-3.5 border-b border-[rgba(82,183,136,0.15)]">
+                    <span class="inline-flex items-center gap-2 text-[#8aaa96] text-[13px]">
+                      <i data-lucide="lock" class="w-3.5 h-3.5 text-[#52b788]"></i>
+                      Principal Desafio
+                    </span>
+                    <span class="text-white text-[13px] font-semibold">Segredo & Vergonha</span>
+                  </div>
+                  
+                  <!-- Row 3 -->
+                  <div class="flex justify-between items-center py-3.5 border-b border-[rgba(82,183,136,0.15)]">
+                    <span class="inline-flex items-center gap-2 text-[#8aaa96] text-[13px]">
+                      <i data-lucide="dollar-sign" class="w-3.5 h-3.5 text-[#52b788]"></i>
+                      Perda Projetada
+                    </span>
+                    <span class="text-white text-[13px] font-semibold">${perda}</span>
+                  </div>
+                  
+                  <!-- Row 4 -->
+                  <div class="flex justify-between items-center py-3.5">
+                    <span class="inline-flex items-center gap-2 text-[#8aaa96] text-[13px]">
+                      <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 text-[#52b788]"></i>
+                      Padrão de Apostas
+                    </span>
+                    <span class="text-white text-[13px] font-semibold">${padrao}</span>
+                  </div>
+                </div>
+                
+                <button onclick="nextStep()" class="bf-btn bg-[#2d6a4f] text-white font-bold rounded-xl mt-2">
+                  Continuar
+                  <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </button>
+
+                <!-- Back button -->
+                <button onclick="previousStep()" class="w-full bg-transparent text-[#4a6b57] border-none text-[13px] py-1 hover:underline flex items-center justify-center gap-1.5 cursor-pointer">
+                  <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                  Voltar
+                </button>
+              </div>
+            `;
+          }
+          break;
+          
+        case "compromisso":
+          html = `
+            <div class="flex flex-col gap-[18px]">
+              <div class="flex flex-col">
+                <h2 class="text-2xl font-black text-white leading-tight m-0">O programa leva menos de 10 minutos por dia.</h2>
+                <p class="text-[#8aaa96] text-sm mt-1">Sem consulta agendada. Sem sair de casa. No seu celular, quando você precisar.</p>
+                <h3 class="text-lg font-extrabold text-white mt-4">Você consegue reservar 10 minutos por dia para sair disso?</h3>
+              </div>
+              
+              <div class="flex flex-col gap-2.5">
+                ${[
+                  "Sim — estou pronto para começar",
+                  "Sim — mas vou precisar de estrutura para manter",
+                  "Tenho dúvidas, mas quero tentar"
+                ].map((opt, idx) => `
+                  <button onclick="selectCompromisso(${idx}, '${opt}')" class="w-full text-left p-4 rounded-xl border border-[rgba(82,183,136,0.15)] bg-[#111a14] hover:bg-[#162018] text-[#8aaa96] hover:text-white flex items-center gap-3 transition-all">
+                    <div class="w-5 h-5 rounded-full border-2 border-[#4a6b57] flex items-center justify-center flex-shrink-0"></div>
+                    <span class="text-sm font-medium leading-normal">${opt}</span>
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+          `;
+          break;
+      }
+
+      container.innerHTML = html;
+      
+      // Re-trigger fade transition animation
+      container.classList.remove("bf-fade");
+      void container.offsetHeight; // force reflow
+      container.classList.add("bf-fade");
+      
+      // Reinitialize Lucide icons for dynamically added content
+      lucide.createIcons();
+      
+      // Trigger dynamic step animations
+      if (step.type === "card-brasileiros") {
+        animateBrasileirosCounts();
+      } else if (step.type === "analyzing") {
+        startAnalyzingAnswersAnimation();
+      }
+    }
+
+    // Step interaction handlers
+    function nextStep() {
+      // Branching logic: Skip 'porqueNaoFuncinou' if user didn't try to stop before
+      const currentStep = steps[quizState.currentStepIndex];
+      if (currentStep.id === 'tentouParar' && quizState.answers['tentouParar'] === 2) {
+        // Option 2 is "Não, é a primeira vez". Skip to the step after 'porqueNaoFuncinou'
+        quizState.currentStepIndex += 2;
+      } else {
+        quizState.currentStepIndex++;
+      }
+
+      if (quizState.currentStepIndex >= steps.length) {
+        // Quiz completed, go to email capture
+        showScreen("screen-email");
+      } else {
+        renderCurrentStep();
+      }
+    }
+
+    // Previous step navigation
+    function previousStep() {
+      if (quizState.currentStepIndex > 0) {
+        // Branching logic: Skip backward over 'porqueNaoFuncinou' if they didn't try to stop before
+        const prevIndex = quizState.currentStepIndex - 1;
+        if (steps[prevIndex].id === 'porqueNaoFuncinou' && quizState.answers['tentouParar'] === 2) {
+          quizState.currentStepIndex -= 2;
+        } else {
+          quizState.currentStepIndex--;
+        }
+        renderCurrentStep();
+      }
+    }
+
+    function selectOption(index) {
+      const step = steps[quizState.currentStepIndex];
+      quizState.answers[step.id] = index;
+      quizState.score += step.scores[index] || 0;
+      nextStep();
+    }
+
+    function selectGender(gender) {
+      quizState.gender = gender;
+      nextStep();
+    }
+
+    function selectQuitFor(index, val) {
+      quizState.answers['quitFor'] = val;
+      nextStep();
+    }
+
+    function selectScale(val) {
+      quizState.answers['pronto'] = val;
+      nextStep();
+    }
+
+    function selectCompromisso(index, val) {
+      quizState.answers['compromisso'] = val;
+      // End of quiz, proceed to email screen
+      showScreen("screen-email");
+    }
+
+    function updateTextareaCounter() {
+      const textarea = document.getElementById("textarea-input");
+      const counter = document.getElementById("textarea-counter");
+      if (textarea && counter) {
+        counter.innerText = `${textarea.value.length}/300`;
+      }
+    }
+
+    function submitTextarea() {
+      const textarea = document.getElementById("textarea-input");
+      if (textarea) {
+        quizState.answers['roubou'] = textarea.value.trim();
+      }
+      nextStep();
+    }
+
+    function toggleStakesOption(idx) {
+      if (!quizState.answers['perdasReais']) {
+        quizState.answers['perdasReais'] = [];
+      }
+      const list = quizState.answers['perdasReais'];
+      if (list.includes(idx)) {
+        quizState.answers['perdasReais'] = list.filter(item => item !== idx);
+      } else {
+        quizState.answers['perdasReais'].push(idx);
+      }
+      renderCurrentStep();
+    }
+
+    function submitStakes() {
+      if (quizState.answers['perdasReais'] && quizState.answers['perdasReais'].length > 0) {
+        nextStep();
+      }
+    }
+
+    function animateBrasileirosCounts() {
+      const duration = 1500;
+      const start = performance.now();
+      
+      const target1 = 39;
+      const target2 = 75; 
+      const target3 = 150;
+      
+      const el1 = document.getElementById("count-brasileiros-1");
+      const el2 = document.getElementById("count-brasileiros-2");
+      const el3 = document.getElementById("count-brasileiros-3");
+      
+      function update(time) {
+        const u = Math.min(1, (time - start) / duration);
+        const progress = 1 - Math.pow(1 - u, 3); 
+        
+        const val1 = Math.round(target1 * progress);
+        const val2 = Math.round(target2 * progress) / 10;
+        const val3 = Math.round(target3 * progress);
+        
+        if (el1) el1.innerText = `${val1} mi`;
+        if (el2) el2.innerText = `${val2.toLocaleString("pt-BR", {minimumFractionDigits: 1, maximumFractionDigits: 1})} mi`;
+        if (el3) el3.innerText = `R$ ${val3} bi`;
+        
+        if (u < 1) {
+          requestAnimationFrame(update);
+        }
+      }
+      
+      requestAnimationFrame(update);
+    }
+
+    function startAnalyzingAnswersAnimation() {
+      const itemsContainer = document.getElementById("analyzing-items-container");
+      if (!itemsContainer) return;
+      
+      const freqIdx = quizState.answers['frequencia'] !== undefined ? quizState.answers['frequencia'] : 0;
+      const fText = [
+        "Detectamos um padrão de apostas frequentes", 
+        "Detectamos um comportamento recorrente de apostas", 
+        "Detectamos um padrão de apostas em ciclos intensos", 
+        "Detectamos um padrão de apostas ocasional"
+      ][freqIdx] || "Detectamos um padrão de apostas frequentes";
+
+      const list = [
+        fText,
+        "Identificamos exposição a mecanismos de recompensa intensa",
+        "Avaliando riscos financeiros",
+        "Construindo seu plano personalizado"
+      ];
+
+      itemsContainer.innerHTML = "";
+      let currentIdx = 0;
+
+      function renderItems() {
+        let itemsHtml = "";
+        for (let i = 0; i < list.length; i++) {
+          if (i > currentIdx) continue;
+          
+          const isLoading = i === currentIdx && currentIdx < list.length;
+          
+          itemsHtml += `
+            <div class="bf-card bf-fade p-3.5 flex items-center gap-3 text-left">
+              <div class="w-[22px] h-[22px] rounded-full flex items-center justify-center flex-shrink-0 ${isLoading ? 'border-2 border-[#52b788] bg-transparent' : 'bg-[#2d6a4f]' }">
+                ${isLoading 
+                  ? `<div class="w-3 h-3 border-2 border-t-transparent border-[#52b788] rounded-full animate-spin"></div>` 
+                  : `<i data-lucide="check" class="w-3.5 h-3.5 text-white stroke-[3]"></i>`
+                }
+              </div>
+              <span class="text-[#f0f4f1] text-sm leading-snug">${list[i]}</span>
+            </div>
+          `;
+        }
+        itemsContainer.innerHTML = itemsHtml;
+        lucide.createIcons();
+      }
+
+      renderItems();
+      const interval = setInterval(() => {
+        currentIdx++;
+        renderItems();
+        
+        if (currentIdx >= list.length) {
+          clearInterval(interval);
+          setTimeout(() => {
+            nextStep();
+          }, 1100);
+        }
+      }, 950);
+    }
+
+    // Email collection screen
+    function submitEmail() {
+      const email = document.getElementById("input-email").value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const errorDiv = document.getElementById("email-error");
+
+      if (email === "" || !emailRegex.test(email)) {
+        if (errorDiv) errorDiv.classList.remove("hidden");
+        return;
+      }
+
+      if (errorDiv) errorDiv.classList.add("hidden");
+      quizState.email = email;
+      showScreen("screen-name");
+    }
+
+    // Name collection screen
+    function submitName() {
+      const name = document.getElementById("input-name").value.trim();
+      const errorDiv = document.getElementById("name-error");
+
+      if (name === "") {
+        if (errorDiv) errorDiv.classList.remove("hidden");
+        return;
+      }
+
+      if (errorDiv) errorDiv.classList.add("hidden");
+      quizState.name = name;
+      
+      // Update names on display screens
+      document.getElementById("loading-username").innerText = name.toUpperCase() + "...";
+      document.getElementById("result-username").innerText = name.toUpperCase();
+      
+      startLoadingScreen();
+    }
+
+    // Loader percentage spinner simulator
+    function startLoadingScreen() {
+      showScreen("screen-loading");
+      
+      const loadingCircle = document.getElementById("loading-circle");
+      const loadingPercentage = document.getElementById("loading-percentage");
+      const statusText = document.getElementById("loading-status-text");
+      
+      const loadingTexts = [
+        { at: 15, text: "Analisando suas respostas…" },
+        { at: 35, text: "Construindo seu perfil de recuperação…" },
+        { at: 55, text: "Calculando sua linha do tempo…" },
+        { at: 75, text: "Identificando estratégias para você…" },
+        { at: 92, text: "Preparando seu plano personalizado…" }
+      ];
+
+      let percentage = 0;
+      const totalDashArray = 283; // Circumference of circle with radius 45
+
+      const interval = setInterval(() => {
+        percentage = Math.min(percentage + 1.2, 100);
+        
+        // Update SVG dashoffset
+        const offset = totalDashArray - (percentage / 100) * totalDashArray;
+        if (loadingCircle) loadingCircle.style.strokeDashoffset = offset;
+        
+        // Update text percentages
+        if (loadingPercentage) loadingPercentage.innerText = `${Math.floor(percentage)}%`;
+        
+        // Update status text dynamically
+        const textObj = loadingTexts.find(t => Math.floor(percentage) <= t.at);
+        if (textObj && statusText) {
+          statusText.innerText = textObj.text;
+        }
+
+        if (percentage >= 100) {
+          clearInterval(interval);
+          setTimeout(() => {
+            // Facebook Lead Pixel Trigger if defined
+            if (typeof window.fbq === "function") {
+              window.fbq("track", "Lead");
+            }
+            
+            showScreen("screen-aviso");
+          }, 500);
+        }
+      }, 22);
+    }
+
+    function showResultScreen() {
+      // Load result Vturb video
+      loadVturbScript("6a3c062c1e3ac636c8efa616");
+      
+      showScreen("screen-result");
+    }
+
+    // Chart SVG drawers (edu screen)
+    function renderDopa1Chart() {
+      return `
+        <div class="bf-card p-4">
+          <div class="text-[11px] tracking-wider text-[#8aaa96] font-bold mb-3 uppercase">Dopamina: ganhar vs quase vs perder</div>
+          <svg viewBox="0 0 280 130" width="100%" class="block">
+            <line x1="20" y1="10" x2="20" y2="110" stroke="rgba(82, 183, 136, 0.15)" stroke-width="1"></line>
+            <line x1="20" y1="110" x2="265" y2="110" stroke="rgba(82, 183, 136, 0.15)" stroke-width="1"></line>
+            
+            <path d="M 35 75 C 50 75 60 15 78 15 C 96 15 106 100 122 100 C 138 100 155 40 172 40 C 189 40 198 105 214 105 C 228 105 238 75 250 75" stroke="#52b788" stroke-width="2.5" fill="none" stroke-linecap="round"></path>
+            <line x1="20" y1="75" x2="265" y2="75" stroke="#4a6b57" stroke-width="1" stroke-dasharray="4 3"></line>
+            
+            <text x="78" y="11" text-anchor="middle" fill="#f0f4f1" font-size="9">Vitória</text>
+            <text x="172" y="34" text-anchor="middle" fill="#f0f4f1" font-size="9">Quase ganhei</text>
+            <text x="122" y="122" text-anchor="middle" fill="#f87171" font-size="9">Perda</text>
+          </svg>
+        </div>
+      `;
+    }
+
+    // Tolerance chart SVG drawer (edu screen)
+    function renderDopa2Chart() {
+      return `
+        <div class="bf-card p-4">
+          <div class="text-[11px] tracking-wider text-[#8aaa96] font-bold mb-3 uppercase">Tolerância: cada vitória vale menos</div>
+          <svg viewBox="0 0 280 130" width="100%" class="block">
+            <line x1="20" y1="10" x2="20" y2="110" stroke="rgba(82, 183, 136, 0.15)" stroke-width="1"></line>
+            <line x1="20" y1="110" x2="265" y2="110" stroke="rgba(82, 183, 136, 0.15)" stroke-width="1"></line>
+            
+            <path d="M 35 20 C 45 20 58 55 75 55 C 92 55 102 80 130 80 C 158 80 168 95 196 95 C 214 95 225 103 248 103" stroke="#52b788" stroke-width="2.5" fill="none" stroke-linecap="round"></path>
+            
+            <text x="55" y="14" text-anchor="middle" fill="#f0f4f1" font-size="8">Vitória 1</text>
+            <text x="112" y="48" text-anchor="middle" fill="#f0f4f1" font-size="8">Vitória 2</text>
+            <text x="162" y="73" text-anchor="middle" fill="#f0f4f1" font-size="8">Vitória 3</text>
+            <text x="210" y="90" text-anchor="middle" fill="#f0f4f1" font-size="8">V4</text>
+          </svg>
+        </div>
+      `;
+    }
+
+    // Financial projections based on answers (finproj screen)
+    function renderFinancialProjection() {
+      // Calculate estimated cost
+      let monthly = 900;
+      const freq = quizState.answers['frequencia'];
+      if (freq === 0) monthly = 1800;
+      else if (freq === 1) monthly = 1100;
+      else if (freq === 2) monthly = 1400;
+      else if (freq === 3) monthly = 400;
+
+      // Adjust based on debt impact
+      const debt = quizState.answers['divida'];
+      if (debt === 0) monthly *= 1.4;
+      else if (debt === 1) monthly *= 1.2;
+      else if (debt === 2) monthly *= 1.1;
+      else if (debt === 3) monthly *= 0.9;
+
+      monthly = Math.max(350, Math.round(monthly / 50) * 50);
+      const yearly = monthly * 12;
+      const fiveYears = monthly * 60;
+
+      const formatBRL = (val) => "R$ " + val.toLocaleString("pt-BR");
+
+      return `
+        <div class="flex flex-col gap-[18px]">
+          <h2 class="text-2xl font-black text-white leading-tight m-0">Se nada mudar, isso tende a piorar.</h2>
+          <p class="text-[#8aaa96] text-[14.5px] leading-relaxed m-0">
+            Com base nas suas respostas, esta é uma estimativa realista do que as apostas podem custar se o padrão atual continuar.
+          </p>
+          
+          <div class="bf-card p-4 flex flex-col gap-1">
+            <div class="text-xs text-[#8aaa96]">Por mês</div>
+            <div class="text-2xl font-extrabold text-white">${formatBRL(monthly)}</div>
+          </div>
+          
+          <div class="bf-card p-4 flex flex-col gap-1 border-red-500/20">
+            <div class="text-xs text-[#8aaa96]">Em 12 meses</div>
+            <div class="text-2xl font-extrabold text-[#f87171]">${formatBRL(yearly)}</div>
+          </div>
+          
+          <div class="bf-card p-4 flex flex-col gap-1 border-red-500/20">
+            <div class="text-xs text-[#8aaa96]">Em 5 anos</div>
+            <div class="text-2xl font-extrabold text-[#f87171]">${formatBRL(fiveYears)}</div>
+          </div>
+          
+          <!-- What they could do with the yearly loss -->
+          <div class="bg-[rgba(82,183,136,0.06)] border border-[rgba(82,183,136,0.35)] rounded-xl p-4 flex flex-col gap-2.5">
+            <div class="text-white font-semibold text-sm">Com ${formatBRL(yearly)} em um ano, você poderia ter:</div>
+            <div class="flex flex-col gap-2 text-[13.5px] text-[#8aaa96] leading-normal">
+              <div class="flex gap-2">
+                <i data-lucide="check-circle" class="w-4 h-4 text-[#52b788] flex-shrink-0 mt-0.5"></i>
+                <span>Uma <strong class="text-white font-bold">reserva de emergência</strong> para imprevistos</span>
+              </div>
+              <div class="flex gap-2">
+                <i data-lucide="check-circle" class="w-4 h-4 text-[#52b788] flex-shrink-0 mt-0.5"></i>
+                <span><strong class="text-white font-bold">Contas básicas</strong> pagas por meses</span>
+              </div>
+              <div class="flex gap-2">
+                <i data-lucide="check-circle" class="w-4 h-4 text-[#52b788] flex-shrink-0 mt-0.5"></i>
+                <span>A entrada de um <strong class="text-white font-bold">carro usado</strong></span>
+              </div>
+              <div class="flex gap-2">
+                <i data-lucide="check-circle" class="w-4 h-4 text-[#52b788] flex-shrink-0 mt-0.5"></i>
+                <span>Uma <strong class="text-white font-bold">viagem em família</strong> que você adia há anos</span>
+              </div>
+            </div>
+          </div>
+          
+          <button onclick="nextStep()" class="bf-btn bg-[#2d6a4f] text-white font-bold rounded-xl mt-2">
+            Continuar
+            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+          </button>
+        </div>
+      `;
+    }
+
+    // Hide testing toolbar on production server
+    document.addEventListener("DOMContentLoaded", () => {
+      const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:';
+      if (!isLocal) {
+        const toolbar = document.getElementById("test-toolbar");
+        if (toolbar) toolbar.style.display = "none";
+      }
+    });
+  </script>
+
+  <!-- ==================== INTERACTIVE TESTING TOOLBAR ==================== -->
+  <div id="test-toolbar" class="fixed bottom-0 left-0 right-0 bg-[#111a14] border-t border-[rgba(82,183,136,0.3)] p-2.5 z-50 flex items-center justify-center gap-2 overflow-x-auto text-xs text-[#8aaa96] shadow-xl">
+    <span class="font-bold text-white flex items-center mr-1">⚙️ Navegar Telas:</span>
+    <button onclick="showScreen('screen-hero')" class="bg-[#2d6a4f] text-white hover:bg-[#52b788] px-3 py-1.5 rounded-lg font-bold">1. Hero (VSL 1)</button>
+    <button onclick="startQuiz()" class="bg-[#2d6a4f] text-white hover:bg-[#52b788] px-3 py-1.5 rounded-lg font-bold">2. Quiz (Etapas)</button>
+    <button onclick="showScreen('screen-email')" class="bg-[#2d6a4f] text-white hover:bg-[#52b788] px-3 py-1.5 rounded-lg font-bold">3. E-mail</button>
+    <button onclick="showScreen('screen-name')" class="bg-[#2d6a4f] text-white hover:bg-[#52b788] px-3 py-1.5 rounded-lg font-bold">4. Nome</button>
+    <button onclick="showScreen('screen-loading'); startLoadingScreen()" class="bg-[#2d6a4f] text-white hover:bg-[#52b788] px-3 py-1.5 rounded-lg font-bold">5. Progresso</button>
+    <button onclick="showScreen('screen-aviso')" class="bg-[#2d6a4f] text-white hover:bg-[#52b788] px-3 py-1.5 rounded-lg font-bold">6. Aviso</button>
+    <button onclick="showResultScreen()" class="bg-[#2d6a4f] text-white hover:bg-[#52b788] px-3 py-1.5 rounded-lg font-bold">7. Resultado (VSL 2)</button>
+  </div>
+</body>
+</html>
