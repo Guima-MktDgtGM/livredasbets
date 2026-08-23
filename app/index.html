@@ -20,7 +20,7 @@
   
   <!-- Custom CSS for mobile layout & scroll -->
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap');
     
     body {
       font-family: 'Inter', sans-serif;
@@ -52,13 +52,6 @@
       border-color: rgba(82, 183, 136, 0.3);
     }
     
-    /* Locked state styling */
-    .locked-card {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      opacity: 0.65;
-    }
-    
     /* Bottom tab bar active state */
     .tab-active {
       color: #52b788 !important;
@@ -67,23 +60,23 @@
       stroke: #52b788;
     }
 
-    /* Pulse animation for emergency button */
+    /* Pulse animation for CTA/Achievements button */
     .pulse-danger {
-      box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+      box-shadow: 0 0 0 0 rgba(45, 106, 79, 0.6);
       animation: pulse-danger-anim 2s infinite;
     }
     @keyframes pulse-danger-anim {
       0% {
         transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+        box-shadow: 0 0 0 0 rgba(45, 106, 79, 0.6);
       }
       70% {
-        transform: scale(1.03);
-        box-shadow: 0 0 0 12px rgba(239, 68, 68, 0);
+        transform: scale(1.02);
+        box-shadow: 0 0 0 10px rgba(45, 106, 79, 0);
       }
       100% {
         transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+        box-shadow: 0 0 0 0 rgba(45, 106, 79, 0);
       }
     }
     
@@ -97,7 +90,7 @@
     }
   </style>
 </head>
-<body class="flex flex-col min-h-screen max-w-md mx-auto relative shadow-2xl border-x border-[rgba(82,183,136,0.1)]">
+<body class="flex flex-col h-screen max-h-screen overflow-hidden max-w-md mx-auto relative shadow-2xl border-x border-[rgba(82,183,136,0.1)]">
 
   <!-- ==================== LOCK SCREEN / LOGIN ==================== -->
   <div id="screen-lock" class="absolute inset-0 bg-[#111a14] z-50 flex flex-col justify-between p-6 bf-fade">
@@ -119,21 +112,21 @@
         <i data-lucide="arrow-right" class="w-5 h-5"></i>
       </button>
       <div class="text-[11px] text-[#4a6b57] text-center mt-2">
-        Esqueceu o código? Consulte a página de compra da Cakto ou seu e-mail.
+        Consulte a página de compra da Cakto ou seu e-mail para seu código.
       </div>
     </div>
   </div>
 
   <!-- ==================== MAIN APP CONTENT ==================== -->
-  <main class="flex-1 flex flex-col pb-20 overflow-y-auto no-scrollbar relative">
+  <main class="flex-1 flex flex-col pb-20 overflow-y-auto no-scrollbar relative h-full">
     
-    <!-- Header -->
+    <!-- Top Global Header -->
     <header class="p-5 flex justify-between items-center bg-[#0d1410] border-b border-[rgba(82,183,136,0.08)] sticky top-0 z-40">
       <div class="flex items-center gap-2.5">
         <div class="w-8 h-8 rounded-xl bg-[rgba(82,183,136,0.15)] flex items-center justify-center">
           <i data-lucide="shield" class="w-4 h-4 text-[#52b788]"></i>
         </div>
-        <span class="font-serif text-lg font-bold text-white">BetFree</span>
+        <span class="font-serif text-lg font-bold text-white">Livre das Bets</span>
       </div>
       
       <!-- Lock btn -->
@@ -142,13 +135,56 @@
       </button>
     </header>
 
-    <!-- TAB 1: DASHBOARD -->
-    <section id="tab-dashboard" class="tab-content p-5 flex flex-col gap-6 bf-fade">
-      <!-- Days Clean Card -->
+    <!-- TAB 0: INÍCIO -->
+    <section id="tab-inicio" class="tab-content p-5 flex flex-col gap-5 bf-fade">
+      <!-- Welcome Header -->
+      <div class="flex justify-between items-center bg-[#0d1410] border border-[rgba(82,183,136,0.12)] rounded-2xl p-4.5">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-[rgba(82,183,136,0.15)] flex items-center justify-center border border-[rgba(82,183,136,0.2)]">
+            <i data-lucide="award" class="w-5 h-5 text-[#52b788]"></i>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-serif text-base font-bold text-white leading-tight">Livre das Bets</span>
+            <span class="text-[10px] text-[#8aaa96]" id="inicio-user-points">0 pontos acumulados</span>
+          </div>
+        </div>
+        
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-[#8aaa96] font-bold bg-[#0d1410] px-3 py-1.5 rounded-lg border border-[rgba(82,183,136,0.08)]" id="inicio-clean-header-days">Dia 0</span>
+          <div class="w-9 h-9 rounded-full bg-[#2d6a4f] text-white flex items-center justify-center font-bold text-xs shadow-md border border-[rgba(82,183,136,0.2)]">
+            A
+          </div>
+        </div>
+      </div>
+
+      <!-- CVV Alert Banner -->
+      <div class="bg-[#fefce8] border border-[#fef08a] rounded-2xl p-4 flex gap-3 items-start text-[#854d0e] shadow-sm">
+        <i data-lucide="alert-triangle" class="w-5 h-5 text-[#ca8a04] flex-shrink-0 mt-0.5"></i>
+        <p class="text-xs font-medium leading-relaxed m-0">
+          Se você está em perigo imediato ou com pensamentos de se machucar, <a href="tel:188" class="underline font-bold text-[#a16207]">ligue 188 agora</a>.
+        </p>
+      </div>
+
+      <!-- Emergency Hero Card -->
+      <button onclick="switchTab('emergencia')" class="w-full text-left bg-gradient-to-br from-[#111a14] to-[#0a0f0d] border border-[rgba(82,183,136,0.15)] rounded-3xl overflow-hidden shadow-lg hover:border-red-500/30 transition-all flex flex-col group cursor-pointer">
+        <div class="w-full aspect-[16/9] relative overflow-hidden bg-black/40">
+          <img src="images/modules/module-1/module-1-hero.webp" alt="Suporte de Emergência" class="w-full h-full object-cover opacity-80 group-hover:scale-[1.02] transition-transform duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#111a14] to-transparent"></div>
+        </div>
+        <div class="p-5 flex flex-col gap-2">
+          <h3 class="font-serif text-lg font-bold text-white leading-tight">Suporte de Emergência</h3>
+          <p class="text-xs text-[#8aaa96] leading-relaxed">Você não está sozinho. Ajuda está sempre a um toque.</p>
+          <div class="flex items-center gap-2 mt-2">
+            <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+            <span class="text-[10px] font-bold text-[#8aaa96] group-hover:text-red-400 transition-colors">Você não está sozinho. Milhares de brasileiros estão nessa jornada.</span>
+          </div>
+        </div>
+      </button>
+
+      <!-- Clean Days Live Counter Card -->
       <div class="bf-card p-6 flex flex-col items-center justify-center text-center gap-3 relative overflow-hidden bg-gradient-to-b from-[rgba(82,183,136,0.08)] to-transparent">
         <div class="text-[11px] font-bold text-[#52b788] uppercase tracking-[0.15em]">Tempo Livre de Apostas</div>
         
-        <!-- Live Counter numbers -->
         <div class="flex items-baseline gap-1 mt-1">
           <span id="counter-days" class="text-5xl font-black text-white leading-none">0</span>
           <span class="text-lg font-bold text-[#8aaa96] mr-2">d</span>
@@ -168,20 +204,22 @@
           Recaí / Reiniciar Contador
         </button>
       </div>
+    </section>
 
-      <!-- Modules Navigation Grid -->
-      <div class="flex flex-col gap-3">
-        <h3 class="font-serif text-xl font-bold text-white">Seus Módulos de Recuperação</h3>
-        <p class="text-xs text-[#8aaa96] mt-[-6px]">Conclua as aulas para reverter o ciclo do vício em 90 dias.</p>
-        
-        <div id="modules-list" class="flex flex-col gap-3.5 mt-2">
-          <!-- Dynamic Modules rendered here -->
-        </div>
+    <!-- TAB 1: MÓDULOS -->
+    <section id="tab-dashboard" class="tab-content p-5 flex flex-col gap-5 bf-fade hidden">
+      <div class="flex flex-col">
+        <h3 class="font-serif text-2xl font-bold text-white">Módulos de Recuperação</h3>
+        <p class="text-xs text-[#8aaa96] mt-1">Siga a grade de aulas para restaurar sua saúde cerebral.</p>
+      </div>
+      
+      <div id="modules-list" class="flex flex-col gap-3.5 mt-2">
+        <!-- Dynamic Modules rendered here -->
       </div>
     </section>
 
     <!-- TAB 2: BIBLIOTECA -->
-    <section id="tab-biblioteca" class="tab-content p-5 flex flex-col gap-4 bf-fade hidden">
+    <section id="tab-biblioteca" class="tab-content p-5 flex flex-col gap-5 bf-fade hidden">
       <div class="flex flex-col">
         <h2 class="font-serif text-2xl font-bold text-white">Biblioteca</h2>
         <p class="text-xs text-[#8aaa96] mt-1">Resumos práticos de grandes obras de desenvolvimento pessoal e psicologia.</p>
@@ -189,17 +227,39 @@
 
       <!-- Search bar -->
       <div class="relative w-full">
-        <input type="text" id="search-books" oninput="filterBooks()" placeholder="Pesquisar livros por título, autor ou tema..." class="w-full bg-[#0d1410] border border-[rgba(82,183,136,0.15)] rounded-xl py-3 pl-10 pr-4 text-xs text-white focus:outline-none focus:border-[#52b788] transition-all">
+        <input type="text" id="search-books" oninput="filterBooks()" placeholder="Pesquisar livros..." class="w-full bg-[#0d1410] border border-[rgba(82,183,136,0.15)] rounded-xl py-3.5 pl-10 pr-4 text-xs text-white focus:outline-none focus:border-[#52b788] transition-all">
         <i data-lucide="search" class="w-4 h-4 text-[#4a6b57] absolute left-3.5 top-3.5"></i>
+      </div>
+
+      <!-- Recommended Books Section -->
+      <div class="flex flex-col gap-2.5 mt-1">
+        <h3 class="text-[10px] font-bold text-[#8aaa96] uppercase tracking-wider">Recomendados para você • Com base no que você leu</h3>
+        <div class="flex gap-3.5 overflow-x-auto no-scrollbar pb-1">
+          <div onclick="openBook('habitos-atomicos')" class="flex flex-col text-left cursor-pointer w-24 flex-shrink-0">
+            <img src="covers/habitos-atomicos.jpg" class="w-24 h-36 rounded-xl object-cover shadow-md border border-[rgba(82,183,136,0.12)]">
+            <h4 class="text-[11px] font-bold text-white mt-1.5 truncate">Hábitos Atômicos</h4>
+            <span class="text-[9px] text-[#8aaa96] truncate">James Clear</span>
+          </div>
+          <div onclick="openBook('o-poder-do-habito')" class="flex flex-col text-left cursor-pointer w-24 flex-shrink-0">
+            <img src="covers/o-poder-do-habito.jpg" class="w-24 h-36 rounded-xl object-cover shadow-md border border-[rgba(82,183,136,0.12)]">
+            <h4 class="text-[11px] font-bold text-white mt-1.5 truncate">O Poder do Hábito</h4>
+            <span class="text-[9px] text-[#8aaa96] truncate">Charles Duhigg</span>
+          </div>
+          <div onclick="openBook('a-psicologia-do-dinheiro')" class="flex flex-col text-left cursor-pointer w-24 flex-shrink-0">
+            <img src="covers/a-psicologia-do-dinheiro.webp" class="w-24 h-36 rounded-xl object-cover shadow-md border border-[rgba(82,183,136,0.12)]">
+            <h4 class="text-[11px] font-bold text-white mt-1.5 truncate">A Psicologia do Dinheiro</h4>
+            <span class="text-[9px] text-[#8aaa96] truncate">Morgan Housel</span>
+          </div>
+        </div>
       </div>
       
       <!-- Category Filters (dynamic) -->
-      <div id="category-filters" class="flex gap-2 overflow-x-auto no-scrollbar pb-1.5 text-[11px] font-bold">
+      <div id="category-filters" class="flex gap-2 overflow-x-auto no-scrollbar pb-1.5 text-[11px] font-bold mt-2">
         <!-- Rendered dynamically -->
       </div>
 
       <!-- Books grid -->
-      <div id="books-grid" class="grid grid-cols-2 gap-4 mt-2">
+      <div id="books-grid" class="grid grid-cols-2 gap-4 mt-1">
         <!-- Dynamic Books rendered here -->
       </div>
     </section>
@@ -298,7 +358,7 @@
     </section>
 
     <!-- LESSON DETAIL VIEW SCREEN -->
-    <div id="screen-lesson" class="absolute inset-0 bg-[#111a14] z-50 flex flex-col hidden bf-fade">
+    <div id="screen-lesson" class="fixed inset-0 max-w-md mx-auto bg-[#111a14] z-50 flex flex-col hidden bf-fade">
       <!-- Lesson Header -->
       <header class="p-5 flex justify-between items-center bg-[#0d1410] border-b border-[rgba(82,183,136,0.08)] sticky top-0 z-40">
         <button onclick="closeLesson()" class="w-8 h-8 rounded-full hover:bg-[rgba(255,255,255,0.05)] flex items-center justify-center text-[#8aaa96] cursor-pointer">
@@ -350,7 +410,7 @@
     </div>
 
     <!-- BOOK DETAIL SCREEN -->
-    <div id="screen-book" class="absolute inset-0 bg-[#111a14] z-50 flex flex-col hidden bf-fade">
+    <div id="screen-book" class="fixed inset-0 max-w-md mx-auto bg-[#111a14] z-50 flex flex-col hidden bf-fade">
       <header class="p-5 flex justify-between items-center bg-[#0d1410] border-b border-[rgba(82,183,136,0.08)] sticky top-0 z-40">
         <button onclick="closeBook()" class="w-8 h-8 rounded-full hover:bg-[rgba(255,255,255,0.05)] flex items-center justify-center text-[#8aaa96] cursor-pointer">
           <i data-lucide="arrow-left" class="w-5 h-5"></i>
@@ -399,7 +459,7 @@
     </div>
 
     <!-- BOOK CHAPTER VIEW SCREEN -->
-    <div id="screen-chapter" class="absolute inset-0 bg-[#111a14] z-50 flex flex-col hidden bf-fade">
+    <div id="screen-chapter" class="fixed inset-0 max-w-md mx-auto bg-[#111a14] z-50 flex flex-col hidden bf-fade">
       <header class="p-5 flex justify-between items-center bg-[#0d1410] border-b border-[rgba(82,183,136,0.08)] sticky top-0 z-40">
         <button onclick="closeChapter()" class="w-8 h-8 rounded-full hover:bg-[rgba(255,255,255,0.05)] flex items-center justify-center text-[#8aaa96] cursor-pointer">
           <i data-lucide="arrow-left" class="w-5 h-5"></i>
@@ -443,22 +503,27 @@
 
   <!-- ==================== BOTTOM NAVIGATION BAR ==================== -->
   <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto h-[68px] bg-[#0d1410] border-t border-[rgba(82,183,136,0.08)] flex justify-around items-center z-40 px-3">
-    <button onclick="switchTab('dashboard')" id="nav-btn-dashboard" class="flex flex-col items-center justify-center gap-1.5 text-[#8aaa96] py-1 flex-1 cursor-pointer">
-      <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+    <button onclick="switchTab('inicio')" id="nav-btn-inicio" class="flex flex-col items-center justify-center gap-1 text-[#8aaa96] py-1 flex-1 cursor-pointer">
+      <i data-lucide="home" class="w-5 h-5"></i>
+      <span class="text-[10.5px] font-bold tracking-wide">Início</span>
+    </button>
+    
+    <button onclick="switchTab('dashboard')" id="nav-btn-dashboard" class="flex flex-col items-center justify-center gap-1 text-[#8aaa96] py-1 flex-1 cursor-pointer">
+      <i data-lucide="book-marked" class="w-5 h-5"></i>
       <span class="text-[10.5px] font-bold tracking-wide">Módulos</span>
     </button>
     
-    <button onclick="switchTab('biblioteca')" id="nav-btn-biblioteca" class="flex flex-col items-center justify-center gap-1.5 text-[#8aaa96] py-1 flex-1 cursor-pointer">
+    <button onclick="switchTab('biblioteca')" id="nav-btn-biblioteca" class="flex flex-col items-center justify-center gap-1 text-[#8aaa96] py-1 flex-1 cursor-pointer">
       <i data-lucide="library" class="w-5 h-5"></i>
       <span class="text-[10.5px] font-bold tracking-wide">Biblioteca</span>
     </button>
     
-    <button onclick="switchTab('diario')" id="nav-btn-diario" class="flex flex-col items-center justify-center gap-1.5 text-[#8aaa96] py-1 flex-1 cursor-pointer">
-      <i data-lucide="book-marked" class="w-5 h-5"></i>
+    <button onclick="switchTab('diario')" id="nav-btn-diario" class="flex flex-col items-center justify-center gap-1 text-[#8aaa96] py-1 flex-1 cursor-pointer">
+      <i data-lucide="pencil" class="w-5 h-5"></i>
       <span class="text-[10.5px] font-bold tracking-wide">Diário</span>
     </button>
     
-    <button onclick="switchTab('emergencia')" id="nav-btn-emergencia" class="flex flex-col items-center justify-center gap-1.5 text-[#8aaa96] py-1 flex-1 cursor-pointer">
+    <button onclick="switchTab('emergencia')" id="nav-btn-emergencia" class="flex flex-col items-center justify-center gap-1 text-[#8aaa96] py-1 flex-1 cursor-pointer">
       <div class="relative">
         <i data-lucide="phone-call" class="w-5 h-5 text-red-400"></i>
         <span class="absolute top-[-3px] right-[-3px] w-2 h-2 bg-red-500 rounded-full animate-ping"></span>
@@ -466,6 +531,49 @@
       <span class="text-[10.5px] font-bold tracking-wide text-red-400">SOS</span>
     </button>
   </nav>
+
+  <!-- ==================== ACHIEVEMENT MODAL ==================== -->
+  <div id="screen-achievement" class="fixed inset-0 max-w-md mx-auto bg-black/60 z-50 flex items-center justify-center p-6 hidden bf-fade">
+    <div class="bg-white rounded-[32px] w-full max-w-[290px] p-6 flex flex-col items-center text-center gap-5 shadow-2xl">
+      <!-- 3 Green Check circles -->
+      <div class="flex gap-2 justify-center mt-2">
+        <div class="w-10 h-10 rounded-full bg-[#2d6a4f] text-white flex items-center justify-center shadow-sm">
+          <i data-lucide="check" class="w-5 h-5 stroke-[3]"></i>
+        </div>
+        <div class="w-10 h-10 rounded-full bg-[#2d6a4f] text-white flex items-center justify-center shadow-sm">
+          <i data-lucide="check" class="w-5 h-5 stroke-[3]"></i>
+        </div>
+        <div class="w-10 h-10 rounded-full bg-[#2d6a4f] text-white flex items-center justify-center shadow-sm">
+          <i data-lucide="check" class="w-5 h-5 stroke-[3]"></i>
+        </div>
+      </div>
+      
+      <div class="flex flex-col gap-1.5">
+        <h2 class="text-lg font-bold font-serif text-[#111a14] leading-tight">Você completou sua meta diária!</h2>
+        <div class="text-2xl mt-1">🎉</div>
+      </div>
+      
+      <div class="flex flex-col gap-1">
+        <span class="text-[#2d6a4f] text-[15px] font-bold" id="ach-points-label">+30 pontos conquistados</span>
+        <span class="text-[#4a6b57]/70 text-[10px] font-bold mt-1.5 uppercase tracking-wider" id="ach-module-label">Módulo 1</span>
+        <span class="text-[#4a6b57]/70 text-[11px] leading-tight" id="ach-progress-label">3 de 7 concluídas — faltam 4 seções!</span>
+      </div>
+      
+      <!-- Progress bar -->
+      <div class="w-full h-2 bg-[#2d6a4f]/10 rounded-full overflow-hidden">
+        <div id="ach-progress-bar" class="bg-[#2d6a4f] h-full transition-all duration-300" style="width: 42%;"></div>
+      </div>
+      
+      <div class="flex items-center gap-1.5 text-xs font-semibold text-[#111a14]">
+        <span>🔥</span>
+        <span id="ach-streak-label">Sequência: 4º dia consecutivo</span>
+      </div>
+      
+      <button onclick="closeAchievement()" class="w-full bg-[#2d6a4f] hover:bg-[#52b788] text-white font-bold py-3.5 rounded-2xl shadow-md transition-colors mt-2 cursor-pointer">
+        Continuar
+      </button>
+    </div>
+  </div>
 
   <!-- Embed extracted course data in a JS script block -->
   <script>
@@ -3351,23 +3459,39 @@
       });
     }
 
+    const MODULE_COVERS = {
+      0: "images/modules/module-0.webp",
+      1: "images/modules/module-1/module-1-hero.webp",
+      2: "images/modules/module-2/module-2-hero.webp",
+      3: "images/modules/module-3.webp",
+      4: "images/modules/module-4.webp",
+      5: "images/modules/module-5.webp",
+      6: "images/modules/module-6.webp",
+      7: "images/modules/module-7.webp",
+      8: "images/modules/module-8.jpg",
+      9: "images/modules/module-9.jpg",
+      10: "images/modules/module-10.jpg"
+    };
+
     // App state
     const appState = {
       isLocked: true,
-      currentTab: 'dashboard',
+      currentTab: 'inicio',
       currentLesson: null,
       currentBook: null,
       currentChapter: null,
       selectedCategory: 'Todos',
       daysCleanStart: null,
       completedLessons: [], 
-      completedChapters: {}, // maps bookId to array of chapterIds
+      completedChapters: {}, 
       diaryLogs: [],
       currentDiaryPromptIdx: 0,
       isPlayingAudio: false,
       audioTimerInterval: null,
       speechSynth: window.speechSynthesis,
-      speechUtterance: null
+      speechUtterance: null,
+      points: 0,
+      streak: 1
     };
 
     const DIARY_PROMPTS = [
@@ -3413,6 +3537,14 @@
       if (savedDiary) {
         appState.diaryLogs = JSON.parse(savedDiary);
       }
+
+      // Load points
+      const savedPoints = localStorage.getItem("betfree_points");
+      appState.points = savedPoints ? parseInt(savedPoints) : 0;
+      updatePointsDisplay();
+
+      // Calculate login streak
+      calculateStreak();
       
       // Setup Lucide icons
       lucide.createIcons();
@@ -3428,7 +3560,7 @@
       renderDiaryLogs();
       
       // Active Bottom Tab default styling
-      switchTab('dashboard');
+      switchTab('inicio');
     }
 
     // Access Lock screen handlers
@@ -3459,7 +3591,11 @@
       // Hide all tabs
       document.querySelectorAll(".tab-content").forEach(el => el.classList.add("hidden"));
       // Show active tab
-      document.getElementById(`tab-${tabId}`).classList.remove("hidden");
+      if (tabId === 'dashboard') {
+        document.getElementById("tab-dashboard").classList.remove("hidden");
+      } else {
+        document.getElementById(`tab-${tabId}`).classList.remove("hidden");
+      }
       
       // Reset bottom nav classes
       document.querySelectorAll("nav button").forEach(btn => btn.classList.remove("tab-active"));
@@ -3476,6 +3612,8 @@
       const minEl = document.getElementById("counter-minutes");
       const secEl = document.getElementById("counter-seconds");
       
+      const headerDaysEl = document.getElementById("inicio-clean-header-days");
+      
       function update() {
         const now = new Date().getTime();
         const diff = now - appState.daysCleanStart;
@@ -3489,6 +3627,8 @@
         if (hoursEl) hoursEl.innerText = String(hours).padStart(2, '0');
         if (minEl) minEl.innerText = String(minutes).padStart(2, '0');
         if (secEl) secEl.innerText = String(seconds).padStart(2, '0');
+        
+        if (headerDaysEl) headerDaysEl.innerText = `Dia ${days}`;
         
         requestAnimationFrame(update);
       }
@@ -3511,79 +3651,83 @@
       container.innerHTML = "";
       
       APP_DATABASE.So.forEach((module) => {
-        const isModuleUnlocked = true;
+        const isModuleUnlocked = true; // All modules fully accessible to allow free navigation!
         const sectionsList = APP_DATABASE.Gd[module.id] || [];
         const completedInSection = sectionsList.filter(s => appState.completedLessons.includes(s.id)).length;
         const progressPct = sectionsList.length > 0 ? Math.round((completedInSection / sectionsList.length) * 100) : 0;
+        const coverImg = MODULE_COVERS[module.id] || "images/modules/module-0.webp";
+        const isCompleted = completedInSection === sectionsList.length && sectionsList.length > 0;
         
-        let cardHtml = "";
-        
-        if (isModuleUnlocked) {
-          cardHtml = `
-            <div class="bf-card p-4.5 flex flex-col gap-3">
-              <div class="flex justify-between items-start gap-4">
-                <div class="flex-1">
-                  <div class="flex items-center gap-2 mb-1">
-                    <span class="text-[9.5px] font-black uppercase text-[#52b788] bg-[rgba(82,183,136,0.12)] px-2 py-0.5 rounded">${module.tag}</span>
-                    <span class="text-[10px] text-[#4a6b57] font-semibold">sub:${module.duration}</span>
-                  </div>
-                  <h4 class="font-serif text-base font-bold text-white leading-snug">${module.name}</h4>
-                  <p class="text-xs text-[#8aaa96] mt-0.5 leading-normal">${module.subtitle}</p>
-                </div>
-                <div class="text-[10px] font-bold text-[#52b788] flex-shrink-0">${completedInSection}/\ ${sectionsList.length} aulas</div>
-              </div>
-              
-              <div class="w-full h-1 bg-[rgba(255,255,255,0.06)] rounded-full overflow-hidden">
-                <div class="bg-[#52b788] h-full" style="width: ${progressPct}%"></div>
-              </div>
-              
-              <div class="flex flex-col gap-2 mt-2 pt-2 border-t border-[rgba(82,183,136,0.08)]">
-                ${sectionsList.map((section, idx) => {
-                  const isCompleted = appState.completedLessons.includes(section.id);
-                  return `
-                    <button onclick="openLesson('${module.id}', '${section.id}')" class="flex justify-between items-center py-2 px-2.5 rounded-lg hover:bg-[rgba(82,183,136,0.04)] text-left cursor-pointer transition-colors">
-                      <span class="inline-flex items-center gap-2 text-xs text-[#f0f4f1] font-medium max-w-[80%]">
-                        ${isCompleted 
-                          ? `<i data-lucide="check-circle" class="w-3.5 h-3.5 text-[#52b788] flex-shrink-0"></i>` 
-                          : `<i data-lucide="play-circle" class="w-3.5 h-3.5 text-[#4a6b57] flex-shrink-0"></i>`
-                        }
-                        <span class="${isCompleted ? 'line-through text-[#4a6b57]' : ''} truncate">${idx+1}. ${section.title}</span>
-                      </span>
-                      <span class="text-[10px] text-[#4a6b57] font-mono">${section.duration}</span>
-                    </button>
-                  `;
-                }).join('')}
-              </div>
-            </div>
-          `;
+        let statusBadge = "";
+        if (isCompleted) {
+          statusBadge = `<span class="text-[9.5px] font-bold text-white bg-[#4a6b57] px-2.5 py-1 rounded-full flex items-center gap-1">Concluído <i data-lucide="check" class="w-3 h-3"></i></span>`;
+        } else if (completedInSection > 0) {
+          statusBadge = `<span class="text-[9.5px] font-bold text-white bg-[#2d6a4f] px-2.5 py-1 rounded-full">${completedInSection}/${sectionsList.length}</span>`;
         } else {
-          cardHtml = `
-            <div class="bf-card locked-card p-4.5 flex flex-col gap-3">
-              <div class="flex justify-between items-start gap-4">
-                <div>
-                  <div class="flex items-center gap-2 mb-1">
-                    <span class="text-[9.5px] font-black uppercase text-[#4a6b57] bg-[rgba(255,255,255,0.03)] px-2 py-0.5 rounded">BLOQUEADO</span>
-                  </div>
-                  <h4 class="font-serif text-base font-bold text-[#8aaa96] leading-snug">${module.name}</h4>
-                  <p class="text-xs text-[#4a6b57] mt-0.5 leading-normal">${module.subtitle}</p>
+          statusBadge = `<span class="text-[9.5px] font-bold text-[#8aaa96] bg-[#0d1410] border border-[rgba(82,183,136,0.12)] px-2.5 py-1 rounded-full">0/${sectionsList.length}</span>`;
+        }
+
+        let cardHtml = `
+          <div class="bf-card p-4 flex flex-col gap-3">
+            <div onclick="toggleModuleExpansion(${module.id})" class="flex gap-4 items-center cursor-pointer">
+              <!-- Thumbnail -->
+              <img src="${coverImg}" alt="" class="w-14 h-14 rounded-xl object-cover border border-[rgba(82,183,136,0.15)] flex-shrink-0">
+              
+              <!-- Content Info -->
+              <div class="flex-1 min-w-0 flex flex-col gap-0.5">
+                <div class="flex items-center gap-2 text-[9px] font-black uppercase text-[#52b788]">
+                  <span>${module.tag}</span>
+                  <span class="text-[#4a6b57]">•</span>
+                  <span>${module.duration}</span>
                 </div>
-                <i data-lucide="lock" class="w-4 h-4 text-[#4a6b57] mt-0.5"></i>
+                <h4 class="font-serif text-sm font-bold text-white truncate">Módulo ${module.id}: ${module.name}</h4>
+                <p class="text-[11px] text-[#8aaa96] truncate mt-0.5">${module.subtitle}</p>
+              </div>
+
+              <!-- Status & Toggle -->
+              <div class="flex items-center gap-2 flex-shrink-0">
+                ${statusBadge}
+                <i data-lucide="chevron-down" id="module-chevron-${module.id}" class="w-4 h-4 text-[#8aaa96] transition-transform duration-200"></i>
               </div>
             </div>
-          `;
-        }
+
+            <!-- Lessons Sub-List (Collapsible) -->
+            <div id="module-lessons-${module.id}" class="hidden flex flex-col gap-2 pt-2 border-t border-[rgba(82,183,136,0.08)] bf-fade">
+              ${sectionsList.map((section, idx) => {
+                const isLessonDone = appState.completedLessons.includes(section.id);
+                return `
+                  <button onclick="openLesson('${module.id}', '${section.id}')" class="flex justify-between items-center py-2 px-2.5 rounded-lg hover:bg-[rgba(82,183,136,0.04)] text-left cursor-pointer transition-colors w-full">
+                    <span class="inline-flex items-center gap-2 text-xs text-[#f0f4f1] font-medium max-w-[80%]">
+                      ${isLessonDone 
+                        ? `<i data-lucide="check-circle" class="w-3.5 h-3.5 text-[#52b788] flex-shrink-0"></i>` 
+                        : `<i data-lucide="play-circle" class="w-3.5 h-3.5 text-[#4a6b57] flex-shrink-0"></i>`
+                      }
+                      <span class="${isLessonDone ? 'line-through text-[#4a6b57]' : ''} truncate">${idx+1}. ${section.title}</span>
+                    </span>
+                    <span class="text-[10px] text-[#4a6b57] font-mono">${section.duration}</span>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
         
         container.innerHTML += cardHtml;
       });
       lucide.createIcons();
     }
 
-    function isPreviousModuleCompleted(moduleId) {
-      if (moduleId === 0) return true;
-      const prevModuleId = moduleId - 1;
-      const prevSectionsList = APP_DATABASE.Gd[prevModuleId] || [];
-      if (prevSectionsList.length === 0) return true;
-      return prevSectionsList.every(s => appState.completedLessons.includes(s.id));
+    function toggleModuleExpansion(moduleId) {
+      const lessonsDiv = document.getElementById(`module-lessons-${moduleId}`);
+      const chevron = document.getElementById(`module-chevron-${moduleId}`);
+      
+      if (lessonsDiv.classList.contains("hidden")) {
+        lessonsDiv.classList.remove("hidden");
+        chevron.style.transform = "rotate(180deg)";
+      } else {
+        lessonsDiv.classList.add("hidden");
+        chevron.style.transform = "rotate(0deg)";
+      }
     }
 
     // Open Lesson Overlay
@@ -3625,9 +3769,19 @@
 
     function markLessonComplete() {
       const lessonId = appState.currentLesson.lessonId;
-      if (!appState.completedLessons.includes(lessonId)) {
+      const moduleId = appState.currentLesson.moduleId;
+      const module = APP_DATABASE.So.find(m => m.id == moduleId);
+      const sections = APP_DATABASE.Gd[moduleId] || [];
+      
+      const wasCompleted = appState.completedLessons.includes(lessonId);
+      if (!wasCompleted) {
         appState.completedLessons.push(lessonId);
         localStorage.setItem("betfree_completed_lessons", JSON.stringify(appState.completedLessons));
+        
+        // Add points & trigger daily target popup
+        addPoints(30);
+        const completedCount = sections.filter(s => appState.completedLessons.includes(s.id)).length;
+        triggerAchievementModal(module.name, completedCount, sections.length, 30);
       }
       closeLesson();
     }
@@ -3773,7 +3927,7 @@
     // Book Chapter Reader overlay
     function openChapter(chapterId) {
       const book = appState.currentBook;
-      const chapter = book.chapters.find(c => c.id === chapterId);
+      const chapter = book.chapters.find(c => Number(c.id) === Number(chapterId));
       appState.currentChapter = chapter;
       
       document.getElementById("chapter-header-book").innerText = book.title.toUpperCase();
@@ -3814,9 +3968,15 @@
         appState.completedChapters[book.id] = [];
       }
       
-      if (!appState.completedChapters[book.id].includes(chapId)) {
+      const wasCompleted = appState.completedChapters[book.id].includes(chapId);
+      if (!wasCompleted) {
         appState.completedChapters[book.id].push(chapId);
         localStorage.setItem("betfree_completed_chapters", JSON.stringify(appState.completedChapters));
+        
+        // Add points & trigger daily target popup
+        addPoints(20);
+        const completedCount = appState.completedChapters[book.id].length;
+        triggerAchievementModal(book.title, completedCount, book.chaptersCount, 20);
       }
       closeChapter();
     }
@@ -3982,6 +4142,10 @@
       
       document.getElementById("diario-input").value = "";
       renderDiaryLogs();
+      
+      // Award points for writing diary
+      addPoints(10);
+      alert("Anotação salva! +10 pontos conquistados.");
     }
 
     function renderDiaryLogs() {
@@ -4015,6 +4179,66 @@
         localStorage.setItem("betfree_diary_logs", JSON.stringify(appState.diaryLogs));
         renderDiaryLogs();
       }
+    }
+
+    // Points display updates
+    function addPoints(pts) {
+      appState.points = (appState.points || 0) + pts;
+      localStorage.setItem("betfree_points", appState.points);
+      updatePointsDisplay();
+    }
+
+    function updatePointsDisplay() {
+      const pointsEl = document.getElementById("inicio-user-points");
+      if (pointsEl) {
+        pointsEl.innerText = `${appState.points || 0} pontos acumulados`;
+      }
+    }
+
+    // Achievements Daily popup triggers
+    function triggerAchievementModal(moduleName, completed, total, pointsGained) {
+      const remaining = total - completed;
+      const pct = Math.round((completed / total) * 100);
+      
+      document.getElementById("ach-points-label").innerText = `+${pointsGained} pontos conquistados`;
+      document.getElementById("ach-module-label").innerText = moduleName;
+      document.getElementById("ach-progress-label").innerText = `${completed} de ${total} concluídas — faltam ${remaining} seções!`;
+      document.getElementById("ach-progress-bar").style.width = `${pct}%`;
+      
+      calculateStreak();
+      document.getElementById("ach-streak-label").innerText = `Sequência: ${appState.streak}º dia consecutivo`;
+      
+      document.getElementById("screen-achievement").classList.remove("hidden");
+      lucide.createIcons();
+    }
+
+    function closeAchievement() {
+      document.getElementById("screen-achievement").classList.add("hidden");
+    }
+
+    function calculateStreak() {
+      const todayStr = new Date().toISOString().split('T')[0];
+      const lastOpen = localStorage.getItem("betfree_last_open_date");
+      let streak = parseInt(localStorage.getItem("betfree_streak") || "0");
+      
+      if (lastOpen === todayStr) {
+        appState.streak = streak || 1;
+        return;
+      }
+      
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      const yesterdayStr = yesterday.toISOString().split('T')[0];
+      
+      if (lastOpen === yesterdayStr) {
+        streak += 1;
+      } else {
+        streak = 1;
+      }
+      
+      localStorage.setItem("betfree_streak", streak);
+      localStorage.setItem("betfree_last_open_date", todayStr);
+      appState.streak = streak;
     }
 
     // Initialize Page
