@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>BetFree — Programa de Recuperação</title>
+  <title>Livre das Bets — Programa de Recuperação</title>
   
   <!-- PWA Metadata -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#2d6a4f">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="BetFree">
+  <meta name="apple-mobile-web-app-title" content="Livre das Bets">
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -98,7 +98,7 @@
       <div class="w-16 h-16 rounded-3xl bg-[rgba(82,183,136,0.15)] flex items-center justify-center border border-[rgba(82,183,136,0.3)] shadow-md">
         <i data-lucide="shield-check" class="w-8 h-8 text-[#52b788]"></i>
       </div>
-      <h1 class="text-3xl font-black font-serif text-white mt-4">BetFree</h1>
+      <h1 class="text-3xl font-black font-serif text-white mt-4">Livre das Bets</h1>
       <p class="text-[#8aaa96] text-sm text-center px-4 mt-1">Insira seu código de acesso para entrar no programa de recuperação.</p>
     </div>
     
@@ -3505,7 +3505,7 @@
     // Load initial states from LocalStorage
     function initApp() {
       // Load lock state
-      const savedLock = localStorage.getItem("betfree_is_locked");
+      const savedLock = localStorage.getItem("livredasbets_is_locked");
       appState.isLocked = savedLock !== "false";
       
       if (!appState.isLocked) {
@@ -3513,33 +3513,33 @@
       }
       
       // Load clean counter start timestamp (if not present, default to now)
-      let savedStart = localStorage.getItem("betfree_clean_start");
+      let savedStart = localStorage.getItem("livredasbets_clean_start");
       if (!savedStart) {
         savedStart = new Date().getTime();
-        localStorage.setItem("betfree_clean_start", savedStart);
+        localStorage.setItem("livredasbets_clean_start", savedStart);
       }
       appState.daysCleanStart = parseInt(savedStart);
       
       // Load completed lessons list
-      const savedCompleted = localStorage.getItem("betfree_completed_lessons");
+      const savedCompleted = localStorage.getItem("livredasbets_completed_lessons");
       if (savedCompleted) {
         appState.completedLessons = JSON.parse(savedCompleted);
       }
       
       // Load completed book chapters
-      const savedChapters = localStorage.getItem("betfree_completed_chapters");
+      const savedChapters = localStorage.getItem("livredasbets_completed_chapters");
       if (savedChapters) {
         appState.completedChapters = JSON.parse(savedChapters);
       }
       
       // Load diary logs
-      const savedDiary = localStorage.getItem("betfree_diary_logs");
+      const savedDiary = localStorage.getItem("livredasbets_diary_logs");
       if (savedDiary) {
         appState.diaryLogs = JSON.parse(savedDiary);
       }
 
       // Load points
-      const savedPoints = localStorage.getItem("betfree_points");
+      const savedPoints = localStorage.getItem("livredasbets_points");
       appState.points = savedPoints ? parseInt(savedPoints) : 0;
       updatePointsDisplay();
 
@@ -3567,9 +3567,9 @@
     function unlockApp() {
       const password = document.getElementById("input-lock-password").value.trim();
       // Universal Access Key
-      if (password.toLowerCase() === "betfree2026" || password.toLowerCase() === "livredasbets" || password === "") {
+      if (password.toLowerCase() === "livredasbets2026" || password.toLowerCase() === "livredasbets" || password === "") {
         appState.isLocked = false;
-        localStorage.setItem("betfree_is_locked", "false");
+        localStorage.setItem("livredasbets_is_locked", "false");
         document.getElementById("screen-lock").classList.add("hidden");
         document.getElementById("lock-error").classList.add("hidden");
       } else {
@@ -3579,7 +3579,7 @@
 
     function lockApp() {
       appState.isLocked = true;
-      localStorage.setItem("betfree_is_locked", "true");
+      localStorage.setItem("livredasbets_is_locked", "true");
       document.getElementById("screen-lock").classList.remove("hidden");
       document.getElementById("input-lock-password").value = "";
     }
@@ -3639,7 +3639,7 @@
     function resetCounter() {
       if (confirm("Você confirma a reinicialização do contador? Não se preocupe, a recaída faz parte do processo de aprendizado, continue firme!")) {
         appState.daysCleanStart = new Date().getTime();
-        localStorage.setItem("betfree_clean_start", appState.daysCleanStart);
+        localStorage.setItem("livredasbets_clean_start", appState.daysCleanStart);
       }
     }
 
@@ -3776,7 +3776,7 @@
       const wasCompleted = appState.completedLessons.includes(lessonId);
       if (!wasCompleted) {
         appState.completedLessons.push(lessonId);
-        localStorage.setItem("betfree_completed_lessons", JSON.stringify(appState.completedLessons));
+        localStorage.setItem("livredasbets_completed_lessons", JSON.stringify(appState.completedLessons));
         
         // Add points & trigger daily target popup
         addPoints(30);
@@ -3971,7 +3971,7 @@
       const wasCompleted = appState.completedChapters[book.id].includes(chapId);
       if (!wasCompleted) {
         appState.completedChapters[book.id].push(chapId);
-        localStorage.setItem("betfree_completed_chapters", JSON.stringify(appState.completedChapters));
+        localStorage.setItem("livredasbets_completed_chapters", JSON.stringify(appState.completedChapters));
         
         // Add points & trigger daily target popup
         addPoints(20);
@@ -4138,7 +4138,7 @@
       };
       
       appState.diaryLogs.unshift(newEntry);
-      localStorage.setItem("betfree_diary_logs", JSON.stringify(appState.diaryLogs));
+      localStorage.setItem("livredasbets_diary_logs", JSON.stringify(appState.diaryLogs));
       
       document.getElementById("diario-input").value = "";
       renderDiaryLogs();
@@ -4176,7 +4176,7 @@
     function deleteDiaryEntry(id) {
       if (confirm("Deseja apagar esta nota permanentemente?")) {
         appState.diaryLogs = appState.diaryLogs.filter(log => log.id !== id);
-        localStorage.setItem("betfree_diary_logs", JSON.stringify(appState.diaryLogs));
+        localStorage.setItem("livredasbets_diary_logs", JSON.stringify(appState.diaryLogs));
         renderDiaryLogs();
       }
     }
@@ -4184,7 +4184,7 @@
     // Points display updates
     function addPoints(pts) {
       appState.points = (appState.points || 0) + pts;
-      localStorage.setItem("betfree_points", appState.points);
+      localStorage.setItem("livredasbets_points", appState.points);
       updatePointsDisplay();
     }
 
@@ -4218,8 +4218,8 @@
 
     function calculateStreak() {
       const todayStr = new Date().toISOString().split('T')[0];
-      const lastOpen = localStorage.getItem("betfree_last_open_date");
-      let streak = parseInt(localStorage.getItem("betfree_streak") || "0");
+      const lastOpen = localStorage.getItem("livredasbets_last_open_date");
+      let streak = parseInt(localStorage.getItem("livredasbets_streak") || "0");
       
       if (lastOpen === todayStr) {
         appState.streak = streak || 1;
@@ -4236,8 +4236,8 @@
         streak = 1;
       }
       
-      localStorage.setItem("betfree_streak", streak);
-      localStorage.setItem("betfree_last_open_date", todayStr);
+      localStorage.setItem("livredasbets_streak", streak);
+      localStorage.setItem("livredasbets_last_open_date", todayStr);
       appState.streak = streak;
     }
 
