@@ -4,6 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '992744380438540');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=992744380438540&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+  
   <!-- Vturb Optimization preloads -->
   <script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
   <!-- VSL 1 preloads -->
@@ -357,7 +375,7 @@
     </section>
 
     <!-- ==================== SCREEN 7: RESULT ==================== -->
-    <section id="screen-result" class="hidden min-h-screen flex flex-col items-center bg-[#0a0f0d]">
+    <section id="screen-result" class="hidden bg-[#0a0f0d] pb-16">
       <div class="w-full max-w-[480px] mx-auto">
         
         <!-- Header Banner -->
@@ -516,6 +534,9 @@
           }
           // Track checkout step
           trackFunnelStep("step6_checkout");
+          if (typeof window.fbq === "function") {
+            window.fbq("track", "InitiateCheckout");
+          }
         }
       }
     }, true);
