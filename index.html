@@ -436,9 +436,8 @@
       document.head.appendChild(s);
     }
 
-    // Funnel Analytics Tracking & Checkout Autocomplete
-    const TRACKING_TOKEN = "3dd84692da9046ba90b99e9bead55abe";
-    const TRACKING_URL = `https://api.keyvalue.xyz/${TRACKING_TOKEN}/funnel_stats`;
+    const TRACKING_BUCKET = "Y3cnymqrU61QXs7qMYhJSQ";
+    const TRACKING_URL = `https://kvdb.io/${TRACKING_BUCKET}/funnel_stats`;
 
     async function trackFunnelStep(stepName) {
       const sessionKey = `tracked_step_${stepName}`;

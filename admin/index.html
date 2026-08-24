@@ -8,9 +8,6 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Lucide Icons CDN -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
     body {
@@ -34,7 +31,11 @@
     <header class="flex justify-between items-center bg-[#111a14] border border-[rgba(82,183,136,0.15)] rounded-2xl p-5">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-[rgba(82,183,136,0.15)] flex items-center justify-center border border-[rgba(82,183,136,0.2)]">
-          <i data-lucide="bar-chart-3" class="w-5 h-5 text-[#52b788]"></i>
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="#52b788" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#52b788]">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
         </div>
         <div class="flex flex-col">
           <h1 class="text-base font-bold text-white leading-tight">Painel do Funil</h1>
@@ -43,7 +44,11 @@
       </div>
       
       <button onclick="fetchStats()" class="w-9 h-9 rounded-xl bg-[rgba(82,183,136,0.08)] hover:bg-[rgba(82,183,136,0.15)] border border-[rgba(82,183,136,0.12)] flex items-center justify-center text-[#52b788] transition-colors cursor-pointer" title="Atualizar Dados">
-        <i data-lucide="refresh-cw" class="w-4 h-4" id="refresh-icon"></i>
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-[#52b788]" id="refresh-icon">
+          <polyline points="23 4 23 10 17 10"></polyline>
+          <polyline points="1 20 1 14 7 14"></polyline>
+          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+        </svg>
       </button>
     </header>
 
@@ -61,7 +66,11 @@
       </div>
 
       <div id="error-state" class="text-center py-12 flex flex-col items-center gap-3 hidden">
-        <i data-lucide="alert-circle" class="w-8 h-8 text-red-400"></i>
+        <svg viewBox="0 0 24 24" width="32" height="32" stroke="#f87171" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-red-400">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
         <span class="text-xs text-[#8aaa96]">Não foi possível conectar ao banco de estatísticas.</span>
         <button onclick="fetchStats()" class="text-xs text-[#52b788] font-bold underline mt-1">Tentar Novamente</button>
       </div>
@@ -162,7 +171,12 @@
     <div class="flex justify-between items-center px-2">
       <span class="text-[10px] text-[#4a6b57]">Livre das Bets Admin Dashboard</span>
       <button onclick="resetStats()" class="text-xs text-red-400/80 hover:text-red-400 font-bold hover:underline cursor-pointer flex items-center gap-1.5">
-        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="inline w-3.5 h-3.5">
+          <polyline points="3 6 5 6 21 6"></polyline>
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          <line x1="10" y1="11" x2="10" y2="17"></line>
+          <line x1="14" y1="11" x2="14" y2="17"></line>
+        </svg>
         Resetar Estatísticas
       </button>
     </div>
@@ -170,8 +184,8 @@
   </div>
 
   <script>
-    const TRACKING_TOKEN = "3dd84692da9046ba90b99e9bead55abe";
-    const TRACKING_URL = `https://api.keyvalue.xyz/${TRACKING_TOKEN}/funnel_stats`;
+    const TRACKING_BUCKET = "Y3cnymqrU61QXs7qMYhJSQ";
+    const TRACKING_URL = `https://kvdb.io/${TRACKING_BUCKET}/funnel_stats`;
 
     async function fetchStats() {
       // Toggle refresh icon spin
@@ -184,6 +198,11 @@
 
       try {
         const response = await fetch(TRACKING_URL);
+        
+        if (response.status === 403) {
+          throw new Error("unverified");
+        }
+
         let data = {
           step1_home: 0,
           step2_quiz: 0,
@@ -205,7 +224,15 @@
       } catch (err) {
         console.error(err);
         document.getElementById("loading-state").classList.add("hidden");
-        document.getElementById("error-state").classList.remove("hidden");
+        const errState = document.getElementById("error-state");
+        errState.classList.remove("hidden");
+        
+        const errMsg = errState.querySelector("span");
+        if (err.message === "unverified") {
+          errMsg.innerHTML = "Seu banco de dados foi criado para o e-mail <strong class='text-[#52b788]'>aelekstop123@gmail.com</strong>, mas ainda não foi verificado.<br><br>Acesse seu e-mail (verifique o spam) e clique no link de ativação enviado pela <strong>kvdb.io</strong> para ativar o painel!";
+        } else {
+          errMsg.innerText = "Não foi possível conectar ao banco de estatísticas.";
+        }
       } finally {
         if (icon) {
           setTimeout(() => icon.classList.remove("animate-spin"), 600);
@@ -250,9 +277,6 @@
       // Show stats content
       document.getElementById("loading-state").classList.add("hidden");
       document.getElementById("stats-content").classList.remove("hidden");
-      
-      // Initialize icons
-      lucide.createIcons();
     }
 
     async function resetStats() {
