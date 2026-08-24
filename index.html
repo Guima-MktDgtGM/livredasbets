@@ -403,7 +403,6 @@
             ⚠️ Assista ao vídeo antes de conhecer seu plano completo.
           </p>
         </div>
-        </div>
       </div>
     </section>
 
@@ -672,7 +671,6 @@
     }
 
     function renderCurrentStep() {
-      window.scrollTo(0, 0);
       const step = steps[quizState.currentStepIndex];
       const container = document.getElementById("quiz-step-content");
       
@@ -1451,6 +1449,7 @@
 
     // Step interaction handlers
     function nextStep() {
+      window.scrollTo(0, 0);
       // Branching logic: Skip 'porqueNaoFuncinou' if user didn't try to stop before
       const currentStep = steps[quizState.currentStepIndex];
       if (currentStep.id === 'tentouParar' && quizState.answers['tentouParar'] === 2) {
@@ -1470,6 +1469,7 @@
 
     // Previous step navigation
     function previousStep() {
+      window.scrollTo(0, 0);
       if (quizState.currentStepIndex > 0) {
         // Branching logic: Skip backward over 'porqueNaoFuncinou' if they didn't try to stop before
         const prevIndex = quizState.currentStepIndex - 1;
