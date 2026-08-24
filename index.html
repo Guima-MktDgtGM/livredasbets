@@ -380,15 +380,11 @@
         <div class="p-[8px_22px_32px] bg-[#0a0f0d]">
           <div class="w-full rounded-xl overflow-hidden mb-6 bg-black border border-[rgba(82,183,136,0.15)] shadow-lg">
             <vturb-smartplayer id="vid-6a8b5646a024bd11c4bb8ac1" style="display: block; margin: 0 auto; width: 100%; "><div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 56.25% 0 0; z-index: 0; background-color: black;"></div></vturb-smartplayer>
-            <script type="text/javascript">
-              var s=document.createElement("script");
-              s.src="https://scripts.converteai.net/141468aa-0e0b-4b46-b784-a9403b5f9a1c/players/6a8b5646a024bd11c4bb8ac1/v4/player.js", s.async=!0,document.head.appendChild(s);
-            </script>
           </div>
           
           <!-- Bloco CTA 2 (Vturb delay) -->
           <div id="bloco-cta-vsl2" style="display: none;" class="w-full flex justify-center mt-2 mb-4">
-            <a href="https://pay.cakto.com.br/YOUR_LINK_HERE" class="w-full max-w-[380px] bf-cta-pulse bg-[#2d6a4f] hover:bg-[#52b788] text-white font-black py-4 px-6 rounded-[28px] flex items-center justify-center gap-2.5 transition-all text-xs shadow-lg uppercase tracking-wide cursor-pointer border border-[rgba(82,183,136,0.3)] text-center select-none">
+            <a href="https://pay.cakto.com.br/36khh5u_1059401" class="w-full max-w-[380px] bf-cta-pulse bg-[#2d6a4f] hover:bg-[#52b788] text-white font-black py-4 px-6 rounded-[28px] flex items-center justify-center gap-2.5 transition-all text-xs shadow-lg uppercase tracking-wide cursor-pointer border border-[rgba(82,183,136,0.3)] text-center select-none">
               Quero começar minha recuperação hoje — R$47
               <i data-lucide="arrow-right" class="w-5 h-5"></i>
             </a>
@@ -1723,6 +1719,15 @@
       const ctaVsl2 = document.getElementById("bloco-cta-vsl2");
       if (ctaVsl2) {
         ctaVsl2.id = "bloco-cta";
+      }
+      
+      // Dynamically load VSL 2 Vturb script only when results screen is requested
+      const scriptUrl = "https://scripts.converteai.net/141468aa-0e0b-4b46-b784-a9403b5f9a1c/players/6a8b5646a024bd11c4bb8ac1/v4/player.js";
+      if (!document.querySelector(`script[src="${scriptUrl}"]`)) {
+        const s = document.createElement("script");
+        s.src = scriptUrl;
+        s.async = true;
+        document.head.appendChild(s);
       }
       
       showScreen("screen-result");
