@@ -240,7 +240,7 @@
     </section>
 
     <!-- ==================== SCREEN 2: QUIZ ==================== -->
-    <section id="screen-quiz" class="hidden min-h-screen flex flex-col">
+    <section id="screen-quiz" class="hidden min-h-screen flex flex-col items-center">
       <!-- Sticky Progress Bar Header -->
       <div class="sticky top-0 z-10 bg-[#0a0f0d] px-5 py-[12px] pb-[8px] w-full border-none">
         <div class="w-full max-w-[480px] mx-auto">
@@ -357,7 +357,7 @@
     </section>
 
     <!-- ==================== SCREEN 7: RESULT ==================== -->
-    <section id="screen-result" class="hidden min-h-screen flex flex-col bg-[#0a0f0d]">
+    <section id="screen-result" class="hidden min-h-screen flex flex-col items-center bg-[#0a0f0d]">
       <div class="w-full max-w-[480px] mx-auto">
         
         <!-- Header Banner -->
@@ -662,6 +662,7 @@
     }
 
     function renderCurrentStep() {
+      window.scrollTo(0, 0);
       const step = steps[quizState.currentStepIndex];
       const container = document.getElementById("quiz-step-content");
       
