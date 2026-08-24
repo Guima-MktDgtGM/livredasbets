@@ -6,9 +6,15 @@
   
   <!-- Vturb Optimization preloads -->
   <script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
+  <!-- VSL 1 preloads -->
   <link rel="preload" href="https://scripts.converteai.net/141468aa-0e0b-4b46-b784-a9403b5f9a1c/players/6a8b565a48dab67a9e64b0c9/v4/player.js" as="script">
   <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
   <link rel="preload" href="https://cdn.converteai.net/141468aa-0e0b-4b46-b784-a9403b5f9a1c/6a8b564823dfe1fd16c0e13c/main.m3u8" as="fetch">
+  <!-- VSL 2 preloads -->
+  <link rel="preload" href="https://scripts.converteai.net/141468aa-0e0b-4b46-b784-a9403b5f9a1c/players/6a8b5646a024bd11c4bb8ac1/v4/player.js" as="script">
+  <link rel="preload" href="https://cdn.converteai.net/cdn-cgi/image/width=128,quality=75/141468aa-0e0b-4b46-b784-a9403b5f9a1c/6a8b56337d65fc6a3929687c/main.m3u8" as="fetch" crossorigin="anonymous">
+  <link rel="preload" href="https://cdn.converteai.net/141468aa-0e0b-4b46-b784-a9403b5f9a1c/6a8b56337d65fc6a3929687c/main.m3u8" as="fetch">
+  <!-- DNS Prefetches -->
   <link rel="dns-prefetch" href="https://cdn.converteai.net">
   <link rel="dns-prefetch" href="https://scripts.converteai.net">
   <link rel="dns-prefetch" href="https://images.converteai.net">
@@ -373,10 +379,11 @@
         <!-- Video 2 Frame -->
         <div class="p-[8px_22px_32px] bg-[#0a0f0d]">
           <div class="w-full rounded-xl overflow-hidden mb-6 bg-black border border-[rgba(82,183,136,0.15)] shadow-lg">
-            <div id="vid_6a3c062c1e3ac636c8efa616" style="position:relative;width:100%;padding: 56.25% 0 0;">
-              <img id="thumb_6a3c062c1e3ac636c8efa616" src="https://images.converteai.net/1f39e08e-5223-49dd-846c-414dea98ee7e/players/6a3c062c1e3ac636c8efa616/thumbnail.jpg" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;">
-              <div id="backdrop_6a3c062c1e3ac636c8efa616" style="position:absolute;top:0;left:0;width:100%;height:100%;-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);"></div>
-            </div>
+            <vturb-smartplayer id="vid-6a8b5646a024bd11c4bb8ac1" style="display: block; margin: 0 auto; width: 100%; "><div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 56.25% 0 0; z-index: 0; background-color: black;"></div></vturb-smartplayer>
+            <script type="text/javascript">
+              var s=document.createElement("script");
+              s.src="https://scripts.converteai.net/141468aa-0e0b-4b46-b784-a9403b5f9a1c/players/6a8b5646a024bd11c4bb8ac1/v4/player.js", s.async=!0,document.head.appendChild(s);
+            </script>
           </div>
           <p class="mt-[14px] text-sm leading-normal text-[#fbbf24] font-semibold text-center">
             ⚠️ Assista ao vídeo antes de conhecer seu plano completo.
@@ -416,10 +423,99 @@
       document.head.appendChild(s);
     }
 
+    // Funnel Analytics Tracking & Checkout Autocomplete
+    const TRACKING_TOKEN = "3dd84692da9046ba90b99e9bead55abe";
+    const TRACKING_URL = `https://api.keyvalue.xyz/${TRACKING_TOKEN}/funnel_stats`;
+
+    async function trackFunnelStep(stepName) {
+      const sessionKey = `tracked_step_${stepName}`;
+      if (sessionStorage.getItem(sessionKey)) return;
+      sessionStorage.setItem(sessionKey, "true");
+
+      try {
+        // Fetch current stats
+        const response = await fetch(TRACKING_URL);
+        let data = {};
+        if (response.ok) {
+          const text = await response.text();
+          if (text && text.trim() !== "" && !text.includes("Error")) {
+            try {
+              data = JSON.parse(text);
+            } catch (pe) {
+              data = {};
+            }
+          }
+        }
+        
+        // Increment step count
+        data[stepName] = (data[stepName] || 0) + 1;
+        
+        // Save back
+        await fetch(TRACKING_URL, {
+          method: "POST",
+          body: JSON.stringify(data)
+        });
+      } catch (err) {
+        console.warn("Tracking error:", err);
+      }
+    }
+
+    // Auto-fill checkout link with email and name
+    function autoFillCheckoutUrls() {
+      const anchors = document.querySelectorAll("a");
+      anchors.forEach(a => {
+        let href = a.getAttribute("href") || "";
+        if (href.includes("cakto") || href.includes("pay.") || href.includes("checkout") || href.includes("kiwify") || href.includes("perfectpay")) {
+          if (!href.includes("email=")) {
+            try {
+              const urlObj = new URL(href);
+              urlObj.searchParams.set("email", quizState.email || "");
+              urlObj.searchParams.set("name", quizState.name || "");
+              urlObj.searchParams.set("nome", quizState.name || "");
+              a.href = urlObj.toString();
+              console.log("Pre-filled checkout link:", a.href);
+            } catch (err) {
+              // URL parsing fallback
+              const separator = href.includes("?") ? "&" : "?";
+              a.href = href + separator + "email=" + encodeURIComponent(quizState.email || "") + "&name=" + encodeURIComponent(quizState.name || "") + "&nome=" + encodeURIComponent(quizState.name || "");
+            }
+          }
+        }
+      });
+    }
+
+    // Intercept clicks on links that might redirect to checkout dynamically
+    document.addEventListener("click", (e) => {
+      const target = e.target.closest("a");
+      if (target) {
+        let href = target.getAttribute("href") || "";
+        if (href.includes("cakto") || href.includes("pay.") || href.includes("checkout") || href.includes("kiwify") || href.includes("perfectpay")) {
+          if (!href.includes("email=")) {
+            try {
+              const urlObj = new URL(href);
+              urlObj.searchParams.set("email", quizState.email || "");
+              urlObj.searchParams.set("name", quizState.name || "");
+              urlObj.searchParams.set("nome", quizState.name || "");
+              target.href = urlObj.toString();
+            } catch (err) {
+              const separator = href.includes("?") ? "&" : "?";
+              target.href = href + separator + "email=" + encodeURIComponent(quizState.email || "") + "&name=" + encodeURIComponent(quizState.name || "") + "&nome=" + encodeURIComponent(quizState.name || "");
+            }
+          }
+          // Track checkout step
+          trackFunnelStep("step6_checkout");
+        }
+      }
+    }, true);
+
+    // Periodically search for newly injected links (e.g. from Vturb dynamic CTA)
+    setInterval(autoFillCheckoutUrls, 1000);
+
     // Hero video starts immediately
     document.addEventListener("DOMContentLoaded", () => {
       // Initialize Lucide icons
       lucide.createIcons();
+      trackFunnelStep("step1_home");
     });
 
     // Funnel Database / State
@@ -541,12 +637,24 @@
       document.querySelectorAll("section").forEach(s => s.classList.add("hidden"));
       document.getElementById(screenId).classList.remove("hidden");
       window.scrollTo(0, 0);
+      
+      // Auto-tracking based on screen
+      if (screenId === "screen-email") {
+        trackFunnelStep("step3_email");
+      } else if (screenId === "screen-aviso") {
+        trackFunnelStep("step4_dopamina");
+      } else if (screenId === "screen-result") {
+        trackFunnelStep("step5_vsl2");
+      }
     }
 
     function startQuiz() {
       showScreen("screen-quiz");
       quizState.currentStepIndex = 0;
       renderCurrentStep();
+      
+      // Track quiz start
+      trackFunnelStep("step2_quiz");
     }
 
     function renderCurrentStep() {
@@ -635,8 +743,8 @@
               
               <!-- Neymar News Box -->
               <div class="bg-[#0d1117] border border-[rgba(82,183,136,0.2)] rounded-xl overflow-hidden">
-                <div class="relative h-[200px] overflow-hidden">
-                  <img src="https://livredasbets.com/__l5e/assets-v1/ec9048de-611e-420c-a50f-9d66d0fd2d00/neymar.png" alt="" class="w-full h-full object-cover object-top" />
+                <div class="w-full overflow-hidden">
+                  <img src="https://livredasbets.com/__l5e/assets-v1/ec9048de-611e-420c-a50f-9d66d0fd2d00/neymar.png" alt="" class="w-full h-auto block" />
                 </div>
                 <div class="p-4">
                   <span class="inline-block bg-[#dc2626] text-white text-[11px] font-bold px-[10px] py-[4px] rounded-md tracking-wider mb-2.5">CPI DAS BETS</span>
@@ -647,8 +755,8 @@
               
               <!-- Virginia News Box -->
               <div class="bg-[#0d1117] border border-[rgba(82,183,136,0.2)] rounded-xl overflow-hidden">
-                <div class="relative h-[200px] overflow-hidden">
-                  <img src="https://livredasbets.com/__l5e/assets-v1/e185e613-b2dc-40fd-9357-4f45d8bc9149/virginia.png" alt="" class="w-full h-full object-cover object-top" />
+                <div class="w-full overflow-hidden">
+                  <img src="https://livredasbets.com/__l5e/assets-v1/e185e613-b2dc-40fd-9357-4f45d8bc9149/virginia.png" alt="" class="w-full h-auto block" />
                 </div>
                 <div class="p-4">
                   <span class="inline-block bg-[#f97316] text-white text-[11px] font-bold px-[10px] py-[4px] rounded-md tracking-wider mb-2.5">INVESTIGAÇÃO</span>
@@ -1599,9 +1707,6 @@
     }
 
     function showResultScreen() {
-      // Load result Vturb video
-      loadVturbScript("6a3c062c1e3ac636c8efa616");
-      
       showScreen("screen-result");
     }
 

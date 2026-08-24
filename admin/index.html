@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Livre das Bets — Painel de Estatísticas</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0a0f0d;
+      color: #f0f4f1;
+    }
+    .bf-card {
+      background: #111a14;
+      border: 1px solid rgba(82, 183, 136, 0.15);
+      border-radius: 14px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+    }
+  </style>
+</head>
+<body class="min-h-screen py-8 px-4 flex flex-col items-center">
+
+  <div class="w-full max-w-[540px] flex flex-col gap-6">
+    
+    <!-- Top Header -->
+    <header class="flex justify-between items-center bg-[#111a14] border border-[rgba(82,183,136,0.15)] rounded-2xl p-5">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-[rgba(82,183,136,0.15)] flex items-center justify-center border border-[rgba(82,183,136,0.2)]">
+          <i data-lucide="bar-chart-3" class="w-5 h-5 text-[#52b788]"></i>
+        </div>
+        <div class="flex flex-col">
+          <h1 class="text-base font-bold text-white leading-tight">Painel do Funil</h1>
+          <span class="text-[10px] text-[#8aaa96] uppercase tracking-wider font-bold">Livre das Bets</span>
+        </div>
+      </div>
+      
+      <button onclick="fetchStats()" class="w-9 h-9 rounded-xl bg-[rgba(82,183,136,0.08)] hover:bg-[rgba(82,183,136,0.15)] border border-[rgba(82,183,136,0.12)] flex items-center justify-center text-[#52b788] transition-colors cursor-pointer" title="Atualizar Dados">
+        <i data-lucide="refresh-cw" class="w-4 h-4" id="refresh-icon"></i>
+      </button>
+    </header>
+
+    <!-- Main Funnel Card -->
+    <main class="bf-card p-6 flex flex-col gap-6">
+      <div>
+        <h2 class="text-lg font-bold text-white">Taxa de Conversão do Funil</h2>
+        <p class="text-xs text-[#8aaa96] mt-1">Estatísticas calculadas dinamicamente com base nas visitas de cada etapa.</p>
+      </div>
+
+      <!-- Loading / Error overlays -->
+      <div id="loading-state" class="text-center py-12 flex flex-col items-center gap-3">
+        <div class="w-8 h-8 border-4 border-[#52b788] border-t-transparent rounded-full animate-spin"></div>
+        <span class="text-xs text-[#8aaa96]">Carregando estatísticas do funil...</span>
+      </div>
+
+      <div id="error-state" class="text-center py-12 flex flex-col items-center gap-3 hidden">
+        <i data-lucide="alert-circle" class="w-8 h-8 text-red-400"></i>
+        <span class="text-xs text-[#8aaa96]">Não foi possível conectar ao banco de estatísticas.</span>
+        <button onclick="fetchStats()" class="text-xs text-[#52b788] font-bold underline mt-1">Tentar Novamente</button>
+      </div>
+
+      <!-- Funnel Stats content -->
+      <div id="stats-content" class="flex flex-col gap-5 hidden">
+        
+        <!-- Steps List -->
+        <div class="flex flex-col gap-4">
+          
+          <!-- ETAPA 1 -->
+          <div class="flex flex-col gap-1.5">
+            <div class="flex justify-between items-baseline text-xs">
+              <span class="font-bold text-white">Etapa 1: VSL Inicial (Home)</span>
+              <span class="text-[#8aaa96]" id="count-step1">0 visitas · 100%</span>
+            </div>
+            <div class="w-full h-3 bg-white/5 rounded-full overflow-hidden">
+              <div id="bar-step1" class="h-full bg-[#52b788]" style="width: 100%;"></div>
+            </div>
+          </div>
+
+          <!-- ETAPA 2 -->
+          <div class="flex flex-col gap-1.5">
+            <div class="flex justify-between items-baseline text-xs">
+              <span class="font-bold text-white">Etapa 2: Quiz Iniciado</span>
+              <span class="text-[#8aaa96]" id="count-step2">0 cliques · 0%</span>
+            </div>
+            <div class="w-full h-3 bg-white/5 rounded-full overflow-hidden">
+              <div id="bar-step2" class="h-full bg-[#2d6a4f]" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <!-- ETAPA 3 -->
+          <div class="flex flex-col gap-1.5">
+            <div class="flex justify-between items-baseline text-xs">
+              <span class="font-bold text-white">Etapa 3: E-mail Preenchido</span>
+              <span class="text-[#8aaa96]" id="count-step3">0 preenchimentos · 0%</span>
+            </div>
+            <div class="w-full h-3 bg-white/5 rounded-full overflow-hidden">
+              <div id="bar-step3" class="h-full bg-[#1b4332]" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <!-- ETAPA 4 -->
+          <div class="flex flex-col gap-1.5">
+            <div class="flex justify-between items-baseline text-xs">
+              <span class="font-bold text-white">Etapa 4: Análise Dopamina</span>
+              <span class="text-[#8aaa96]" id="count-step4">0 análises · 0%</span>
+            </div>
+            <div class="w-full h-3 bg-white/5 rounded-full overflow-hidden">
+              <div id="bar-step4" class="h-full bg-[#40916c]" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <!-- ETAPA 5 -->
+          <div class="flex flex-col gap-1.5">
+            <div class="flex justify-between items-baseline text-xs">
+              <span class="font-bold text-white">Etapa 5: VSL Final (Resultado)</span>
+              <span class="text-[#8aaa96]" id="count-step5">0 visualizações · 0%</span>
+            </div>
+            <div class="w-full h-3 bg-white/5 rounded-full overflow-hidden">
+              <div id="bar-step5" class="h-full bg-[#74c69d]" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <!-- ETAPA 6 -->
+          <div class="flex flex-col gap-1.5">
+            <div class="flex justify-between items-baseline text-xs">
+              <span class="font-bold text-white">Etapa 6: Checkout Aberto</span>
+              <span class="text-[#8aaa96]" id="count-step6">0 cliques · 0%</span>
+            </div>
+            <div class="w-full h-3 bg-white/5 rounded-full overflow-hidden">
+              <div id="bar-step6" class="h-full bg-[#b7e4c7]" style="width: 0%;"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Summary metrics box -->
+        <div class="bg-[rgba(82,183,136,0.06)] border border-[rgba(82,183,136,0.12)] rounded-xl p-4.5 flex flex-col gap-2 mt-2">
+          <h4 class="text-white text-xs font-bold uppercase tracking-wider text-[#52b788]">Análise Geral do Tráfego</h4>
+          <div class="grid grid-cols-2 gap-4 mt-1.5">
+            <div class="flex flex-col gap-0.5">
+              <span class="text-[10px] text-[#8aaa96] uppercase font-bold">Total de Cliques Únicos</span>
+              <span class="text-lg font-black text-white" id="stat-total-clicks">0</span>
+            </div>
+            <div class="flex flex-col gap-0.5">
+              <span class="text-[10px] text-[#8aaa96] uppercase font-bold">Conversão p/ Checkout</span>
+              <span class="text-lg font-black text-white" id="stat-conv-checkout">0.0%</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Reset database footer area -->
+    <div class="flex justify-between items-center px-2">
+      <span class="text-[10px] text-[#4a6b57]">Livre das Bets Admin Dashboard</span>
+      <button onclick="resetStats()" class="text-xs text-red-400/80 hover:text-red-400 font-bold hover:underline cursor-pointer flex items-center gap-1.5">
+        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+        Resetar Estatísticas
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    const TRACKING_TOKEN = "3dd84692da9046ba90b99e9bead55abe";
+    const TRACKING_URL = `https://api.keyvalue.xyz/${TRACKING_TOKEN}/funnel_stats`;
+
+    async function fetchStats() {
+      // Toggle refresh icon spin
+      const icon = document.getElementById("refresh-icon");
+      if (icon) icon.classList.add("animate-spin");
+      
+      document.getElementById("loading-state").classList.remove("hidden");
+      document.getElementById("error-state").classList.add("hidden");
+      document.getElementById("stats-content").classList.add("hidden");
+
+      try {
+        const response = await fetch(TRACKING_URL);
+        let data = {
+          step1_home: 0,
+          step2_quiz: 0,
+          step3_email: 0,
+          step4_dopamina: 0,
+          step5_vsl2: 0,
+          step6_checkout: 0
+        };
+
+        if (response.ok) {
+          const text = await response.text();
+          if (text && text.trim() !== "" && !text.includes("Error")) {
+            const parsed = JSON.parse(text);
+            data = { ...data, ...parsed };
+          }
+        }
+
+        renderFunnelStats(data);
+      } catch (err) {
+        console.error(err);
+        document.getElementById("loading-state").classList.add("hidden");
+        document.getElementById("error-state").classList.remove("hidden");
+      } finally {
+        if (icon) {
+          setTimeout(() => icon.classList.remove("animate-spin"), 600);
+        }
+      }
+    }
+
+    function renderFunnelStats(data) {
+      const step1 = data.step1_home || 0;
+      const step2 = data.step2_quiz || 0;
+      const step3 = data.step3_email || 0;
+      const step4 = data.step4_dopamina || 0;
+      const step5 = data.step5_vsl2 || 0;
+      const step6 = data.step6_checkout || 0;
+
+      // Helper to calculate percent relative to step 1
+      const getPct = (val) => step1 > 0 ? Math.round((val / step1) * 100) : 0;
+
+      // Update counters
+      document.getElementById("count-step1").innerText = `${step1} visitas · 100%`;
+      document.getElementById("count-step2").innerText = `${step2} cliques · ${getPct(step2)}%`;
+      document.getElementById("count-step3").innerText = `${step3} preenchimentos · ${getPct(step3)}%`;
+      document.getElementById("count-step4").innerText = `${step4} análises · ${getPct(step4)}%`;
+      document.getElementById("count-step5").innerText = `${step5} visualizações · ${getPct(step5)}%`;
+      document.getElementById("count-step6").innerText = `${step6} cliques · ${getPct(step6)}%`;
+
+      // Update bars
+      document.getElementById("bar-step1").style.width = `100%`;
+      document.getElementById("bar-step2").style.width = `${getPct(step2)}%`;
+      document.getElementById("bar-step3").style.width = `${getPct(step3)}%`;
+      document.getElementById("bar-step4").style.width = `${getPct(step4)}%`;
+      document.getElementById("bar-step5").style.width = `${getPct(step5)}%`;
+      document.getElementById("bar-step6").style.width = `${getPct(step6)}%`;
+
+      // General Stats
+      document.getElementById("stat-total-clicks").innerText = step1;
+      document.getElementById("stat-conv-checkout").innerText = `${step1 > 0 ? ((step6 / step1) * 100).toFixed(1) : "0.0"}%`;
+
+      // Show stats content
+      document.getElementById("loading-state").classList.add("hidden");
+      document.getElementById("stats-content").classList.remove("hidden");
+      
+      // Initialize icons
+      lucide.createIcons();
+    }
+
+    async function resetStats() {
+      if (!confirm("Você tem certeza de que deseja resetar todas as estatísticas do funil para zero?")) {
+        return;
+      }
+
+      const empty = {
+        step1_home: 0,
+        step2_quiz: 0,
+        step3_email: 0,
+        step4_dopamina: 0,
+        step5_vsl2: 0,
+        step6_checkout: 0
+      };
+
+      try {
+        const response = await fetch(TRACKING_URL, {
+          method: "POST",
+          body: JSON.stringify(empty)
+        });
+        if (response.ok) {
+          alert("Estatísticas resetadas com sucesso!");
+          fetchStats();
+        } else {
+          alert("Erro ao tentar resetar.");
+        }
+      } catch (err) {
+        alert("Erro de conexão ao resetar.");
+      }
+    }
+
+    // Auto-fetch on load
+    fetchStats();
+  </script>
+</body>
+</html>
