@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Livre das Bets — Guia de Acesso</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #ffffff;
+      color: #1a1a1a;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .print-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 30px;
+    }
+    /* Page break rules for clean PDF printing */
+    .page-break {
+      page-break-before: always;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center p-0 sm:p-8">
+
+  <!-- Printable Page Card -->
+  <div class="w-full max-w-[800px] bg-white sm:rounded-2xl sm:shadow-xl border border-gray-100 print-container">
+    
+    <!-- Cover Header -->
+    <header class="border-b border-gray-100 pb-8 flex flex-col sm:flex-row justify-between items-center gap-6">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-[#111a14] flex items-center justify-center border border-[rgba(82,183,136,0.2)]">
+          <!-- Brain Icon SVG inside dark badge -->
+          <svg viewBox="0 0 24 24" width="26" height="26" stroke="#52b788" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1 0-3.12 3 3 0 0 1 0-4.88 2.5 2.5 0 0 1 0-3.12A2.5 2.5 0 0 1 9.5 2Z"></path>
+            <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 0-3.12 3 3 0 0 0 0-4.88 2.5 2.5 0 0 0 0-3.12A2.5 2.5 0 0 0 14.5 2Z"></path>
+          </svg>
+        </div>
+        <div class="flex flex-col text-center sm:text-left">
+          <h1 class="text-xl font-black text-gray-900 tracking-tight leading-none">Livre das Bets</h1>
+          <span class="text-[10px] text-[#2d6a4f] uppercase tracking-wider font-extrabold mt-1">Guia Oficial de Instalação e Acesso</span>
+        </div>
+      </div>
+      <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-black uppercase tracking-wider px-3.5 py-1.5 rounded-full text-center">
+        Acesso Confirmado
+      </div>
+    </header>
+
+    <!-- Welcome Block -->
+    <section class="py-8 border-b border-gray-100">
+      <h2 class="text-lg font-bold text-gray-900 mb-3">Parabéns pela sua decisão!</h2>
+      <p class="text-sm text-gray-600 leading-relaxed">
+        Você acaba de dar o passo mais importante para retomar o controle das suas finanças, da sua atenção e do seu tempo. O programa <strong>Livre das Bets</strong> foi desenvolvido cientificamente para desprogramar os gatilhos dopaminérgicos criados por jogos online e reconstruir novos hábitos saudáveis de forma prática e interativa.
+      </p>
+    </section>
+
+    <!-- Credentials Block -->
+    <section class="py-8 border-b border-gray-100 bg-gray-50/50 rounded-xl px-6 my-4 border border-gray-100">
+      <h2 class="text-base font-extrabold text-gray-900 mb-4 uppercase tracking-wider text-emerald-800">Seus Dados de Acesso</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- LINK -->
+        <div class="flex flex-col gap-1.5">
+          <span class="text-xs text-gray-500 font-bold uppercase">1. Link do Aplicativo</span>
+          <a href="https://livredasbets.vercel.app/app/index.html" target="_blank" class="text-sm text-emerald-700 font-bold underline break-all bg-emerald-50/50 p-3 rounded-lg border border-emerald-100 block hover:bg-emerald-50 hover:text-emerald-800 transition-colors">
+            https://livredasbets.vercel.app/app/index.html
+          </a>
+          <span class="text-[10.5px] text-gray-400">Clique no link acima ou copie e cole no navegador do seu celular.</span>
+        </div>
+
+        <!-- PASSWORD -->
+        <div class="flex flex-col gap-1.5">
+          <span class="text-xs text-gray-500 font-bold uppercase">2. Senha de Acesso Geral</span>
+          <div class="bg-gray-100 border border-gray-200 text-gray-800 text-base font-black px-4 py-3 rounded-lg flex items-center justify-between">
+            <code class="tracking-widest">livredasbets</code>
+            <span class="text-[10px] bg-white border border-gray-300 text-gray-600 font-bold px-2 py-0.5 rounded uppercase">Universal</span>
+          </div>
+          <span class="text-[10.5px] text-gray-400">Insira a senha acima no campo indicado para entrar na sua conta.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Installation Steps PWA -->
+    <section class="py-8">
+      <h2 class="text-lg font-bold text-gray-900 mb-5">Como salvar o Aplicativo na Tela do seu Celular</h2>
+      <p class="text-sm text-gray-600 leading-relaxed mb-6">
+        O nosso aplicativo funciona como um PWA (Progressive Web App). Isso significa que você não precisa baixar nada pesado de lojas de aplicativos. Basta salvá-lo na tela inicial do seu celular seguindo as instruções abaixo:
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <!-- IOS (iPhone) -->
+        <div class="border border-gray-100 rounded-xl p-5 bg-white shadow-sm flex flex-col gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center font-bold text-gray-800">
+              
+            </div>
+            <h3 class="font-extrabold text-gray-950 text-sm uppercase tracking-wide">Passo a Passo no iPhone</h3>
+          </div>
+          <ol class="text-xs text-gray-600 flex flex-col gap-3 list-decimal pl-4">
+            <li>Abra o link do aplicativo no navegador **Safari**.</li>
+            <li>Toque no botão de **Compartilhar** (ícone de um quadrado com uma seta para cima na barra inferior).</li>
+            <li>Role as opções para baixo e toque em **"Adicionar à Tela de Início"**.</li>
+            <li>Confirme tocando em **"Adicionar"** no canto superior direito.</li>
+            <li>Pronto! O ícone do app aparecerá na sua tela inicial como qualquer outro aplicativo.</li>
+          </ol>
+        </div>
+
+        <!-- ANDROID -->
+        <div class="border border-gray-100 rounded-xl p-5 bg-white shadow-sm flex flex-col gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center font-bold text-emerald-800">
+              🤖
+            </div>
+            <h3 class="font-extrabold text-emerald-950 text-sm uppercase tracking-wide">Passo a Passo no Android</h3>
+          </div>
+          <ol class="text-xs text-gray-600 flex flex-col gap-3 list-decimal pl-4">
+            <li>Abra o link do aplicativo no navegador **Chrome**.</li>
+            <li>Aguarde o banner flutuante **"Instalar Aplicativo"** aparecer na parte inferior da tela e toque nele.</li>
+            <li>*Caso o banner não apareça*, toque nos **três pontinhos** no canto superior direito do Chrome.</li>
+            <li>Selecione a opção **"Instalar aplicativo"** ou **"Adicionar à tela inicial"**.</li>
+            <li>Confirme a instalação e o app já estará disponível na sua gaveta de aplicativos do celular.</li>
+          </ol>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FAQ / Important Notes -->
+    <section class="py-6 mt-4 border-t border-gray-100">
+      <h2 class="text-sm font-bold text-gray-900 mb-3 uppercase tracking-wider text-emerald-800">Informações Importantes</h2>
+      <ul class="text-xs text-gray-500 flex flex-col gap-2.5 list-disc pl-4 leading-relaxed">
+        <li><strong>Seu Progresso é Privado:</strong> Toda a evolução das suas metas, tarefas marcadas, leitura de livros e contador de dias sem apostar é salva de forma criptografada localmente no seu aparelho. Mesmo que a senha seja a mesma para todos os alunos, o progresso de cada um é completamente individual, isolado e protegido.</li>
+        <li><strong>Não Limpe o Cache:</strong> Evite limpar o histórico/cache do seu navegador com frequência para não apagar seu progresso local. Se precisar trocar de celular, você iniciará uma nova jornada a partir do zero no novo aparelho.</li>
+        <li><strong>Suporte:</strong> Se tiver dúvidas de acesso ou de instalação, entre em contato direto com o nosso suporte oficial através do e-mail que recebeu sua compra.</li>
+      </ul>
+    </section>
+
+    <!-- Footer Area -->
+    <footer class="mt-8 pt-6 border-t border-gray-100 text-center flex flex-col gap-2">
+      <span class="text-[10px] text-gray-400">© 2026 Livre das Bets. Todos os direitos reservados.</span>
+      <span class="text-[9px] text-gray-300">Este documento PDF é de uso pessoal e intransferível do comprador.</span>
+    </footer>
+
+  </div>
+
+</body>
+</html>
