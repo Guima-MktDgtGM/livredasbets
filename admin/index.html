@@ -222,23 +222,26 @@
       const step6 = data.step6_checkout || 0;
 
       // Helper to calculate percent relative to step 1
-      const getPct = (val) => step1 > 0 ? Math.round((val / step1) * 100) : 0;
+      const getPctStart = (val) => step1 > 0 ? Math.round((val / step1) * 100) : 0;
+      
+      // Helper to calculate percent relative to previous step
+      const getPctPrev = (val, prevVal) => prevVal > 0 ? Math.round((val / prevVal) * 100) : 0;
 
       // Update counters
-      document.getElementById("count-step1").innerText = `${step1} visitas · 100%`;
-      document.getElementById("count-step2").innerText = `${step2} cliques · ${getPct(step2)}%`;
-      document.getElementById("count-step3").innerText = `${step3} preenchimentos · ${getPct(step3)}%`;
-      document.getElementById("count-step4").innerText = `${step4} análises · ${getPct(step4)}%`;
-      document.getElementById("count-step5").innerText = `${step5} visualizações · ${getPct(step5)}%`;
-      document.getElementById("count-step6").innerText = `${step6} cliques · ${getPct(step6)}%`;
+      document.getElementById("count-step1").innerText = `${step1} visitas · 100% total`;
+      document.getElementById("count-step2").innerText = `${step2} cliques · ${getPctStart(step2)}% total (${getPctPrev(step2, step1)}% anterior)`;
+      document.getElementById("count-step3").innerText = `${step3} preenchimentos · ${getPctStart(step3)}% total (${getPctPrev(step3, step2)}% anterior)`;
+      document.getElementById("count-step4").innerText = `${step4} análises · ${getPctStart(step4)}% total (${getPctPrev(step4, step3)}% anterior)`;
+      document.getElementById("count-step5").innerText = `${step5} visualizações · ${getPctStart(step5)}% total (${getPctPrev(step5, step4)}% anterior)`;
+      document.getElementById("count-step6").innerText = `${step6} cliques · ${getPctStart(step6)}% total (${getPctPrev(step6, step5)}% anterior)`;
 
       // Update bars
       document.getElementById("bar-step1").style.width = `100%`;
-      document.getElementById("bar-step2").style.width = `${getPct(step2)}%`;
-      document.getElementById("bar-step3").style.width = `${getPct(step3)}%`;
-      document.getElementById("bar-step4").style.width = `${getPct(step4)}%`;
-      document.getElementById("bar-step5").style.width = `${getPct(step5)}%`;
-      document.getElementById("bar-step6").style.width = `${getPct(step6)}%`;
+      document.getElementById("bar-step2").style.width = `${getPctStart(step2)}%`;
+      document.getElementById("bar-step3").style.width = `${getPctStart(step3)}%`;
+      document.getElementById("bar-step4").style.width = `${getPctStart(step4)}%`;
+      document.getElementById("bar-step5").style.width = `${getPctStart(step5)}%`;
+      document.getElementById("bar-step6").style.width = `${getPctStart(step6)}%`;
 
       // General Stats
       document.getElementById("stat-total-clicks").innerText = step1;
