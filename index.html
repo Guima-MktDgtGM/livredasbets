@@ -385,6 +385,14 @@
               s.src="https://scripts.converteai.net/141468aa-0e0b-4b46-b784-a9403b5f9a1c/players/6a8b5646a024bd11c4bb8ac1/v4/player.js", s.async=!0,document.head.appendChild(s);
             </script>
           </div>
+          
+          <!-- Bloco CTA 2 (Vturb delay) -->
+          <div id="bloco-cta-vsl2" style="display: none;" class="w-full flex justify-center mt-2 mb-4">
+            <a href="https://pay.cakto.com.br/YOUR_LINK_HERE" class="w-full max-w-[380px] bf-cta-pulse bg-[#2d6a4f] hover:bg-[#52b788] text-white font-black py-4 px-6 rounded-[28px] flex items-center justify-center gap-2.5 transition-all text-xs shadow-lg uppercase tracking-wide cursor-pointer border border-[rgba(82,183,136,0.3)] text-center select-none">
+              Quero começar minha recuperação hoje — R$47
+              <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+          </div>
           <p class="mt-[14px] text-sm leading-normal text-[#fbbf24] font-semibold text-center">
             ⚠️ Assista ao vídeo antes de conhecer seu plano completo.
           </p>
@@ -1707,6 +1715,16 @@
     }
 
     function showResultScreen() {
+      // Swap CTA block IDs so Vturb delay script targets the second VSL button
+      const ctaVsl1 = document.getElementById("bloco-cta");
+      if (ctaVsl1) {
+        ctaVsl1.id = "bloco-cta-vsl1";
+      }
+      const ctaVsl2 = document.getElementById("bloco-cta-vsl2");
+      if (ctaVsl2) {
+        ctaVsl2.id = "bloco-cta";
+      }
+      
       showScreen("screen-result");
     }
 
